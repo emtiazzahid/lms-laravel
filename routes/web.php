@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.blank_page');
+});
+Route::get('/login', function () {
+    return view('login');
 });
