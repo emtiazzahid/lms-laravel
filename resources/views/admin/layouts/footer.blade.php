@@ -1,7 +1,7 @@
         <!-- footer content -->
         <footer>
           <div class="pull-right">
-            Perasale HMS - Developed By <a href="https://perasale.com">Perasale</a>
+            E-Learning
           </div>
           <div class="clearfix"></div>
         </footer>

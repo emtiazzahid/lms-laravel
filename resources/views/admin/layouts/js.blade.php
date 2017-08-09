@@ -35,11 +35,9 @@
 <script src="{{ url('admin/vendors/jqvmap/dist/jquery.vmap.js') }} "></script>
 <script src="{{ url('admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js') }} "></script>
 <script src="{{ url('admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }} "></script>
-<!-- bootstrap-daterangepicker -->
-<script src="{{ url('admin/vendors/moment/min/moment.min.js') }} "></script>
 <script src="{{ url('admin/vendors/bootstrap-daterangepicker/daterangepicker.js') }} "></script>
 
-
+{{--<script src="{{ url('admin/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }} "></script>--}}
 <!-- Datatables -->
 <!-- <script src="{{ url('admin/vendors/datatables.net/js/jquery.dataTables.min.js') }} "></script> -->
 <script src="{{ url('https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js') }} "></script>
@@ -53,7 +51,7 @@
 <script src="{{ url('admin/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }} "></script>
 <script src="{{ url('admin/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }} "></script>
 <script src="{{ url('admin/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }} "></script>
-<script src="{{ url('admin/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }} "></script>
+
 <script src="{{ url('admin/vendors/jszip/dist/jszip.min.js') }} "></script>
 <script src="{{ url('admin/vendors/pdfmake/build/pdfmake.min.js') }} "></script>
 <script src="{{ url('admin/vendors/pdfmake/build/vfs_fonts.js') }} "></script>

@@ -14,6 +14,17 @@
 Route::get('/', function () {
     return view('admin.blank_page');
 });
-Route::get('/login', function () {
-    return view('login');
+Route::get('/login', ['uses'=>'UserController@getLoginPage','as'=>'login']);
+Route::get('/logout', ['uses'=>'UserController@userLogout','as'=>'logout']);
+
+Route::post('/postLogin',['uses'=>'UserController@postLogin','as'=>'postLogin']);
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/dashboard',['uses'=>'DashboardController@getDashboardPage', 'as'=>'dashboard']);
+    Route::get('/teachers',['uses'=>'TeacherController@getTeachersPage', 'as'=>'teacher_list']);
+    Route::get('/settings/app',['uses'=>'SettingController@getSettingsPage', 'as'=>'app_settings']);
+
+    //    Routes for Account Settings
+    Route::get('settings/account',['uses'=>'AccountController@getIndex', 'as'=>'account-settings']);
 });
+

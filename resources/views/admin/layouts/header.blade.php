@@ -20,7 +20,7 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="{{ url('dashboard') }}" class="site_title"><i class="fa fa-h-square"></i> <span>{{ $settings['app_name'] or 'Perasale HMS' }}</span></a>
+                    <a href="{{ url('dashboard') }}" class="site_title"><i class="fa fa-book"></i> <span>{{ $settings['app_name'] or 'E-Learning' }}</span></a>
                 </div>
 
                 <div class="clearfix"></div>

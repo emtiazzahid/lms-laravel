@@ -23,6 +23,7 @@
   </head>
 
   <body class="login">
+  
     <div>
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
@@ -30,13 +31,38 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form action="" method="post">
+            <form action="{{ route('postLogin') }}" method="post">
+            {{ csrf_field() }}
               <h1>Login Form</h1>
+               @if(isset($errors))
+                @if ( count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                @endif
+                @if(Session::has('success'))
+                    <div class='alert alert-success'>
+                        {{Session::get('success')}}
+                    </div>
+                @endif
+                @if(Session::has('unsuccess'))
+                    <div class='alert alert-danger'>
+                        {{Session::get('unsuccess')}}
+                    </div>
+                @endif
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" name="email" class="form-control" placeholder="Emal" required="" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" name="password" class="form-control" placeholder="Password" required="" />
+              </div>
+               <div>
+                <button type="submit" class="btn btn-default submit">Login</button>
               </div>
 
               <div class="clearfix"></div>
@@ -56,6 +82,7 @@
         <div id="register" class="animate form registration_form">
           <section class="login_content">
             <form action="" method="post">
+             {{ csrf_field() }}
               <h1>Create Account</h1>
               <label for="">I am a </label>
               <div>
