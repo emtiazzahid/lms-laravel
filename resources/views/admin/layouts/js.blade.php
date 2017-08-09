@@ -36,7 +36,8 @@
 <script src="{{ url('admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js') }} "></script>
 <script src="{{ url('admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }} "></script>
 <script src="{{ url('admin/vendors/bootstrap-daterangepicker/daterangepicker.js') }} "></script>
-
+<!-- bootstrap-daterangepicker -->
+<script src="{{ url('admin/vendors/moment/min/moment.min.js') }} "></script>
 {{--<script src="{{ url('admin/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }} "></script>--}}
 <!-- Datatables -->
 <!-- <script src="{{ url('admin/vendors/datatables.net/js/jquery.dataTables.min.js') }} "></script> -->
