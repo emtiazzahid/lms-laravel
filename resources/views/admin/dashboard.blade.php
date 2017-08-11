@@ -3,6 +3,20 @@
 @section('content')
         <!-- page content -->
 <div class="right_col" role="main">
+    @if(isset($errors))
+        @if ( count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    @endif
+    @if(\Session::has('msg'))
+
+    @endif
     <div class="row top_tiles">
 
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">

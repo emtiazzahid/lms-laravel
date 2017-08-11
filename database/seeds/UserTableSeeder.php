@@ -21,6 +21,13 @@ class UserTableSeeder extends Seeder
             $admin->password = bcrypt('123');
             $admin->user_type = UserTypes::$ADMIN;
             $admin->save();
+
+            $adminMeta = new \App\Model\Admin();
+            $adminMeta->user_id = $admin->id;
+            $adminMeta->country_code = 'bd';
+            $adminMeta->iso = '880';
+            $adminMeta->phone = '01763777585';
+            $adminMeta->save();
         }
         $teacher = User::where('email', 'teacher@mail.com')->first();
         if (empty($teacher)) {
@@ -30,6 +37,13 @@ class UserTableSeeder extends Seeder
             $teacher->password = bcrypt('123');
             $teacher->user_type = UserTypes::$TEACHER;
             $teacher->save();
+
+            $meta = new \App\Model\Teacher();
+            $meta->user_id = $teacher->id;
+            $meta->country_code = 'bd';
+            $meta->iso = '880';
+            $meta->phone = '01763777585';
+            $meta->save();
         }
         $student = User::where('email', 'student@mail.com')->first();
         if (empty($student)) {
@@ -39,6 +53,13 @@ class UserTableSeeder extends Seeder
             $student->password = bcrypt('123');
             $student->user_type = UserTypes::$STUDENT;
             $student->save();
+            
+            $meta = new \App\Model\Student();
+            $meta->user_id = $student->id;
+            $meta->country_code = 'bd';
+            $meta->iso = '880';
+            $meta->phone = '01763777585';
+            $meta->save();
         }
 
     }

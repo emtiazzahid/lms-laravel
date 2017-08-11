@@ -7,9 +7,16 @@
                  <li>
                       <a><i class="fa fa-hospital-o"></i> Teacher <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                      <li class="{{Route::currentRouteName()=='teacher_list' ? 'active' : ''}}"><a href="{{Route('teacher_list')}}"><i class="fa fa-building-o"></i> Teachers </a></li>
+                      <li class="{{Route::currentRouteName()=='teachers-list' ? 'active' : ''}}"><a href="{{Route('teachers-list')}}"><i class="fa fa-building-o"></i> Teachers </a></li>
                       </ul>
                  </li>
+                 <li>
+                      <a><i class="fa fa-hospital-o"></i> Student <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                      <li class="{{Route::currentRouteName()=='students-list' ? 'active' : ''}}"><a href="{{Route('students-list')}}"><i class="fa fa-building-o"></i> Students </a></li>
+                      </ul>
+                 </li>
+
                 </ul>
               </div>
             </div>

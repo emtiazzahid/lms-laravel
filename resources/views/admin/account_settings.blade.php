@@ -44,6 +44,9 @@
             </div>
         @endif
         @endif
+        @if(\Session::has('msg'))
+
+        @endif
         <div class="clearfix"></div>
 
         <div class="row">
@@ -68,9 +71,10 @@
                                 </label>
                                     <div class="col-md-5 col-sm-5 col-xs-8">
                                         <img src="{{ url(Auth::user()->picture) }}" id="base_image" alt="..." style="max-width: 150px; max-height: 150px">
-                                        <div class="btn-group-vertical">
-                                            <a href="javascript:void(0)" id="picture_change" class="btn btn-primary" style="    margin-top: -75px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        </div>
+                                        {{--<div class="btn-group-vertical">--}}
+                                            {{--<a href="javascript:void(0)" id="picture_change" class="btn btn-primary" style="    margin-top: -75px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>--}}
+                                        {{--</div>--}}
+                                        <input type="file" name="new_profile_picture" class="form-control">
                                     </div>
                             </div>
                             <div class="item form-group">
@@ -143,57 +147,16 @@
     </div>
 </div>
 
-<!-- crop image -->
-<div class="modal fade" id="modalChangePicture" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button id="modal_close" type="button" class="close" data-dismiss="modal">x</button>
-                <h4 class="modal-title">Upload image</h4>
-            </div>
-            <form action="">
-            <div class="modal-body">
-                    <div class="col-md-12" id="upImage" style="text-align: center;">
-                        <div id="image-div1">
-                            <img id="image_upload" src="" style="width: 100%;" alt="..." style='display: none;'>
-                        </div>
-                        <img id="imageCropped" src="" style="display: none; width:100%;">
-                        <br>
-                        <br>
-                        <a href="javascript:void(0)" id="change_picture" class="btn btn-primary" style="display: none;">Change</a>
-                        <div class="btn-group-horizontal">
-                            <a href="javascript:void(0)" id="back" class="btn btn-primary" style="display: none;">Back</a>
-                            <a href="javascript:void(0)" id="save" class="btn btn-primary" style="display: none;">Save</a>
-                            <a href="javascript:void(0)" id="discard" class="btn btn-primary" style="display: none;">Cancel</a>
-                            <input type='button' id='getCroppedImage' class="btn btn-primary" value='Get cropped area' >
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <input type="file" id="imageFile" name="photo" style="display: none;">
-                        <br>
-                        <div class="progress" style="display: none;">
-                            <div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:0%">0%</div>
-                        </div>
-                    </div>
-            </div>
-            </form>
-            <div class="modal-footer">
-
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- /page content -->
 
 @stop
 
 @section('page_js')
         <!-- telephone plugin -->
-<script src="{{ url('js/telephonePlugin/intlTelInput.min.js') }} "></script>
+<script src="{{ asset('js/telephonePlugin/intlTelInput.min.js') }} "></script>
 <script>
     $(document).ready(function() {
-        $('#save_pd_btn').attr('disabled',true);
+//        $('#save_pd_btn').attr('disabled',true);
         $("#save_pd_btn").click(function(e) {
             e.preventDefault();
             var codeNo = $("#phone_number").intlTelInput("getSelectedCountryData");
@@ -215,7 +178,7 @@
         telInput.intlTelInput({
             preferredCountries: ["au"],
             initialCountry: initCountry,
-            utilsScript: "js/telephonePlugin/utils.js",
+            utilsScript: "{{ asset('js/telephonePlugin/utils.js') }}",
         });
         var reset = function() {
             telInput.removeClass("error");

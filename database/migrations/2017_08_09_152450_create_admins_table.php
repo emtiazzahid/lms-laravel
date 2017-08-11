@@ -15,6 +15,10 @@ class CreateAdminsTable extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
+            $table->string('country_code')->nullable();
+            $table->string('iso')->nullable();
+            $table->integer('phone')->nullable();
             $table->timestamps();
         });
     }

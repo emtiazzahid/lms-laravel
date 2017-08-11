@@ -2,10 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Libraries\Enumerations\UserTypes;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Request;
 use App\Model\Teacher;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherAuthMiddleware
 {
@@ -18,7 +20,7 @@ class TeacherAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user()) {
+        if (!Auth::user() || !Auth::user()->user_type == UserTypes::$TEACHER) {
             $urlPath = Request::path().str_replace(Request::url(), '', Request::fullUrl());
 
             if ($request->isMethod('post')) {

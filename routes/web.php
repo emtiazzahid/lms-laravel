@@ -11,15 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('admin.blank_page');
-});
+//Login/Logout
 Route::get('/login', ['uses'=>'UserController@getLoginPage','as'=>'login']);
 Route::get('/logout', ['uses'=>'UserController@userLogout','as'=>'logout']);
-
 Route::post('/postLogin',['uses'=>'UserController@postLogin','as'=>'postLogin']);
 
+//Registration for an user
+Route::post('/user/save', ['uses'=>'UserController@postUserInfo','as'=>'postUserInfo']);
+
+
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', function () {return view('admin.blank_page');});
     Route::get('/dashboard',['uses'=>'DashboardController@getDashboardPage', 'as'=>'dashboard']);
     Route::get('/teachers',['uses'=>'TeacherController@getTeachersPage', 'as'=>'teacher_list']);
     Route::get('/settings/app',['uses'=>'SettingController@getSettingsPage', 'as'=>'app_settings']);

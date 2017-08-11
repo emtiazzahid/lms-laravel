@@ -61,6 +61,9 @@
               <div>
                 <input type="password" name="password" class="form-control" placeholder="Password" required="" />
               </div>
+                <div class="left">
+                   <input type="checkbox" name="remember" />  <label for="" > Remember me</label>
+                </div>
                <div>
                 <button type="submit" class="btn btn-default submit">Login</button>
               </div>
@@ -81,25 +84,28 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-            <form action="" method="post">
+            <form action="{{ route('postUserInfo') }}" method="post">
              {{ csrf_field() }}
               <h1>Create Account</h1>
               <label for="">I am a </label>
               <div>
-                <select name="" id="" class="form-control">
-                  <option value="">Student</option>
-                  <option value="">Teacher</option>
+                <select name="user_type" id="" class="form-control">
+                  <option value="{{ \App\Libraries\Enumerations\UserTypes::$STUDENT }}">Student</option>
+                  <option value="{{ \App\Libraries\Enumerations\UserTypes::$TEACHER }}">Teacher</option>
                 </select>
               </div>
               <br>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" placeholder="Name" name="name" required="" />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
+                <input type="email" class="form-control" placeholder="Email" name="email" required="" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" class="form-control" placeholder="Password" name="password" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation" required="" />
               </div>
               <div>
                 <button type="submit" class="btn btn-default submit">Submit</button>
