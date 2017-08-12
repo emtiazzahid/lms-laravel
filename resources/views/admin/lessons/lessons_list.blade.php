@@ -100,7 +100,7 @@
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
 
-                                      <a href="{{route('lesson-delete', ['id'=>$lesson->id])}}" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                      <a href="{{route('lesson-delete', ['course_id' => $course_id,'id'=>$lesson->id])}}" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -140,18 +140,6 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2"><label>Title</label></td>
-                                        <td colspan="2">
-                                            <input type="text" name="title" class="form-control" id="modal_title" >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Description</label></td>
-                                        <td colspan="2">
-                                            <input type="text" name="title" class="form-control" id="modal_title" >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Tags</label></td>
                                         <td colspan="2">
                                             <input type="text" name="title" class="form-control" id="modal_title" >
                                         </td>
@@ -197,18 +185,6 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2"><label>Title</label></td>
-                                        <td colspan="2">
-                                            <input type="text" name="title" class="form-control" >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Description</label></td>
-                                        <td colspan="2">
-                                            <input type="text" name="title" class="form-control" >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Tags</label></td>
                                         <td colspan="2">
                                             <input type="text" name="title" class="form-control" >
                                         </td>

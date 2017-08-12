@@ -19,7 +19,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/teacher/courses/lessons/{course_id?}', ['uses' => 'TeacherCourseLessonController@getIndex', 'as' => 'course-lessons-list']);
         Route::post('/teacher/courses/lessons/add', ['uses' => 'TeacherCourseLessonController@add', 'as' => 'lesson-add']);
         Route::post('/teacher/courses/lessons/update', ['uses' => 'TeacherCourseLessonController@update', 'as' => 'lesson-update']);
-        Route::get('/teacher/courses/lessons/remove/{id}', ['uses' => 'TeacherCourseLessonController@delete', 'as' => 'lesson-delete']);
+        Route::get('/teacher/courses/lessons/remove/{course_id}/{id}', ['uses' => 'TeacherCourseLessonController@delete', 'as' => 'lesson-delete']);
     
         
     });

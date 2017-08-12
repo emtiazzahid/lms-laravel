@@ -14,7 +14,11 @@ class TeacherCourseLessonController extends Controller
     //    List of Lessons
     public function getIndex(Request $request){
         $user_id = Auth::user()->id;
-        $courses = DB::table('courses')->where('status',CourseStatus::$APPROVED)->get();
+        $courses = DB::table('courses')
+            ->join('teacher_courses','teacher_courses.course_id','courses.id')
+            ->where('status',CourseStatus::$APPROVED)
+            ->select('courses.*')
+            ->get();
         if (isset($request->course_id)){
             $lessons = DB::table('teacher_course_lessons')->where('course_id',$request->course_id)->where('teacher_id',$user_id)->get();
             $data = [
@@ -49,7 +53,7 @@ class TeacherCourseLessonController extends Controller
 
         Session::flash('Success Message', 'Lesson Added for this Course successfully.');
 
-        return redirect()->route('course-lessons-list');
+        return redirect()->route('course-lessons-list',['course_id' => $request['course_id']]);
     }
 
 
@@ -65,16 +69,16 @@ class TeacherCourseLessonController extends Controller
         $model->title = $request['title'];
         $model->save();
         Session::flash('Success Message', 'Lesson has been updated successfully.');
-        return redirect()->route('course-lessons-list');
+        return redirect()->route('course-lessons-list',['course_id' => $request['course_id']]);
 
     }
 
 //    Delete Lessons
-    public function delete($id){
+    public function delete($course_id,$id){
         $model = TeacherCourseLesson::find($id);
         $model->delete();
 
         Session::flash('Success Message', 'Lesson Removed from this course successfully.');
-        return redirect()->route('course-lessons-list');
+        return redirect()->route('course-lessons-list',['course_id' => $course_id]);
     }
 }
