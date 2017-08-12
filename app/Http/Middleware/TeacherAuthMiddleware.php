@@ -7,7 +7,6 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use Request;
 use App\Model\Teacher;
-use Illuminate\Support\Facades\Auth;
 
 class TeacherAuthMiddleware
 {

@@ -1,4 +1,10 @@
+<?php
+$user_type =  \Illuminate\Support\Facades\Auth::user()->user_type;
+$teacher = \App\Libraries\Enumerations\UserTypes::$TEACHER;
+$student = \App\Libraries\Enumerations\UserTypes::$STUDENT;
+$admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
 
+?>
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
                 <h3>General Menu</h3>
@@ -26,9 +32,19 @@
                       <a><i class="fa fa-hospital-o"></i> Course <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                       <li class="{{Route::currentRouteName()=='courses-list' ? 'active' : ''}}"><a href="{{Route('courses-list')}}"><i class="fa fa-building-o"></i> Courses </a></li>
+                     @if($user_type == $teacher)
+                      <li class="{{Route::currentRouteName()=='my-courses-list' ? 'active' : ''}}"><a href="{{Route('my-courses-list')}}"><i class="fa fa-building-o"></i> My Courses </a></li>
+                     @endif
                       </ul>
                  </li>
-
+                    @if($user_type == $teacher)
+                <li>
+                    <a><i class="fa fa-hospital-o"></i> Course Lessons <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li class="{{Route::currentRouteName()=='course-lessons-list' ? 'active' : ''}}"><a href="{{Route('course-lessons-list')}}"><i class="fa fa-building-o"></i> Lessons List </a></li>
+                    </ul>
+                </li>
+                    @endif
 
                 </ul>
               </div>
