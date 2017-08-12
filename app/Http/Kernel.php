@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Middleware\StudentAuthMiddleware;
 use App\Http\Middleware\TeacherAuthMiddleware;
+use App\Http\Middleware\AdminTeacherMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -62,5 +63,6 @@ class Kernel extends HttpKernel
         'AdminAuth' => AdminAuthMiddleware::class,
         'StudentAuth' => StudentAuthMiddleware::class,
         'TeacherAuth' => TeacherAuthMiddleware::class,
+        'AdminOrTeacher' => AdminTeacherMiddleware::class,
     ];
 }

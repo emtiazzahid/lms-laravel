@@ -20,7 +20,7 @@ class StudentAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user() || !Auth::user()->user_type == UserTypes::$STUDENT) {
+        if (!Auth::user() || Auth::user()->user_type != UserTypes::$STUDENT) {
             $urlPath = Request::path().str_replace(Request::url(), '', Request::fullUrl());
 
             if ($request->isMethod('post')) {
