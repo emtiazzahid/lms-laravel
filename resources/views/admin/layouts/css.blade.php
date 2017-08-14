@@ -25,6 +25,7 @@
 <link href="{{ url('admin/build/css/custom.min.css') }}" rel="stylesheet">
 <link href="{{ url('css/sweetalert2.css') }}" rel="stylesheet">
 <link href="{{ url('css/flag-icon.min.css') }}" rel="stylesheet">
+<link href="{{ url('css/breadcrumb.css') }}" rel="stylesheet">
 
 <!-- custom css -->
 <link href="{{ url('css/perasale_hms.css') }}" rel="stylesheet">

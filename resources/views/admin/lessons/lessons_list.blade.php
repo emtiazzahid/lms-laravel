@@ -9,6 +9,7 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
+                {!! Breadcrumbs::render('lessons') !!}
                 @if(isset($errors))
                 @if ( count($errors) > 0)
                     <div class="alert alert-danger">
@@ -89,7 +90,11 @@
                             @foreach($lessons as $lesson)
                                 <tr>
                                     <td><strong>{{ ++$index }}</strong></td>
-                                    <td>{{ $lesson->number }}</td>
+                                    <td>
+                                        <a href="{{ route('getLessonDetails',['id' => $lesson->id]) }}">
+                                        Lesson - {{ $lesson->number }}
+                                        </a>
+                                    </td>
                                     <td>{{ $lesson->title }}</td>
                                     <td class="text-center">
                                         <button type="button"
