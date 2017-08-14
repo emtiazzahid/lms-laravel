@@ -22,6 +22,7 @@ class CreateMcqsTable extends Migration
             $table->string('option_2');
             $table->string('option_3')->nullable();
             $table->string('option_4')->nullable();
+            $table->tinyInteger('right_answer');
             $table->text('description')->nullable();
             $table->double('default_mark',5,3)->default(0.00);
             $table->timestamps();
