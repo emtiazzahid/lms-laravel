@@ -23,4 +23,10 @@ Breadcrumbs::register('lesson_details', function($breadcrumbs, $lessonId)
     $breadcrumbs->parent('lessons');
     $breadcrumbs->push('Lesson - '.$lessonId, route('getLessonDetails',$lessonId));
 });
+// Dashboard > Courses > Lessons > Lesson Number > Edit
+Breadcrumbs::register('lesson_details_edit', function($breadcrumbs, $lessonNumber,$lessonId)
+{
+    $breadcrumbs->parent('lesson_details',$lessonNumber);
+    $breadcrumbs->push('Edit', route('getLessonDetailsForEdit',$lessonId));
+});
 

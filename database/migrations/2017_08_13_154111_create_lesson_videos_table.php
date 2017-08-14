@@ -17,7 +17,7 @@ class CreateLessonVideosTable extends Migration
             $table->increments('id');
             $table->integer('lesson_id');
             $table->integer('teacher_id');
-            $table->integer('part_number');
+            $table->string('part_number');
             $table->string('video_title');
             $table->text('description')->nullable();
             $table->text('video_embed_url');
