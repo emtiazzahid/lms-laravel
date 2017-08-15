@@ -189,7 +189,7 @@ class LessonController extends Controller
             'lesson_id' => $id,
             'part_numbers' => $part_numbers,
         ];
-        return view('teacher.question.question_list',$data);
+        return view('teacher.written_question.written_question_list',$data);
     }
 
     public function addNewQuestion(Request $request)
@@ -232,6 +232,7 @@ class LessonController extends Controller
         Session::flash('Success Message', 'Question Updated');
         return redirect()->route('lesson-questions',['id'=>$request->lesson_id]);
     }
+    
     public function deleteQuestion($id){
         DB::table('questions')->where('id',$id)->delete();
         Session::flash('Success Message', 'Question deleted successfully.');
@@ -279,6 +280,7 @@ class LessonController extends Controller
         ];
         return view('teacher.mcq.mcq_list',$data);
     }
+    
     public function addNewMcq(Request $request)
     {
         $this->validate($request,[
@@ -307,6 +309,7 @@ class LessonController extends Controller
         Session::flash('Success Message', 'Mcq Added');
         return redirect()->route('lesson-mcqs',['id'=>$request->lesson_id]);
     }
+    
     public function updateMcq(Request $request)
     {
         $this->validate($request,[
@@ -334,6 +337,7 @@ class LessonController extends Controller
         Session::flash('Success Message', 'Mcq Updated');
         return redirect()->route('lesson-mcqs',['id'=>$request->lesson_id]);
     }
+    
     public function deleteMcq($id){
         DB::table('mcqs')->where('id',$id)->delete();
         Session::flash('Success Message', 'Mcq deleted successfully.');

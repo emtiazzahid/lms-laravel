@@ -1,7 +1,6 @@
 @extends('admin.layouts.master')
 
 @section('title', 'Question List')
-
 <!-- page content -->
 @section('content')
 
@@ -9,7 +8,6 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                {!! Breadcrumbs::render('lesson_questions',$lesson_id,$teacher_lesson->number) !!}
                 @if(isset($errors))
                 @if ( count($errors) > 0)
                     <div class="alert alert-danger">
@@ -26,54 +24,77 @@
                 @endif
 
                     <div class="x_panel">
-
                         <div class="x_title">
-                            <h2>Lesson - {{ $teacher_lesson->title }} Question List</h2>
-                            <button type="button" class="pull-right btn btn-info btn-sm" data-toggle="modal" data-target="#addModal">
-                                <i class="fa fa-plus"></i> Add Question
-                            </button>
+                            <h2>Filter Your Questions</h2>
                             <div class="clearfix"></div>
                         </div>
 
                         <div class="x_content">
-                            @if(count($questions)<1)
+                            <form class="form-inline" method="get" action="{{ route('question-list') }}">
+                                <div class="form-group">
+                                    <label>Course :</label>
+                                    <select name="course" id="course_id" class="form-control">
+                                        <option value="">--Select One--</option>
+                                        @foreach($courses as $course)
+                                        <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Lesson :</label>
+                                    <select name="lesson" id="lesson_id" class="form-control">
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Part :</label>
+                                    <select name="part" id="part" class="form-control">
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                <button type="submit" class="btn btn-default">Show</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    @if(isset($writtenQuestions))
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Written Question List</h2>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            @if(count($writtenQuestions)<1)
                                 <div class="alert alert-dismissible fade in alert-info" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                                     </button>
-                                    <strong>Sorry !</strong> No Question Found.
+                                    <strong>Sorry !</strong> No Written Question Found.
                                 </div>
                             @else
                                 <?php $index = 0; ?>
-                                <table class="table table-striped table-bordered dataTable no-footer" id="data2">
+                                <table class="table table-striped table-bordered dataTable no-footer" id="data">
                                     <thead>
                                     <tr>
                                         <th>SL</th>
-                                        <th>Lesson Part</th>
+                                        <th>Lesson</th>
+                                        <th>Part Number</th>
                                         <th>Question</th>
                                         <th>Mark</th>
-                                        <th>Action</th>
+                                        <th>Created at</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($questions as $question)
+                                    @foreach($writtenQuestions as $writtenQuestion)
                                         <tr>
                                             <td><strong>{{ ++$index }}</strong></td>
-                                            <td>{{ $question->part_number }}</td>
-                                            <td>{{ $question->question }}</td>
-                                            <td>{{ $question->default_mark }}</td>
-                                            <td class="text-center">
-                                                <button type="button"
-                                                        data-id="{{ $question->id }}"
-                                                        data-part_number="{{ $question->part_number }}"
-                                                        data-question="{{ $question->question }}"
-                                                        data-description="{{ $question->description }}"
-                                                        data-default_mark="{{ $question->default_mark }}"
-                                                        data class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal">
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                </button>
-
-                                                <a href="{{route('lesson-question-delete', ['id'=>$question->id])}}" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
-                                            </td>
+                                            <td>{{ $writtenQuestion->lesson_id }}</td>
+                                            <td>{{ $writtenQuestion->part_number }}</td>
+                                            <td>{{ $writtenQuestion->question }}</td>
+                                            <td>{{ $writtenQuestion->default_mark }}</td>
+                                            <td>{{ $writtenQuestion->created_at }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -82,145 +103,69 @@
                         </div>
 
                     </div>
+                    @endif
+                    @if(isset($mcqQuestions))
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Mcq Question List</h2>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            @if(count($mcqQuestions)<1)
+                                <div class="alert alert-dismissible fade in alert-info" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <strong>Sorry !</strong> No Mcq Question Found.
+                                </div>
+                            @else
+                                <?php $index = 0; ?>
+                                <table class="table table-striped table-bordered dataTable no-footer" id="data">
+                                    <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>Lesson</th>
+                                        <th>Part</th>
+                                        <th>Question</th>
+                                        <th>Option 1</th>
+                                        <th>Option 2</th>
+                                        <th>Option 3</th>
+                                        <th>Option 4</th>
+                                        <th>Mark</th>
+                                        <th>Created at</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($mcqQuestions as $mcq)
+                                        <tr>
+                                            <td><strong>{{ ++$index }}</strong></td>
+                                            <td>{{ $mcq->lesson_id }}</td>
+                                            <td>{{ $mcq->part_number }}</td>
+                                            <td>{{ $mcq->question }}</td>
+                                            <td>{{ $mcq->option_1 }}</td>
+                                            <td>{{ $mcq->option_2 }}</td>
+                                            <td>{{ $mcq->option_3 }}</td>
+                                            <td>{{ $mcq->option_4 }}</td>
+                                            <td>{{ $mcq->default_mark }}</td>
+                                            <td>{{ $mcq->created_at }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
+                        </div>
+
+                    </div>
+                    @endif
 
             </div>
         </div>
 
     </div>
-    <!--Update Modal -->
-        <div class="modal fade" id="updateModal" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Update Info</h4>
-                    </div>
-                    <form action="{{ route('lesson-question-update') }}" method="post">
-                    <div class="modal-body">
-                            <div class="col-md-8">
-                                <input type="hidden" name="_token" value="{{ Session::token() }}">
-                                <table class="table">
-                                    <input type="hidden" name="lesson_id" value="{{ $lesson_id }}">
-                                    <input type="hidden" name="modal_id" id="modal_id">
-                                    <tr>
-                                        <td colspan="2"><label>Select Lesson Part</label></td>
-                                        <td colspan="2">
-                                            <select name="part_number" id="" class="form-control" id="modal_port_number">
-                                                @foreach($part_numbers as $number)
-                                                    <option value="{{ $number }}">{{ $number }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Question</label></td>
-                                        <td colspan="2">
-                                            <input type="text" name="question" class="form-control"  id="modal_question" >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Default Mark</label></td>
-                                        <td colspan="2">
-                                            <input type="text" name="default_mark" class="form-control"  id="modal_default_mark" >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Description</label></td>
-                                        <td colspan="2">
-                                            <textarea name="description" class="form-control"  id="modal_description"></textarea>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-
-                            <button type="submit" class="btn btn-default pull-right">Update</button>
-                    </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    {{--Update Modal End--}}
-
-    <!--Add Modal -->
-        <div class="modal fade" id="addModal" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Info</h4>
-                    </div>
-                    <form action="{{ route('lesson-question-add') }}" method="post">
-                    <div class="modal-body">
-                            <div class="col-md-8">
-                                <input type="hidden" name="_token" value="{{ Session::token() }}">
-                                <input type="hidden" name="lesson_id" value="{{ $lesson_id }}">
-                                <table class="table">
-                                    <tr>
-                                        <td colspan="2"><label>Select Lesson Part</label></td>
-                                        <td colspan="2">
-                                            <select name="part_number" id="" class="form-control">
-                                            @foreach($part_numbers as $number)
-                                                <option value="{{ $number }}">{{ $number }}</option>
-                                            @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Question</label></td>
-                                        <td colspan="2">
-                                            <input type="text" name="question" class="form-control"  >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Default Mark</label></td>
-                                        <td colspan="2">
-                                            <input type="text" name="default_mark" class="form-control"  >
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><label>Description</label></td>
-                                        <td colspan="2">
-                                            <textarea name="description" class="form-control" ></textarea>
-                                        </td>
-                                    </tr>
-
-                                </table>
-                            </div>
-                            <button type="submit" class="btn btn-default pull-right">Submit</button>
-                    </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    {{--add modal end--}}
 @stop
 <!-- /page content -->
 
 @section('page_js')
-    <script>
-        $('#updateModal').on('show.bs.modal', function (e) {
-            $('#modal_id').val($(e.relatedTarget).data('id'));
-            $('#modal_port_number').val($(e.relatedTarget).data('port_number'));
-            $('#modal_question').val($(e.relatedTarget).data('question'));
-            $('#modal_default_mark').val($(e.relatedTarget).data('default_mark'));
-            $('#modal_description').text($(e.relatedTarget).data('description'));
-        });
-    </script>
     <script>
         $(document).ready(function(){
             $('#data').DataTable({
@@ -251,4 +196,55 @@
             });
         });
     </script>
+    {{--getting lessons--}}
+    <script>
+        $(function () {
+            $("#course_id").on('change', function () {
+                $('#lesson_id').empty();
+                var course_id = $('#course_id').val();
+                    var url = '{{ route('getLessonsByCourseId') }}';
+                    var token = '{{ Session::token() }}';
+                    $.ajax({
+                        method: 'POST',
+                        url: url,
+                        data: {_token: token, course_id: course_id},
+                        success: function (data) {
+                            $('#lesson_id').append('<option value="">-- Select One --</option>');
+                            if (data != null && data != '') {
+                                var i;
+                                for (i = 1; i <= data.length; i++) {
+                                    $('#lesson_id').append('<option value="' + data[i - 1]['id'] + '">' + data[i - 1]['title'] + '</option>')
+                                }
+                            }
+                        },
+                    });
+            });
+        });
+    </script>
+    {{--getting parts--}}
+    <script>
+        $(function () {
+            $("#lesson_id").on('change', function () {
+                $('#part').empty();
+                var lesson_id = $('#lesson_id').val();
+                    var url = '{{ route('getPartsByLessonId') }}';
+                    var token = '{{ Session::token() }}';
+                    $.ajax({
+                        method: 'POST',
+                        url: url,
+                        data: {_token: token, lesson_id: lesson_id},
+                        success: function (data) {
+                            $('#part').append('<option value="">-- Select One --</option>');
+                            if (data != null && data != '') {
+                                var i;
+                                for (i = 1; i <= data.length; i++) {
+                                    $('#part').append('<option value="' + data[i - 1] + '">' + data[i - 1] + '</option>')
+                                }
+                            }
+                        },
+                    });
+            });
+        });
+    </script>
+
 @stop

@@ -23,7 +23,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/teacher/courses/lessons/details/mcq/add', ['uses' => 'LessonController@addNewMcq', 'as' => 'lesson-mcq-add']);
         Route::post('/teacher/courses/lessons/details/mcq/update', ['uses' => 'LessonController@updateMcq', 'as' => 'lesson-mcq-update']);
         Route::get('/teacher/courses/lessons/{id}/details/mcq/delete', ['uses' => 'LessonController@deleteMcq', 'as' => 'lesson-mcq-delete']);
-
     });
 
 });

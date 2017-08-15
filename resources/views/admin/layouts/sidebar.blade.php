@@ -10,18 +10,22 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                 <h3>General Menu</h3>
                 <ul class="nav side-menu">
                     <li class="{{Route::currentRouteName()=='dashboard' ? 'active' : ''}}"><a href="{{ Route('dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
+                    @if($user_type == $admin)
                  <li>
                       <a><i class="fa fa-hospital-o"></i> Teacher <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                       <li class="{{Route::currentRouteName()=='teachers-list' ? 'active' : ''}}"><a href="{{Route('teachers-list')}}"><i class="fa fa-building-o"></i> Teachers </a></li>
                       </ul>
                  </li>
+                    @endif
+                    @if($user_type == $admin)
                  <li>
                       <a><i class="fa fa-hospital-o"></i> Student <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                       <li class="{{Route::currentRouteName()=='students-list' ? 'active' : ''}}"><a href="{{Route('students-list')}}"><i class="fa fa-building-o"></i> Students </a></li>
                       </ul>
                  </li>
+                    @endif
                  <li>
                       <a><i class="fa fa-hospital-o"></i> Department <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
@@ -42,6 +46,14 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                     <a><i class="fa fa-hospital-o"></i> Course Lessons <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li class="{{Route::currentRouteName()=='course-lessons-list' ? 'active' : ''}}"><a href="{{Route('course-lessons-list')}}"><i class="fa fa-building-o"></i> Lessons List </a></li>
+                    </ul>
+                </li>
+                    @endif
+                    @if($user_type == $teacher)
+                <li>
+                    <a><i class="fa fa-hospital-o"></i> Questions <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li class="{{Route::currentRouteName()=='question-list' ? 'active' : ''}}"><a href="{{Route('question-list')}}"><i class="fa fa-building-o"></i> Questions List </a></li>
                     </ul>
                 </li>
                     @endif
