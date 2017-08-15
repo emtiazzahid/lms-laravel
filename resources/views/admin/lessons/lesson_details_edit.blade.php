@@ -57,7 +57,7 @@
                                     @foreach($videos as $video)
                                         <tr>
                                             <td><strong>{{ ++$index }}</strong></td>
-                                            <td>Part - {{ $video->part_number }}</td>
+                                            <td>{{ $video->part_number }}</td>
                                             <td>{{ $video->video_title }}</td>
                                             <td class="text-center">
                                                 <button type="button"
@@ -115,7 +115,7 @@
                                     @foreach($files as $file)
                                         <tr>
                                             <td><strong>{{ ++$index }}</strong></td>
-                                            <td>Part - {{ $file->part_number }}</td>
+                                            <td>{{ $file->part_number }}</td>
                                             <td>{{ $file->file_title }}</td>
                                             <td class="text-center">
                                                 <button type="button"
@@ -154,11 +154,9 @@
                     </div>
                     <div class="x_content">
                         <a href="{{ route('lesson-questions',['id' => $lesson_id]) }}" class="btn btn-app">
-                            <span class="badge bg-red">6</span>
                             <i class="fa fa-bullhorn"></i> Questions
                         </a>
                         <a href="{{ route('lesson-mcqs',['id' => $lesson_id]) }}" class="btn btn-app">
-                            <span class="badge bg-green">211</span>
                             <i class="fa fa-users"></i> Objectives
                         </a>
                     </div>

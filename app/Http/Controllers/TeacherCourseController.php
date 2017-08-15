@@ -21,7 +21,17 @@ class TeacherCourseController extends Controller
             return redirect()->route('login');
         }
         $teacher_id = Auth::user()->id;
-        $courses = DB::table('courses')->where('status',CourseStatus::$APPROVED)->get();
+        $a = DB::table('teacher_courses')->select("teacher_courses.course_id")
+            ->where('teacher_id', $teacher_id)
+            ->get();
+        $existingCourses= [];
+        foreach ($a as  $key => $value){
+            array_push($existingCourses, $value->course_id);
+        }
+        $courses = DB::table('courses')
+            ->whereNotIn('courses.id',$existingCourses)
+            ->where('status',CourseStatus::$APPROVED)
+            ->get();
         $teacher_courses = DB::table('teacher_courses')
             ->join('courses','courses.id','teacher_courses.course_id')
             ->where('teacher_courses.teacher_id',$teacher_id)

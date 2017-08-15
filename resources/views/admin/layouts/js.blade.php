@@ -40,8 +40,8 @@
 <script src="{{ url('admin/vendors/moment/min/moment.min.js') }} "></script>
 {{--<script src="{{ url('admin/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }} "></script>--}}
 <!-- Datatables -->
-<!-- <script src="{{ url('admin/vendors/datatables.net/js/jquery.dataTables.min.js') }} "></script> -->
-<script src="{{ url('https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js') }} "></script>
+<script src="{{ url('admin/vendors/datatables.net/js/jquery.dataTables.min.js') }} "></script>
+{{--<script src="{{ url('https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js') }} "></script>--}}
 <script src="{{ url('admin/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }} "></script>
 <script src="{{ url('admin/vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }} "></script>
 <script src="{{ url('admin/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }} "></script>

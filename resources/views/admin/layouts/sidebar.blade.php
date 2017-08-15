@@ -54,6 +54,7 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                     <a><i class="fa fa-hospital-o"></i> Questions <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li class="{{Route::currentRouteName()=='question-list' ? 'active' : ''}}"><a href="{{Route('question-list')}}"><i class="fa fa-building-o"></i> Questions List </a></li>
+                        <li class="{{Route::currentRouteName()=='question-make' ? 'active' : ''}}"><a href="{{Route('question-make')}}"><i class="fa fa-building-o"></i> Make Question File </a></li>
                     </ul>
                 </li>
                     @endif

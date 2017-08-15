@@ -12,18 +12,10 @@ class QuestionController extends Controller
 {
     public function getQuestionsPage(Request $request)
     {
-        $courseId = null;
-        $lessonId = null;
-        $part = null;
-        if (isset($request->course)){
-            $courseId = $request->course; 
-        }
-        if (isset($request->lesson)){
-            $lessonId = $request->lesson; 
-        }
-        if (isset($request->course)){
-            $part = $request->part; 
-        }
+        $courseId = null;$lessonId = null;$part = null;
+        if (isset($request->course)){$courseId = $request->course;}
+        if (isset($request->lesson)){$lessonId = $request->lesson;}
+        if (isset($request->course)){$part = $request->part;}
         
         $teacher_id = Auth::user()->id;
         $courses = DB::table('courses')
@@ -84,9 +76,29 @@ class QuestionController extends Controller
 
         return $part_numbers;
     }
-    
-    public function getQuestions($courseId = null, $lessonId = null, $part = null)
+
+    public function getQuestionsMakerPage()
     {
-        
+        $teacher_id = Auth::user()->id;
+        $courses = DB::table('courses')
+            ->join('teacher_courses','teacher_courses.course_id','courses.id')
+            ->where('teacher_courses.teacher_id',$teacher_id)
+            ->where('courses.status',CourseStatus::$APPROVED)
+            ->select('courses.*')
+            ->get();
+        $data = [
+            'courses' => $courses,
+        ];
+        return view('teacher.question.make_question',$data);
+    }
+
+    public function postQuestionsMakerPage(Request $request)
+    {
+        dd($request->all());
+    }
+
+    public function getPartsByLessonIds(Request $request)
+    {
+        dd($request->all());
     }
 }

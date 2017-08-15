@@ -62,7 +62,7 @@ class LessonController extends Controller
         $dataForLessonVideo = [
             'lesson_id' => $request->lesson_id,
             'teacher_id' => Auth::user()->id,
-            'part_number'      => $request->part_number,
+            'part_number'      => 'VIDEO - '.$request->part_number,
             'video_title'      => $request->video_title,
             'video_embed_url'     => $request->video_embed_url,
             'description'     => $request->description,
@@ -131,7 +131,7 @@ class LessonController extends Controller
         ]);
 
         $dataForLessonVideo = [
-            'part_number'      => 'VIDEO' - $request->part_number,
+            'part_number'      => $request->part_number,
             'file_title'      => $request->file_title,
             'file_url'     => $request->file_url,
             'description'     => $request->description,
