@@ -45,13 +45,13 @@
                             </div>
                             <div class="form-group">
                                 <label >Lessons</label>
-                                    <select class="select2_multiple form-control" multiple="multiple" name="lesson[]" id="lesson_id">
+                                    <select class="select2_multiple form-control" multiple="multiple" name="lessons[]" id="lesson_id">
                                         <option>Choose option</option>
                                     </select>
                             </div>
                             <div class="form-group">
                                 <label>Parts</label>
-                                    <select class="select2_multiple form-control" multiple="multiple" name="part[]" id="part">
+                                    <select class="select2_multiple form-control" multiple="multiple" name="parts[]" id="part">
                                         <option>Choose option</option>
                                     </select>
                             </div>
@@ -63,6 +63,104 @@
                 </div>
 
             </div>
+
+            @if(isset($questions))
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Written Questions</h2>
+                    <form action="{{ route('saveQuestionInQuestionBank') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" value="{{ \App\Libraries\Enumerations\QuestionTypes::$WRITTEN }}" name="question_type">
+                        <input type="hidden" value="{{ $course_id }}" name="course_id">
+                        <input type="hidden" value="{{ $questionString }}" name="question_string">
+                        <button type="submit" class="pull-right btn btn-info btn-sm">
+                            Save in Question Bank
+                        </button>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <div class="col-md-8 col-md-offset-2">
+                        @if(count($questions)<1)
+                        No Written Question Found
+                        @else
+                        <table class="table">
+                            <thead>
+                                <th>SL.</th>
+                                <th>Question</th>
+                                <th>Mark</th>
+                            </thead>
+                            <tbody>
+                            @php $i = 1 @endphp
+                            @foreach($questions as $question)
+                                <tr>
+                                    <td>{{ $i }}</td>
+                                    <td>{{ $question->question }}</td>
+                                    <td>{{ $question->default_mark }}</td>
+                                </tr>
+                            @php $i++ @endphp
+                            @endforeach
+                            </tbody>
+                        </table>
+                        @endif
+                    </div>
+                </div>
+
+            </div>
+            @endif
+            @if(isset($mcqs))
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Mcq Questions</h2>
+                    <form action="{{ route('saveQuestionInQuestionBank') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" value="{{ \App\Libraries\Enumerations\QuestionTypes::$MCQ }}" name="question_type">
+                        <input type="hidden" value="{{ $course_id }}" name="course_id">
+                        <input type="hidden" value="{{ $mcqString }}" name="question_string">
+                        <button type="submit" class="pull-right btn btn-info btn-sm">
+                            Save in Question Bank
+                        </button>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <div class="col-md-8 col-md-offset-2">
+                        @if(count($mcqs)<1)
+                            No Mcq Question Found
+                        @else
+                            <table class="table">
+                                <thead>
+                                <th>SL.</th>
+                                <th>Question</th>
+                                <th>Options</th>
+                                <th>Mark</th>
+                                </thead>
+                                <tbody>
+                                @php $i = 1 @endphp
+                                @foreach($mcqs as $mcq)
+                                    <tr>
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $mcq->question }}</td>
+                                        <td>
+                                            {{ $mcq->option_1 }}<br>
+                                            {{ $mcq->option_2 }}<br>
+                                            {{ $mcq->option_3 }}<br>
+                                            {{ $mcq->option_4 }}
+                                        </td>
+                                        <td>{{ $mcq->default_mark }}</td>
+                                    </tr>
+                                    @php $i++ @endphp
+                                @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
 
         </div>
     </div>
@@ -102,21 +200,20 @@
                 url: url,
                 data: {_token: token, course_id: course_id},
                 success: function (data) {
-//                    $('#lesson_id').append('<option value="">-- Select One --</option>');
                     if (data != null && data != '') {
                         var i;
                         for (i = 1; i <= data.length; i++) {
                             $('#lesson_id').append('<option value="' + data[i - 1]['id'] + '">' + data[i - 1]['title'] + '</option>')
                         }
-                        setCheckBoxListener();
+                        partsInputFieldDataGenerate();
                     }
-                },
+                }
             });
         });
     });
-    function  setCheckBoxListener() {
+    function  partsInputFieldDataGenerate() {
         $("#lesson_id").change(function () {
-            var checkedValues = $('#lesson_id input:select:selected').map(function() {
+            var checkedValues = $('#lesson_id option:selected').map(function() {
                 return this.value;
             }).get();
             $('#part').empty();
@@ -128,46 +225,20 @@
                     url: url,
                     data: {_token: token, lessons: checkedValues},
                     success: function (data) {
-
                         if (data != null && data != '') {
                             var i;
                             for (i = 1; i <= data.length; i++) {
                                 $('#part').append('<option value="' + data[i - 1] + '">' + data[i - 1] + '</option>')
-//                                $('#part').append('<div class="col-md-2 checkbox"> <label><input type="checkbox" name="topics[]" value="' + data[i - 1]['id'] + '">' + data[i - 1]['name'] + '</label></div>')
-                            }
+                             }
                         }
 
-                    },
+                    }
                 });
-                console.log(checkedValues);
             }
         });
     }
 
 </script>
 {{--getting parts--}}
-<script>
-    $(function () {
-        $("#lesson_id").on('change', function () {
-            $('#part').empty();
-            var lesson_id = $('#lesson_id').val();
-            var url = '{{ route('getPartsByLessonId') }}';
-            var token = '{{ Session::token() }}';
-            $.ajax({
-                method: 'POST',
-                url: url,
-                data: {_token: token, lesson_id: lesson_id},
-                success: function (data) {
-//                    $('#part').append('<option value="">-- Select One --</option>');
-                    if (data != null && data != '') {
-                        var i;
-                        for (i = 1; i <= data.length; i++) {
-                            $('#part').append('<option value="' + data[i - 1] + '">' + data[i - 1] + '</option>')
-                        }
-                    }
-                },
-            });
-        });
-    });
-</script>
+
 @stop
