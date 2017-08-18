@@ -22,7 +22,7 @@
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
                 <div class="icon"><i class="fa fa-user-md"></i></div>
-                <div class="count">0</div>
+                <div class="count">{{ $totalTeachers or 0 }}</div>
                 <h3>Teachers</h3>
             </div>
         </div>
@@ -30,7 +30,7 @@
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
                 <div class="icon"><i class="fa fa-user-md"></i></div>
-                <div class="count">0</div>
+                <div class="count">{{ $totalStudents or 0 }}</div>
                 <h3>Students</h3>
             </div>
         </div>
@@ -38,7 +38,7 @@
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
                 <div class="icon"><i class="fa fa-users"></i></div>
-                <div class="count">0</div>
+                <div class="count">{{ $totalCourses or 0 }}</div>
                 <h3>Courses</h3>
             </div>
         </div>

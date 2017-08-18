@@ -26,12 +26,14 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                       </ul>
                  </li>
                     @endif
+                    @if($user_type == $admin || $user_type == $teacher)
                  <li>
                       <a><i class="fa fa-hospital-o"></i> Department <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
                       <li class="{{Route::currentRouteName()=='departments-list' ? 'active' : ''}}"><a href="{{Route('departments-list')}}"><i class="fa fa-building-o"></i> Departments </a></li>
                       </ul>
                  </li>
+                    @endif
                  <li>
                       <a><i class="fa fa-hospital-o"></i> Course <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
@@ -39,6 +41,10 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                      @if($user_type == $teacher)
                       <li class="{{Route::currentRouteName()=='my-courses-list' ? 'active' : ''}}"><a href="{{Route('my-courses-list')}}"><i class="fa fa-building-o"></i> My Courses </a></li>
                      @endif
+                     @if($user_type == $student)
+                      <li class=""><a href="#"><i class="fa fa-building-o"></i> My Courses </a></li>
+                     @endif
+
                       </ul>
                  </li>
                     @if($user_type == $teacher)
@@ -56,6 +62,22 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                         <li class="{{Route::currentRouteName()=='question-list' ? 'active' : ''}}"><a href="{{Route('question-list')}}"><i class="fa fa-building-o"></i> Questions List </a></li>
                         <li class="{{Route::currentRouteName()=='question-make' ? 'active' : ''}}"><a href="{{Route('question-make')}}"><i class="fa fa-building-o"></i> Make Question File </a></li>
                         <li class="{{Route::currentRouteName()=='getAllQuestionFiles' ? 'active' : ''}}"><a href="{{Route('getAllQuestionFiles')}}"><i class="fa fa-building-o"></i> Question File List</a></li>
+                    </ul>
+                </li>
+                    @endif
+                    @if($user_type == $teacher || $user_type == $student)
+                <li>
+                    <a><i class="fa fa-hospital-o"></i> Exam <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        @if($user_type == $teacher)
+                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Exam Schedule </a></li>
+                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Student Exams </a></li>
+                        @endif
+                        @if($user_type == $student)
+                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Result Records </a></li>
+                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Incomplete Exams </a></li>
+                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Exam Records </a></li>
+                        @endif
                     </ul>
                 </li>
                     @endif
