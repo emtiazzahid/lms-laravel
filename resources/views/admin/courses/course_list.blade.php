@@ -142,6 +142,12 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td colspan="2"><label>Featured Image</label></td>
+                                        <td colspan="2">
+                                            <img src="" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td colspan="2"><label>Status</label></td>
                                         <td colspan="2">
                                             <select class="form-control" name="status" id="modal_status">

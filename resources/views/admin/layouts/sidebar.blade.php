@@ -37,14 +37,20 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                  <li>
                       <a><i class="fa fa-hospital-o"></i> Course <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
+                      @if($user_type == $admin)
+                      <li class=""><a href=""><i class="fa fa-building-o"></i> Courses List Setting </a></li>
+                      @endif
+                      @if($user_type == $teacher || $user_type == $admin)
                       <li class="{{Route::currentRouteName()=='courses-list' ? 'active' : ''}}"><a href="{{Route('courses-list')}}"><i class="fa fa-building-o"></i> Courses </a></li>
-                     @if($user_type == $teacher)
+                      @endif
+                      @if($user_type == $teacher)
                       <li class="{{Route::currentRouteName()=='my-courses-list' ? 'active' : ''}}"><a href="{{Route('my-courses-list')}}"><i class="fa fa-building-o"></i> My Courses </a></li>
-                     @endif
+                      @endif
+
                      @if($user_type == $student)
+                      <li class="{{Route::currentRouteName()=='student-courses-list' ? 'active' : ''}}"><a href="{{Route('student-courses-list')}}"><i class="fa fa-building-o"></i> Courses </a></li>
                       <li class=""><a href="#"><i class="fa fa-building-o"></i> My Courses </a></li>
                      @endif
-
                       </ul>
                  </li>
                     @if($user_type == $teacher)
