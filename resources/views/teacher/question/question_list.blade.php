@@ -228,7 +228,7 @@
             $("#lesson_id").on('change', function () {
                 $('#part').empty();
                 var lesson_id = $('#lesson_id').val();
-                    var url = '{{ route('getPartsByLessonId') }}';
+                    var url = '{{ route('getPartsByLesson') }}';
                     var token = '{{ Session::token() }}';
                     $.ajax({
                         method: 'POST',

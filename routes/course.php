@@ -20,8 +20,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/teacher/courses/lessons/add', ['uses' => 'TeacherCourseLessonController@add', 'as' => 'lesson-add']);
         Route::post('/teacher/courses/lessons/update', ['uses' => 'TeacherCourseLessonController@update', 'as' => 'lesson-update']);
         Route::get('/teacher/courses/lessons/remove/{course_id}/{id}', ['uses' => 'TeacherCourseLessonController@delete', 'as' => 'lesson-delete']);
-    
-        
     });
+    
+    Route::group(['middleware' => ['StudentAuth']], function () {
+        //    Routes for Student Course
+        Route::get('student/courses', ['uses' => 'StudentCourseController@getAllCourse', 'as' => 'student-courses-list']);
+        });
 
 });

@@ -17,11 +17,11 @@ class CreateMcqsTable extends Migration
             $table->increments('id');
             $table->integer('lesson_id');
             $table->string('part_number');
-            $table->string('question');
-            $table->string('option_1');
-            $table->string('option_2');
-            $table->string('option_3')->nullable();
-            $table->string('option_4')->nullable();
+            $table->text('question');
+            $table->text('option_1');
+            $table->text('option_2');
+            $table->text('option_3')->nullable();
+            $table->text('option_4')->nullable();
             $table->tinyInteger('right_answer');
             $table->text('description')->nullable();
             $table->double('default_mark',5,3)->default(0.00);

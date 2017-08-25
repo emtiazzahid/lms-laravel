@@ -145,10 +145,10 @@
                                         <td>{{ $i }}</td>
                                         <td>{{ $mcq->question }}</td>
                                         <td>
-                                            {{ $mcq->option_1 }}<br>
-                                            {{ $mcq->option_2 }}<br>
-                                            {{ $mcq->option_3 }}<br>
-                                            {{ $mcq->option_4 }}
+                                            <strong>I)</strong> {{ $mcq->option_1 }}<br>
+                                            <strong>II)</strong> {{ $mcq->option_2 }}<br>
+                                            <strong>III)</strong> {{ $mcq->option_3 }}<br>
+                                            <strong>IV)</strong> {{ $mcq->option_4 }}
                                         </td>
                                         <td>{{ $mcq->default_mark }}</td>
                                     </tr>

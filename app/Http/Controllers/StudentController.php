@@ -59,7 +59,7 @@ class StudentController extends Controller
         $user->email = $request['email'];
         $user->save();
         Session::flash('Success Message', 'Student has been updated successfully.');
-        return redirect()->route('Students-list');
+        return redirect()->route('students-list');
 
     }
 
@@ -71,6 +71,6 @@ class StudentController extends Controller
         Student::where('user_id',$id)->delete();
 
         Session::flash('Success Message', 'Student deleted successfully.');
-        return redirect()->route('Students-list');
+        return redirect()->route('students-list');
     }
 }

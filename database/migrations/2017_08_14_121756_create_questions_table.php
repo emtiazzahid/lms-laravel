@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->integer('lesson_id');
             $table->string('part_number');
-            $table->string('question');
+            $table->text('question');
             $table->text('description')->nullable();
             $table->double('default_mark',5,3)->default(0.00);
             $table->timestamps();

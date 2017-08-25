@@ -30,7 +30,12 @@
                     <div class="x_title">
                         <h2>Courses List</h2>
                         <button type="button" class="pull-right btn btn-info btn-sm" data-toggle="modal" data-target="#addModal">
-                            <i class="fa fa-plus"></i> Add Courses
+                            <i class="fa fa-plus"></i>
+                            @if(\Illuminate\Support\Facades\Auth::user()->user_type == \App\Libraries\Enumerations\UserTypes::$ADMIN)
+                                Add Course
+                            @else
+                                Request new course
+                            @endif
                         </button>
                         <div class="clearfix"></div>
                     </div>
