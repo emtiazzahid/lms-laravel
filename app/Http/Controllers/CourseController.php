@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Libraries\Enumerations\CourseStatus;
 use App\Libraries\Enumerations\DepartmentStatus;
 use App\Libraries\Enumerations\UserTypes;
+use App\Model\TeacherCourse;
+use App\Model\TrendingCourse;
 use Illuminate\Http\Request;
 use App\Model\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Input;
+use Image;
 
 class CourseController extends Controller
 {
@@ -46,6 +50,20 @@ class CourseController extends Controller
             $model->status = CourseStatus::$APPROVED;
         $model->save();
 
+        if(Input::file())
+        {
+
+            $file = Input::file('featured_image');
+            $extention  = $file->getClientOriginalExtension();
+            $fileName = 'course_'.$model->id.".".$extention;
+
+            $destinationPath = '/admin/images/courses/';
+            $path = $destinationPath. $fileName;
+            $savingPath = public_path().$destinationPath. $fileName;
+            Image::make($file->getRealPath())->resize(200, 200)->save($savingPath);
+            DB::table('courses')->where('id', $model->id)->update(['featured_image' => $path]);
+        }
+
         Session::flash('Success Message', 'Course has been created successfully.');
 
         return redirect()->route('courses-list');
@@ -66,6 +84,21 @@ class CourseController extends Controller
         $model->short_code = $request['short_code'];
         $model->status = $request['status'];
         $model->save();
+
+        if(Input::file())
+        {
+            $file = Input::file('new_featured_image');
+            $extention  = $file->getClientOriginalExtension();
+            $fileName = 'course_'.$request->modal_id.".".$extention;
+
+            $destinationPath = '/admin/images/courses/';
+            $path = $destinationPath. $fileName;
+            $savingPath = public_path().$destinationPath. $fileName;
+            Image::make($file->getRealPath())->resize(200, 200)->save($savingPath);
+            DB::table('courses')->where('id', $model->id)->update(['featured_image' => $path]);
+        }
+
+
         Session::flash('Success Message', 'Course has been updated successfully.');
         return redirect()->route('courses-list');
 
@@ -79,4 +112,43 @@ class CourseController extends Controller
         Session::flash('Success Message', 'Course deleted successfully.');
         return redirect()->route('courses-list');
     }
+
+    public function getCourseListingPage()
+    {
+        $teacherCourses = TeacherCourse::with(['course','teacher'=>function($q){$q->with(['user']);}])->get();
+        $trendingCourses = DB::table('trending_courses')
+            ->join('courses','courses.id','trending_courses.teacher_course_id')
+            ->select(['trending_courses.*','courses.title as course_title'])
+            ->get();
+
+        $data = [
+            'teacherCourses'=>$teacherCourses,
+            'trendingCourses'=>$trendingCourses,
+        ];
+        return view('admin.courses.course_listing_settings',$data);
+    }
+    
+    public function postTrendingCourse(Request $request)
+    {
+        $this->validate($request,[
+            'course'      => 'required|unique:trending_courses,teacher_course_id,'.$request->modal_id,
+        ]);
+
+        $model = new TrendingCourse();
+        $model->teacher_course_id = $request['course'];
+        $model->save();
+
+        Session::flash('Success Message', 'Trending Course Added successfully.');
+        return redirect()->route('courses-listing-settings');
+    }
+    
+    public function trendingCourseDelete($id)
+    {
+        $model = TrendingCourse::find($id);
+        $model->delete();
+
+        Session::flash('Success Message', 'Trending Course deleted successfully.');
+        return redirect()->route('courses-listing-settings');
+    }
+    
 }

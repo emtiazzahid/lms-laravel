@@ -8,4 +8,9 @@ class Student extends Model
 {
     protected $table = 'students';
     protected $guarded = [];
+
+    public function course()
+    {
+        return $this->belongsToMany('App\Model\Course', 'course_student', 'student_id', 'course_id');
+    }
 }

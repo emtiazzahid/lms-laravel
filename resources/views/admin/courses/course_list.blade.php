@@ -88,6 +88,7 @@
                                                 data-title="{{ $course->title }}"
                                                 data-short_code="{{ $course->short_code }}"
                                                 data-status="{{ $course->status }}"
+                                                data-featured_image="{{ $course->featured_image }}"
                                                 data class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
@@ -118,7 +119,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Update Info</h4>
                     </div>
-                    <form action="{{ route('courses-update') }}" method="post">
+                    <form action="{{ route('courses-update') }}" method="post" enctype='multipart/form-data'>
                     <div class="modal-body">
                             <div class="col-md-8">
                                 <input type="hidden" name="_token" value="{{ Session::token() }}">
@@ -144,6 +145,13 @@
                                         <td colspan="2"><label>Short Code</label></td>
                                         <td colspan="2">
                                             <input type="text" name="short_code" class="form-control" id="modal_short_code" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><label>Featured Image</label></td>
+                                        <td colspan="2">
+                                            <img src="" id="modal_featured_image" alt="..." style="max-width: 150px; max-height: 150px">
+                                            <input type="file" name="new_featured_image" class="form-control">
                                         </td>
                                     </tr>
                                     <tr>
@@ -183,7 +191,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Add Info</h4>
                     </div>
-                    <form action="{{ route('courses-add') }}" method="post">
+                    <form action="{{ route('courses-add') }}" method="post" enctype='multipart/form-data'>
                     <div class="modal-body">
                             <div class="col-md-8">
                                 <input type="hidden" name="_token" value="{{ Session::token() }}">
@@ -208,6 +216,12 @@
                                         <td colspan="2"><label>Short Code</label></td>
                                         <td colspan="2">
                                             <input type="text" name="short_code" class="form-control" id="short_code" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><label>Featured Image</label></td>
+                                        <td colspan="2">
+                                            <input type="file" name="featured_image" class="form-control">
                                         </td>
                                     </tr>
                                 </table>
@@ -235,6 +249,7 @@
             $('#modal_title').val($(e.relatedTarget).data('title'));
             $('#modal_short_code').val($(e.relatedTarget).data('short_code'));
             $('#modal_status').val($(e.relatedTarget).data('status'));
+            $('#modal_featured_image').attr('src' , $(e.relatedTarget).data('featured_image'));
         });
     </script>
     <script>

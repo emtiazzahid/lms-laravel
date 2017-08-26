@@ -4,18 +4,18 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TeacherCourse extends Model
+class StudentCourse extends Model
 {
-    protected $table = 'teacher_courses';
+    protected $table = 'course_student';
     protected $guarded = [];
-
+    
     public function course()
     {
         return $this->belongsTo('App\Model\Course');
     }
-    
-    public function teacher()
+    public function student()
     {
-        return $this->belongsTo('App\Model\Teacher','teacher_id','user_id');
+        return $this->belongsTo('App\Model\Student');
     }
+
 }

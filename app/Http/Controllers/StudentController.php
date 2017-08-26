@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Libraries\Enumerations\CourseStudentStatus;
 use App\Libraries\Enumerations\UserTypes;
 use Illuminate\Http\Request;
 use App\Model\Student;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Support\Facades\Session;
+use App\Model\StudentCourse;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -72,5 +75,26 @@ class StudentController extends Controller
 
         Session::flash('Success Message', 'Student deleted successfully.');
         return redirect()->route('students-list');
+    }
+
+    public function getLoggedStudentCourses()
+    {
+        $loggedStudentId = Auth::user()->id;
+        $incompleteCourses = StudentCourse::with('course')
+            ->where('student_id',$loggedStudentId)
+            ->where('status',CourseStudentStatus::$INCOMPLETE)
+            ->paginate(10,['*'], 'studentCourses');
+        
+        $completedCourses = StudentCourse::with('course')
+            ->where('student_id',$loggedStudentId)
+            ->where('status',CourseStudentStatus::$COMPLETED)
+            ->paginate(10,['*'], 'studentCourses');
+        $data  = [
+            'incompleteCourses' => $incompleteCourses,
+            'completedCourses' => $completedCourses,
+        ];
+//        dd($trendingCourses);
+
+        return view('student.course.my_courses',$data);
     }
 }

@@ -1,12 +1,19 @@
 <?php
 
 Route::group(['middleware' => ['auth']], function () {
+
     Route::group(['middleware' => ['AdminOrTeacher']], function () {
         //    Routes for Course Crud
         Route::get('/courses', ['uses' => 'CourseController@getIndex', 'as' => 'courses-list']);
         Route::post('/courses/add', ['uses' => 'CourseController@add', 'as' => 'courses-add']);
         Route::post('/courses/update', ['uses' => 'CourseController@update', 'as' => 'courses-update']);
         Route::get('/courses/remove/{id}', ['uses' => 'CourseController@delete', 'as' => 'courses-delete']);
+    });
+    Route::group(['middleware' => ['AdminAuth']], function () {
+        //    Routes for Course Listing Settings 
+        Route::get('/courses/listing', ['uses' => 'CourseController@getCourseListingPage', 'as' => 'courses-listing-settings']);
+        Route::post('/courses/trending/add', ['uses' => 'CourseController@postTrendingCourse', 'as' => 'trending-courses-add']);
+        Route::get('/courses/trending/remove{id}', ['uses' => 'CourseController@trendingCourseDelete', 'as' => 'trending-courses-delete']);
     });
     Route::group(['middleware' => ['TeacherAuth']], function () {
         //    Routes for Teacher Course Crud
@@ -21,10 +28,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/teacher/courses/lessons/update', ['uses' => 'TeacherCourseLessonController@update', 'as' => 'lesson-update']);
         Route::get('/teacher/courses/lessons/remove/{course_id}/{id}', ['uses' => 'TeacherCourseLessonController@delete', 'as' => 'lesson-delete']);
     });
-    
+
     Route::group(['middleware' => ['StudentAuth']], function () {
         //    Routes for Student Course
-        Route::get('student/courses', ['uses' => 'StudentCourseController@getAllCourse', 'as' => 'student-courses-list']);
-        });
+        Route::get('/student/courses', ['uses' => 'StudentCourseController@getAllCoursesForStudent', 'as' => 'student-courses-list']);
+        Route::get('/student/courses/own', ['uses' => 'StudentController@getLoggedStudentCourses', 'as' => 'logged-student-courses-list']);
+        Route::get('/student/courses/own/details/{teacher_course_id}', ['uses' => 'StudentCourseController@getCourseDetailsPage', 'as' => 'student-course-details']);
+    });
+
+
 
 });
