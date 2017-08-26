@@ -87,6 +87,7 @@
                                                 data-department_id="{{ $course->department_id }}"
                                                 data-title="{{ $course->title }}"
                                                 data-short_code="{{ $course->short_code }}"
+                                                data-featured_text="{{ $course->featured_text }}"
                                                 data-status="{{ $course->status }}"
                                                 data-featured_image="{{ $course->featured_image }}"
                                                 data class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal">
@@ -154,6 +155,13 @@
                                             <input type="file" name="new_featured_image" class="form-control">
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2"><label>Featured Text</label></td>
+                                        <td colspan="2">
+                                            <textarea name="featured_text" class="form-control" id="modal_featured_text"></textarea>
+                                        </td>
+                                    </tr>
+
                                     <tr>
                                         <td colspan="2"><label>Status</label></td>
                                         <td colspan="2">
@@ -224,6 +232,13 @@
                                             <input type="file" name="featured_image" class="form-control">
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2"><label>Featured Text</label></td>
+                                        <td colspan="2">
+                                            <textarea name="featured_text" class="form-control"></textarea>
+                                        </td>
+                                    </tr>
+
                                 </table>
                             </div>
                             <button type="submit" class="btn btn-default pull-right">Submit</button>
@@ -250,6 +265,7 @@
             $('#modal_short_code').val($(e.relatedTarget).data('short_code'));
             $('#modal_status').val($(e.relatedTarget).data('status'));
             $('#modal_featured_image').attr('src' , $(e.relatedTarget).data('featured_image'));
+            $('#modal_featured_text').text($(e.relatedTarget).data('featured_text'));
         });
     </script>
     <script>

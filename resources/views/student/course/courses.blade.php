@@ -127,7 +127,7 @@
                                             <p>{{ $aCourse->course->short_code }}</p>
                                         </div>
                                     </div>
-                                    <a href="{{ route('student-course-details',['course_id' => $aCourse->course->id]) }}">
+                                    <a href="{{ route('student-course-details',['teacher_course_id' => $aCourse->id]) }}">
                                     <div class="caption">
                                         <p>{{ $aCourse->course->title }} ( by {{ $aCourse->teacher->user->name }} )</p>
                                     </div>

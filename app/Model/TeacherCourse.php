@@ -18,4 +18,6 @@ class TeacherCourse extends Model
     {
         return $this->belongsTo('App\Model\Teacher','teacher_id','user_id');
     }
+
+    
 }

@@ -44,6 +44,7 @@ class CourseController extends Controller
         $model->department_id = $request['department'];
         $model->title = $request['title'];
         $model->short_code = $request['short_code'];
+        $model->featured_text = $request['featured_text'];
         if (Auth::user()->user_type == UserTypes::$TEACHER){
             $model->status = CourseStatus::$PENDING;
         }else
@@ -83,6 +84,7 @@ class CourseController extends Controller
         $model->title = $request['title'];
         $model->short_code = $request['short_code'];
         $model->status = $request['status'];
+        $model->featured_text = $request['featured_text'];
         $model->save();
 
         if(Input::file())

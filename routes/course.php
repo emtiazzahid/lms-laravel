@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/student/courses', ['uses' => 'StudentCourseController@getAllCoursesForStudent', 'as' => 'student-courses-list']);
         Route::get('/student/courses/own', ['uses' => 'StudentController@getLoggedStudentCourses', 'as' => 'logged-student-courses-list']);
         Route::get('/student/courses/own/details/{teacher_course_id}', ['uses' => 'StudentCourseController@getCourseDetailsPage', 'as' => 'student-course-details']);
+        Route::get('/student/courses/own/details/{teacher_course_id}/enroll', ['uses' => 'StudentCourseController@attachStudentCourse', 'as' => 'student-course-enroll']);
     });
 
 

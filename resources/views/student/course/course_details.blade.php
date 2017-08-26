@@ -35,48 +35,17 @@
 
                             <h3 class="prod_title">{{ $teacherCourse->course->title }}</h3>
 
-                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.</p>
+                            <p> {{ $teacherCourse->course->featured_text }} </p>
                             <br />
 
                             <div class="">
-                                <h2>Available Colors</h2>
-                                <ul class="list-inline prod_color">
-                                    <li>
-                                        <p>Green</p>
-                                        <div class="color bg-green"></div>
-                                    </li>
-                                    <li>
-                                        <p>Blue</p>
-                                        <div class="color bg-blue"></div>
-                                    </li>
-                                    <li>
-                                        <p>Red</p>
-                                        <div class="color bg-red"></div>
-                                    </li>
-                                    <li>
-                                        <p>Orange</p>
-                                        <div class="color bg-orange"></div>
-                                    </li>
-
-                                </ul>
-                            </div>
-                            <br />
-
-                            <div class="">
-                                <h2>Size <small>Please select one</small></h2>
+                                <h2>Available Lessons</h2>
                                 <ul class="list-inline prod_size">
+                                    @foreach($teacherCourseLessons as $lesson)
                                     <li>
-                                        <button type="button" class="btn btn-default btn-xs">Small</button>
+                                        <button type="button" class="btn btn-default btn-xs">{{ $lesson->title }}</button>
                                     </li>
-                                    <li>
-                                        <button type="button" class="btn btn-default btn-xs">Medium</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="btn btn-default btn-xs">Large</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="btn btn-default btn-xs">Xtra-Large</button>
-                                    </li>
+                                    @endforeach
                                 </ul>
                             </div>
                             <br />
@@ -90,38 +59,7 @@
                             </div>
 
                             <div class="">
-                                <button type="button" class="btn btn-default btn-lg">Add to Cart</button>
-                                <button type="button" class="btn btn-default btn-lg">Add to Wishlist</button>
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-md-12">
-
-                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Home</a>
-                                    </li>
-                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Profile</a>
-                                    </li>
-                                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
-                                    </li>
-                                </ul>
-                                <div id="myTabContent" class="tab-content">
-                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
-                                        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher
-                                            synth. Cosby sweater eu banh mi, qui irure terr.</p>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-                                            booth letterpress, commodo enim craft beer mlkshk aliquip</p>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                                        <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
-                                            photo booth letterpress, commodo enim craft beer mlkshk </p>
-                                    </div>
-                                </div>
+                                <a href="{{ route('student-course-enroll',['teacher_course_id'=>$teacherCourse->id]) }}" class="btn btn-default btn-lg">Enroll Now</a>
                             </div>
 
                         </div>

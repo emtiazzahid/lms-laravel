@@ -19,6 +19,7 @@ class CreateCoursesTable extends Migration
             $table->string('title')->unique();
             $table->string('featured_image')->default('admin/images/course.jpg');
             $table->string('short_code')->nullable()->unique();
+            $table->text('featured_text')->nullable();
             $table->string('default_cost')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->timestamps();
