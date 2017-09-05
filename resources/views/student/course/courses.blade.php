@@ -40,14 +40,14 @@
                                 <div class="col-md-55">
                                     <div class="thumbnail">
                                         <div class="image view view-first">
-                                            <img style="width: 100%; display: block;" src="{{ url($sCourse->course->featured_image) }}" alt="image" />
+                                            <img style="width: 100%; display: block;" src="{{ url($sCourse->teacher_course->course->featured_image) }}" alt="image" />
                                             <div class="mask">
-                                                <p>{{ $sCourse->course->short_code }}</p>
+                                                <p>{{ $sCourse->teacher_course->course->short_code }}</p>
                                             </div>
                                         </div>
-                                        <a href="{{ route('student-course-details',['course_id' => $tCourse->course->id]) }}">
+                                        <a href="{{ route('student-course-details',['teacher_course_id' => $sCourse->teacher_course->id]) }}">
                                         <div class="caption">
-                                            {{ $sCourse->course->title }}
+                                            {{ $sCourse->teacher_course->course->title }}
                                         </div>
                                         </a>
                                     </div>

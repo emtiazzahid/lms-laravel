@@ -9,9 +9,9 @@ class StudentCourse extends Model
     protected $table = 'course_student';
     protected $guarded = [];
     
-    public function course()
+    public function teacher_course()
     {
-        return $this->belongsTo('App\Model\Course');
+        return $this->belongsTo('App\Model\TeacherCourse');
     }
     public function student()
     {

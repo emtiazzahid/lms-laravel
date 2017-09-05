@@ -80,20 +80,19 @@ class StudentController extends Controller
     public function getLoggedStudentCourses()
     {
         $loggedStudentId = Auth::user()->id;
-        $incompleteCourses = StudentCourse::with('course')
+        $incompleteCourses = StudentCourse::with(['teacher_course'=>function($q){$q->with(['course','teacher'=>function($q){$q->with(['user']);}]);}])
             ->where('student_id',$loggedStudentId)
             ->where('status',CourseStudentStatus::$INCOMPLETE)
-            ->paginate(10,['*'], 'studentCourses');
-        
-        $completedCourses = StudentCourse::with('course')
+            ->paginate(10,['*'], 'incompleteCourses');
+
+        $completedCourses = StudentCourse::with(['teacher_course'=>function($q){$q->with(['course','teacher'=>function($q){$q->with(['user']);}]);}])
             ->where('student_id',$loggedStudentId)
             ->where('status',CourseStudentStatus::$COMPLETED)
-            ->paginate(10,['*'], 'studentCourses');
+            ->paginate(10,['*'], 'completedCourses');
         $data  = [
             'incompleteCourses' => $incompleteCourses,
             'completedCourses' => $completedCourses,
         ];
-//        dd($trendingCourses);
 
         return view('student.course.my_courses',$data);
     }

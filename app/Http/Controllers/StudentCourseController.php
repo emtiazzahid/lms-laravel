@@ -27,21 +27,29 @@ class StudentCourseController extends Controller
                                             ->orderBy('trending_courses.id','desc')
                                             ->paginate(10,['*'], 'trendingCourses');
 //        dd($trendingCourses->toArray());
-        $studentCourses = StudentCourse::with('course')->where('student_id',$loggedStudentId)
+        $studentCourses = StudentCourse::with(['teacher_course'=>function($q){$q->with(['course','teacher'=>function($q){$q->with(['user']);}]);}])
+            ->orderBy('course_student.id','desc')
+            ->where('student_id',$loggedStudentId)
             ->paginate(10,['*'], 'studentCourses');
+//        dd($studentCourses->toArray());
         $data  = [
             'AllCourses' => $allCourse,
             'trendingCourses' => $trendingCourses,
             'studentCourses' => $studentCourses,
         ];
-//        dd($trendingCourses);
+//        dd($data);
 
         return view('student.course.courses',$data);
     }
 
     public function getCourseDetailsPage($teacherCourseId)
     {
-//        dd($teacherCourseId);
+        $loggedStudentId = Auth::user()->id;
+        $courseTaken = false;
+        $studentCourseTaken = StudentCourse::where('teacher_course_id',$teacherCourseId)->where('student_id',$loggedStudentId)->count();
+        if ($studentCourseTaken>0){
+            $courseTaken = true;
+        }
         $teacherCourse = TeacherCourse::with(['course','teacher'=>function($q){$q->with(['user']);}])->find($teacherCourseId);
 //        dd($teacherCourse->toArray());
         $teacherCourseLessons = TeacherCourseLesson::where('teacher_id',$teacherCourse->teacher_id)
@@ -50,6 +58,7 @@ class StudentCourseController extends Controller
         $data = [
             'teacherCourse' => $teacherCourse,
             'teacherCourseLessons' => $teacherCourseLessons,
+            'courseTaken' => $courseTaken,
         ];
         return view('student.course.course_details',$data);
     }
@@ -68,6 +77,10 @@ class StudentCourseController extends Controller
 
         return redirect()->route('student-course-lesson-list',['teacher_course_id'=>$teacherCourseId]);
     }
-    
+
+    public function getCourseLessonsForStudent($teacher_course_id)
+    {
+        dd($teacher_course_id);
+    }
     
 }

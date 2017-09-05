@@ -59,7 +59,11 @@
                             </div>
 
                             <div class="">
+                                @if($courseTaken)
+                                <a href="#" class="btn btn-default btn-lg">Continue Study</a>
+                                @else
                                 <a href="{{ route('student-course-enroll',['teacher_course_id'=>$teacherCourse->id]) }}" class="btn btn-default btn-lg">Enroll Now</a>
+                                @endif
                             </div>
 
                         </div>
