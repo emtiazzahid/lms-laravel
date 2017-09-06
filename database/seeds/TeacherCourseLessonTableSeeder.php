@@ -103,7 +103,7 @@ class TeacherCourseLessonTableSeeder extends Seeder
                 [
                     'lesson_id' => $teacherCourseLesson1->id,
                     'teacher_id' => $teacher1->id,
-                    'part_number' => '1 (Algorithms)',
+                    'part_number' => 'Video - 1',
                     'video_title' => 'Algorithms Lecture 1 -- Introduction to asymptotic notations',
                     'description' => null,
                     'video_embed_url' => 'https://www.youtube.com/embed/aGjL7YXI31Q',
@@ -113,7 +113,7 @@ class TeacherCourseLessonTableSeeder extends Seeder
                 [
                     'lesson_id' => $teacherCourseLesson2->id,
                     'teacher_id' => $teacher1->id,
-                    'part_number' => '2 (Algorithms)',
+                    'part_number' => 'Video - 2',
                     'video_title' => 'Algorithms lecture 2 -- Time complexity Analysis of iterative programs',
                     'description' => null,
                     'video_embed_url' => 'https://www.youtube.com/embed/FEnwM-iDb2g',
@@ -123,7 +123,7 @@ class TeacherCourseLessonTableSeeder extends Seeder
                 [
                     'lesson_id' => $teacherCourseLesson3->id,
                     'teacher_id' => $teacher1->id,
-                    'part_number' => '3 (Algorithms)',
+                    'part_number' => 'Video - 3',
                     'video_title' => 'Algorithms lecture 4 -- comparing various functions to analyse time complexity',
                     'description' => null,
                     'video_embed_url' => 'https://www.youtube.com/embed/aORkZXcjlIs',
@@ -133,7 +133,7 @@ class TeacherCourseLessonTableSeeder extends Seeder
                 [
                     'lesson_id' => $teacherCourseLesson4->id,
                     'teacher_id' => $teacher1->id,
-                    'part_number' => '1 (C Programming)',
+                    'part_number' => 'Video - 1',
                     'video_title' => 'C Programming Tutorial - 1 - Introduction',
                     'description' => null,
                     'video_embed_url' => 'https://www.youtube.com/embed/2NWeucMKrLI',
@@ -143,7 +143,7 @@ class TeacherCourseLessonTableSeeder extends Seeder
                 [
                     'lesson_id' => $teacherCourseLesson4->id,
                     'teacher_id' => $teacher1->id,
-                    'part_number' => '2 (C Programming)',
+                    'part_number' => 'Video - 2',
                     'video_title' => 'C Programming Tutorial - 2 - Setting Up Code Blocks',
                     'description' => null,
                     'video_embed_url' => 'https://www.youtube.com/embed/3DeLiClDd04',
@@ -153,7 +153,7 @@ class TeacherCourseLessonTableSeeder extends Seeder
                 [
                     'lesson_id' => $teacherCourseLesson5->id,
                     'teacher_id' => $teacher1->id,
-                    'part_number' => '3 (C Programming)',
+                    'part_number' => 'Video - 3',
                     'video_title' => 'C Programming Tutorial - 3 - How Computer Programs Work',
                     'description' => null,
                     'video_embed_url' => 'https://www.youtube.com/embed/iWx3yyFMWQA',
@@ -163,7 +163,69 @@ class TeacherCourseLessonTableSeeder extends Seeder
             ];
             \App\Model\VideoLesson::insert($dataForVideoSource);
 
-
+            $dataForFilesSource = [
+                [
+                    'lesson_id' => $teacherCourseLesson1->id,
+                    'teacher_id' => $teacher1->id,
+                    'part_number' => 'File - 1',
+                    'file_title' => 'Asymptotic Growth of Functions',
+                    'description' => null,
+                    'file_url' => 'https://classes.soe.ucsc.edu/cmps102/Spring04/TantaloAsymp.pdf',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ],
+                [
+                    'lesson_id' => $teacherCourseLesson2->id,
+                    'teacher_id' => $teacher1->id,
+                    'part_number' => 'File - 2',
+                    'file_title' => 'Algorithms: analysis, complexity',
+                    'description' => null,
+                    'file_url' => 'https://ocw.mit.edu/courses/civil-and-environmental-engineering/1-204-computer-algorithms-in-systems-engineering-spring-2010/lecture-notes/MIT1_204S10_lec05.pdf',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ],
+                [
+                    'lesson_id' => $teacherCourseLesson3->id,
+                    'teacher_id' => $teacher1->id,
+                    'part_number' => 'File - 3',
+                    'file_title' => 'comparing various functions to analyse time complexity',
+                    'description' => null,
+                    'file_url' => 'https://www.cs.duke.edu/courses/summer10/cps130/files/L2-Analysis.pdf',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ],
+                [
+                    'lesson_id' => $teacherCourseLesson4->id,
+                    'teacher_id' => $teacher1->id,
+                    'part_number' => 'File - 1',
+                    'file_title' => 'C Programming Introduction',
+                    'description' => null,
+                    'file_url' => 'https://www.tutorialspoint.com/cprogramming/cprogramming_tutorial.pdf',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ],
+                [
+                    'lesson_id' => $teacherCourseLesson4->id,
+                    'teacher_id' => $teacher1->id,
+                    'part_number' => 'File - 2',
+                    'file_title' => 'C Programming Setting Up Code Blocks',
+                    'description' => null,
+                    'file_url' => 'http://www.codeblocks.org/docs/manual_en.pdf',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ],
+                [
+                    'lesson_id' => $teacherCourseLesson5->id,
+                    'teacher_id' => $teacher1->id,
+                    'part_number' => 'File - 3',
+                    'file_title' => 'C Programming How Computer Programs Work',
+                    'description' => null,
+                    'file_url' => 'https://www.tutorialspoint.com/computer_programming/computer_programming_tutorial.pdf',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ],
+            ];
+            \App\Model\FileLesson::insert($dataForFilesSource);
         }
     }
 }
