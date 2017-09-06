@@ -37,7 +37,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/student/courses/own/details/{teacher_course_id}/enroll', ['uses' => 'StudentCourseController@attachStudentCourse', 'as' => 'student-course-enroll']);
 
         //    Routes for Student Course Lessons
-        Route::get('/student/courses/{teacher_course_id}/lessons', ['uses' => 'StudentCourseController@getCourseLessonsForStudent', 'as' => 'student-course-lesson-list']);
+        Route::get('/student/courses/{teacher_course_id}/lessons', ['uses' => 'StudentCourseController@getCourseLessonsForStudent', 'as' => 'getCourseLessonsForStudent']);
+        Route::get('/student/courses/lessons/{id}', ['uses' => 'StudentCourseController@getStudentCourseLessonDetails', 'as' => 'getStudentCourseLessonDetails']);
 
     });
 

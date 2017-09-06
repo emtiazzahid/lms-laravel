@@ -44,6 +44,20 @@ class UserTableSeeder extends Seeder
             $meta->iso = '880';
             $meta->phone = '01763777585';
             $meta->save();
+
+            $teacher = new User();
+            $teacher->name = 'Teacher 2';
+            $teacher->email = 'teacher2@mail.com';
+            $teacher->password = bcrypt('123');
+            $teacher->user_type = UserTypes::$TEACHER;
+            $teacher->save();
+
+            $meta = new \App\Model\Teacher();
+            $meta->user_id = $teacher->id;
+            $meta->country_code = 'bd';
+            $meta->iso = '880';
+            $meta->phone = '01763777585';
+            $meta->save();
         }
         $student = User::where('email', 'student@mail.com')->first();
         if (empty($student)) {
@@ -60,6 +74,21 @@ class UserTableSeeder extends Seeder
             $meta->iso = '880';
             $meta->phone = '01763777585';
             $meta->save();
+
+            $student = new User();
+            $student->name = 'Student 2';
+            $student->email = 'student2@mail.com';
+            $student->password = bcrypt('123');
+            $student->user_type = UserTypes::$STUDENT;
+            $student->save();
+
+            $meta = new \App\Model\Student();
+            $meta->user_id = $student->id;
+            $meta->country_code = 'bd';
+            $meta->iso = '880';
+            $meta->phone = '01763777585';
+            $meta->save();
+
         }
 
     }

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\CourseStudentStatus;
 use App\Model\Course;
+use App\Model\FileLesson;
 use App\Model\StudentCourse;
 use App\Model\TeacherCourse;
 use App\Model\TeacherCourseLesson;
 use App\Model\TrendingCourse;
+use App\Model\VideoLesson;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Model\Student;
@@ -80,7 +83,34 @@ class StudentCourseController extends Controller
 
     public function getCourseLessonsForStudent($teacher_course_id)
     {
-        dd($teacher_course_id);
+//        $student_id = Auth::user()->id;
+            $lessons = TeacherCourseLesson::where('course_id',$teacher_course_id)->get();
+            $data = [
+                'lessons'=>$lessons,
+            ];
+
+        return view('student.lesson.lessons_list',$data);
+    }
+
+    public function getStudentCourseLessonDetails($id)
+    {
+        $teacher_lesson = TeacherCourseLesson::where('id',$id)->first();
+        if (!$teacher_lesson){
+            Session::flash('Error Message', 'Lesson Data Not Found.');
+            return redirect()->back();
+        }
+        $teacher_info = User::where('id',$teacher_lesson->teacher_id)->first();
+        $lesson_videos = VideoLesson::where('lesson_id',$id)->where('teacher_id',$teacher_lesson->teacher_id)->get();
+        $lesson_files = FileLesson::where('lesson_id',$id)->where('teacher_id',$teacher_lesson->teacher_id)->get();
+        $data = [
+            'teacher_lesson' => $teacher_lesson,
+            'lesson_id' => $id,
+            'lesson_videos' => $lesson_videos,
+            'lesson_files' => $lesson_files,
+            'teacher_info' => $teacher_info
+        ];
+
+        return view('student.lesson.lesson_details',$data);
     }
     
 }

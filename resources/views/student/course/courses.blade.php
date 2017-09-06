@@ -19,7 +19,7 @@
         </div>
 
         <div class="clearfix"></div>
-
+    @if(count($studentCourses)>0)
         <div class="row">
             <div class="col-md-12">
                 <div class="x_panel">
@@ -60,8 +60,10 @@
                 </div>
             </div>
         </div>
+    @endif
         <div class="clearfix"></div>
 
+    @if(count($trendingCourses)>0)
         <div class="row">
             <div class="col-md-12">
                 <div class="x_panel">
@@ -100,8 +102,9 @@
                 </div>
             </div>
         </div>
+    @endif
         <div class="clearfix"></div>
-
+    @if(count($AllCourses)>0)
         <div class="row">
             <div class="col-md-12">
                 <div class="x_panel">
@@ -141,7 +144,7 @@
                 </div>
             </div>
         </div>
-
+    @endif
 
     </div>
 </div>
