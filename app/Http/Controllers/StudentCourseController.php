@@ -78,13 +78,19 @@ class StudentCourseController extends Controller
 
         Session::flash('Success Message', 'Course Enroll Successful');
 
-        return redirect()->route('student-course-lesson-list',['teacher_course_id'=>$teacherCourseId]);
+        return redirect()->route('getCourseLessonsForStudent',['teacher_course_id'=>$teacherCourseId]);
     }
 
     public function getCourseLessonsForStudent($teacher_course_id)
     {
+            $teacher_course = TeacherCourse::where('id',$teacher_course_id)->first();
+            if (!$teacher_course){
+                dd('sorry! this course is not belongs to any teacher right now');
+            }
 //        $student_id = Auth::user()->id;
-            $lessons = TeacherCourseLesson::where('course_id',$teacher_course_id)->get();
+            $lessons = TeacherCourseLesson::where('course_id',$teacher_course->course_id)
+                ->where('teacher_id',$teacher_course->teacher_id)
+                ->get();
             $data = [
                 'lessons'=>$lessons,
             ];
