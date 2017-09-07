@@ -58,6 +58,7 @@
                                                 </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                                     <select name="course" id="course_id" class="form-control">
+                                                        <option value="0">Select an Course</option>
                                                         @foreach($courses as $course)
                                                         <option value="{{ $course->id }}">{{ $course->title }}</option>
                                                         @endforeach
@@ -122,7 +123,7 @@
     <script>
         $(function () {
             $("#course_id").on('change', function () {
-                $('#question_file_id').empty();
+                $('#question_file_id').empty().append('<option value="0">Select an Question</option>');
                 var course = $('#course_id').val();
                 var url = '{{ route('getQuestionFilesByCourse') }}';
                 var token = '{{ Session::token() }}';
@@ -133,8 +134,15 @@
                     success: function (data) {
                         if (data != null && data != '') {
                             var i;
+                            var questionType;
                             for (i = 1; i <= data.length; i++) {
-                                $('#question_file_id').append('<option value="' + data[i - 1]['id'] + '">Question File - ' + data[i - 1]['id'] + '</option>')
+                                if (data[i - 1]['question_type'] == {{ \App\Libraries\Enumerations\QuestionTypes::$MCQ }}){
+                                    questionType = 'Mcq';
+                                }else if (data[i - 1]['question_type'] == {{ \App\Libraries\Enumerations\QuestionTypes::$WRITTEN }}){
+                                    questionType = 'Written';
+                                }else
+                                    questionType = 'Unknown Type'
+                                $('#question_file_id').append('<option value="' + data[i - 1]['id'] + '">Question File - ' + data[i - 1]['id'] + ' ('+questionType+') </option>')
                             }
                         }
                     }

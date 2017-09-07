@@ -55,7 +55,8 @@
                                 <tr>
                                     <td><strong>{{ ++$index }}</strong></td>
                                     <td>
-                                        <a href="{{ route('getStudentCourseLessonDetails',['id' => $lesson->id]) }}">
+
+                                        <a href="{{ route('getStudentCourseLessonDetails',['id' => $lesson->id]) }}" class="btn btn-primary btn-sm">
                                         Lesson - {{ $lesson->number }}
                                         </a>
                                     </td>

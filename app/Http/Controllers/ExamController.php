@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Libraries\Enumerations\ExamStatus;
 use App\Model\Course;
 use App\Model\Exam;
+use App\Model\QuestionBank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Libraries\Enumerations\CourseStatus;
@@ -41,7 +42,7 @@ class ExamController extends Controller
     public function getQuestionFilesByCourse(Request $request)
     {
         $teacher_id = Auth::user()->id;
-        $questionFiles = DB::table('question_banks')->where('course_id',$request->course)->where('teacher_id',$teacher_id)->get();
+        $questionFiles = QuestionBank::where('course_id',$request->course)->where('teacher_id',$teacher_id)->get();
         return $questionFiles;
     }
 
