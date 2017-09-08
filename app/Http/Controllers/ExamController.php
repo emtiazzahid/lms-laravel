@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\ExamStatus;
+use App\Libraries\Enumerations\QuestionTypes;
+use App\Libraries\Enumerations\ResultStatus;
+use App\Model\AnswerBank;
 use App\Model\Course;
 use App\Model\Exam;
+use App\Model\ExamSubmission;
 use App\Model\QuestionBank;
+use App\Model\TeacherCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Libraries\Enumerations\CourseStatus;
@@ -18,7 +23,7 @@ class ExamController extends Controller
     {
         $teacher_id = Auth::user()->id;
         $exams = Exam::with('course','teacher','question_file')->where('teacher_id',$teacher_id)->get();
-        // dd($exams->toArray());
+//         dd($exams->toArray());
         $data = [
             'exams' => $exams
         ];
@@ -92,4 +97,147 @@ class ExamController extends Controller
         Session::flash('Success Message', 'Exam deleted successfully.');
         return redirect()->route('getExamListPage');
     }
+
+    public function getStudentExamStartPage($exam_id)
+    {
+        $exam = Exam::with(['course','question_file','teacher'=>function($q){$q->with(['user']);}])
+            ->where('id',$exam_id)
+            ->first();
+//        dd($exam->toArray());
+        if (!$exam){
+            dd('exam data error! please try again');
+        }
+        if ($exam->question_file->question_type == QuestionTypes::$WRITTEN){
+            $writtenQuestions = json_decode($exam->question_file->question_body);
+            $data = [
+                'exam' => $exam,
+                'writtenQuestions' => $writtenQuestions
+            ];
+//            dd($writtenQuestions);
+            return view('student.exam.written_exam',$data);
+        }elseif ($exam->question_file->question_type == QuestionTypes::$MCQ){
+            $mcqQuestions = json_decode($exam->question_file->question_body);
+            $data = [
+                'exam' => $exam,
+                'mcqQuestions' => $mcqQuestions
+            ];
+//            dd($mcqQuestions);
+            return view('student.exam.mcq_exam',$data);
+        }
+        else
+        {
+            dd('Error! Unknown Question Type Found');
+        }
+
+    }
+    
+    public function postWrittenQuestionAnswers(Request $request)
+    {
+        $loggedStudentId = Auth::user()->id;
+
+        $teacherCourse = TeacherCourse::where('course_id',$request->course_id)
+            ->where('teacher_id',$request->teacher_id)
+            ->first();
+
+        $existingExamSubmission = ExamSubmission::where('exam_id',$request->exam_id)
+            ->where('student_id',$loggedStudentId)->first();
+        if (count($existingExamSubmission)>0){
+
+            Session::flash('Error Message', 'Sorry you already submitted you answer');
+            return redirect()->route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]);
+        }
+        $total_mark = 0.00;
+//        dd($request->all());
+
+
+        if (!$teacherCourse){
+            Session::flash('Error Message', 'teacher course data error! this course is not assigned to any teacher now');
+            return redirect()->route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]);
+        }
+        $answerFileString = json_encode($request->except(['question_type','exam_id','course_id','teacher_id','_token']));
+        foreach ($request->id as $key => $question) {
+            $total_mark += floatval($request->default_mark[$key]);
+
+        }
+        $answeredFile = new AnswerBank();
+        $answeredFile->question_type = $request->question_type;
+        $answeredFile->teacher_course_id = $teacherCourse->id;
+        $answeredFile->question_answer_body = $answerFileString;
+        $answeredFile->save();
+
+        $examSubmission = new ExamSubmission();
+        $examSubmission->exam_id = $request->exam_id;
+        $examSubmission->student_id = $loggedStudentId;
+        $examSubmission->answer_file_id = $answeredFile->id;
+        $examSubmission->total_mark = $total_mark;
+        $examSubmission->result_status = ResultStatus::$JUDGING;
+        $examSubmission->save();
+
+        Session::flash('Success Message', 'Written Exam successfully submitted. please wait until teacher judgement complete');
+        return redirect()->route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]);
+    }
+    public function postMcqQuestionAnswers(Request $request)
+    {
+//        dd($request->all());
+        $loggedStudentId = Auth::user()->id;
+
+        $teacherCourse = TeacherCourse::where('course_id',$request->course_id)
+            ->where('teacher_id',$request->teacher_id)
+            ->first();
+
+        $existingExamSubmission = ExamSubmission::where('exam_id',$request->exam_id)
+            ->where('student_id',$loggedStudentId)->first();
+        if (count($existingExamSubmission)>0){
+
+            Session::flash('Error Message', 'Sorry you already submitted you answer');
+            return redirect()->route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]);
+        }
+        $total_mark = 0.00;
+        $achieve_mark = 0.00;
+        $passed_score = 0.00;
+
+
+        if (!$teacherCourse){
+            Session::flash('Error Message', 'teacher course data error! this course is not assigned to any teacher now');
+            return redirect()->route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]);
+        }
+        $answerFileString = json_encode($request->except(['question_type','exam_id','course_id','teacher_id','_token']));
+        $totalQuestion = 0;
+        $passed = 0;
+        foreach ($request->id as $key => $question) {
+            $totalQuestion++;
+            $total_mark += floatval($request->default_mark[$key]);
+            if (floatval($request->right_answer[$key]) == floatval($request['answer_for_question_'.$key])){
+                $achieve_mark += floatval($request->default_mark[$key]);
+                $passed++;
+            }
+        }
+
+        $passed_score = floatval(($passed*100)/$totalQuestion);
+        if ($passed_score >= floatval($request->passing_score))
+            $result_status = ResultStatus::$PASSED;
+        else
+            $result_status = ResultStatus::$FAILED;
+
+        $answeredFile = new AnswerBank();
+        $answeredFile->question_type = $request->question_type;
+        $answeredFile->teacher_course_id = $teacherCourse->id;
+        $answeredFile->question_answer_body = $answerFileString;
+        $answeredFile->save();
+
+        $examSubmission = new ExamSubmission();
+        $examSubmission->exam_id = $request->exam_id;
+        $examSubmission->student_id = $loggedStudentId;
+        $examSubmission->answer_file_id = $answeredFile->id;
+        $examSubmission->total_mark = $total_mark;
+        $examSubmission->achieve_mark = $achieve_mark;
+        $examSubmission->passed_score = $passed_score;
+        $examSubmission->result_status = $result_status;
+        $examSubmission->save();
+
+        Session::flash('Success Message', 'Mcq Exam successfully submitted. you can see the result now');
+        return redirect()->route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]);
+        
+    }
+
 }

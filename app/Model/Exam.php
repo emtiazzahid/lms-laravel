@@ -9,7 +9,7 @@ class Exam extends Model
     protected $table = 'exams';
     protected $guarded = [];
 
-        public function course()
+    public function course()
     {
         return $this->belongsTo('App\Model\Course');
     }
@@ -22,6 +22,10 @@ class Exam extends Model
     public function question_file()
     {
         return $this->belongsTo('App\Model\QuestionBank','question_file_id');
+    }
+    public function submission()
+    {
+        return $this->belongsTo('App\Model\ExamSubmission','id','exam_id');
     }
 
 }

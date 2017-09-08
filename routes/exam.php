@@ -11,4 +11,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/exam/update', ['uses' => 'ExamController@update', 'as' => 'exam-update']);
         Route::get('/exam/remove/{id}', ['uses' => 'ExamController@delete', 'as' => 'exam-delete']);
 
+
+        Route::group(['middleware' => ['StudentAuth']], function () {
+                Route::get('student/exam/{exam_id}/start', ['uses' => 'ExamController@getStudentExamStartPage', 'as' => 'student-exam-start']);
+                Route::post('student/exam/start/written/submit', ['uses' => 'ExamController@postWrittenQuestionAnswers', 'as' => 'postWrittenQuestionAnswers']);
+                Route::post('student/exam/start/mcq/submit', ['uses' => 'ExamController@postMcqQuestionAnswers', 'as' => 'postMcqQuestionAnswers']);
+        });
 });

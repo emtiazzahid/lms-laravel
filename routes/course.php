@@ -40,6 +40,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/student/courses/{teacher_course_id}/lessons', ['uses' => 'StudentCourseController@getCourseLessonsForStudent', 'as' => 'getCourseLessonsForStudent']);
         Route::get('/student/courses/lessons/{id}', ['uses' => 'StudentCourseController@getStudentCourseLessonDetails', 'as' => 'getStudentCourseLessonDetails']);
 
+        //    Routes for Student Course Exams
+        Route::get('/student/courses/{teacher_course_id}/exams', ['uses' => 'StudentCourseController@getCourseExamsForStudent', 'as' => 'getCourseExamsForStudent']);
+//        Route::get('/student/courses/exam/{id}', ['uses' => 'StudentCourseController@getStudentCourseExamDetails', 'as' => 'getStudentCourseExamDetails']);        
+
     });
 
 

@@ -6,6 +6,7 @@ use App\Libraries\Enumerations\CourseStudentStatus;
 use App\Model\Course;
 use App\Model\FileLesson;
 use App\Model\StudentCourse;
+use App\Model\Exam;
 use App\Model\TeacherCourse;
 use App\Model\TeacherCourseLesson;
 use App\Model\TrendingCourse;
@@ -49,12 +50,12 @@ class StudentCourseController extends Controller
     {
         $loggedStudentId = Auth::user()->id;
         $courseTaken = false;
-        $studentCourseTaken = StudentCourse::where('teacher_course_id',$teacherCourseId)->where('student_id',$loggedStudentId)->count();
-        if ($studentCourseTaken>0){
+        $studentCourseTaken = StudentCourse::where('teacher_course_id',$teacherCourseId)->where('student_id',$loggedStudentId)->first();
+        if (count($studentCourseTaken)>0){
             $courseTaken = true;
         }
+        // dd($studentCourseTaken->toArray());
         $teacherCourse = TeacherCourse::with(['course','teacher'=>function($q){$q->with(['user']);}])->find($teacherCourseId);
-//        dd($teacherCourse->toArray());
         $teacherCourseLessons = TeacherCourseLesson::where('teacher_id',$teacherCourse->teacher_id)
             ->where('course_id',$teacherCourse->course_id)->get();
 //        dd($teacherCourseLessons->toArray());
@@ -117,6 +118,25 @@ class StudentCourseController extends Controller
         ];
 
         return view('student.lesson.lesson_details',$data);
+    }
+
+    public function getCourseExamsForStudent($teacher_course_id)
+    {
+           $teacher_course = TeacherCourse::where('id',$teacher_course_id)->first();
+            if (!$teacher_course){
+                dd('sorry! this course is not belongs to any teacher right now');
+            }
+            $loggedStudentId = Auth::user()->id;
+            $exams = Exam::with(['submission'=>function($q) use ($loggedStudentId){$q->where('student_id','=',$loggedStudentId);},'course','question_file','teacher'=>function($q){$q->with(['user']);}])
+                ->where('course_id',$teacher_course->course_id)
+                ->where('teacher_id',$teacher_course->teacher_id)
+                ->get();
+//            dd($exams->toArray());
+            $data = [
+                'exams'=>$exams,
+            ];
+
+        return view('student.exam.exam_list',$data);
     }
     
 }

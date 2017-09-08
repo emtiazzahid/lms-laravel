@@ -60,6 +60,7 @@
                             <div class="">
                                 <?php if($courseTaken): ?>
                                 <a href="<?php echo e(route('getCourseLessonsForStudent',['teacher_course_id'=>$teacherCourse->id])); ?>" class="btn btn-default btn-lg">Continue Study</a>
+                                <a href="<?php echo e(route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id])); ?>" class="btn btn-default btn-lg">Exams</a>
                                 <?php else: ?>
                                 <a href="<?php echo e(route('student-course-enroll',['teacher_course_id'=>$teacherCourse->id])); ?>" class="btn btn-default btn-lg">Enroll Now</a>
                                 <?php endif; ?>
