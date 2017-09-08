@@ -13,6 +13,7 @@ class QuestionBankController extends Controller
     public function saveQuestionInQuestionBank(Request $request)
     {
         $dataForQuestionBank = [
+            'question_title' => $request->question_title,
             'question_type' => $request->question_type,
             'course_id' => $request->course_id,
             'teacher_id' => Auth::user()->id,

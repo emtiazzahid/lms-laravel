@@ -15,6 +15,7 @@ class CreateQuestionBanksTable extends Migration
     {
         Schema::create('question_banks', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('question_title');
             $table->tinyInteger('question_type');
             $table->integer('course_id');
             $table->integer('teacher_id');

@@ -8,4 +8,20 @@ class Exam extends Model
 {
     protected $table = 'exams';
     protected $guarded = [];
+
+        public function course()
+    {
+        return $this->belongsTo('App\Model\Course');
+    }
+    
+    public function teacher()
+    {
+        return $this->belongsTo('App\Model\Teacher','teacher_id','user_id');
+    }
+    
+    public function question_file()
+    {
+        return $this->belongsTo('App\Model\QuestionBank','question_file_id');
+    }
+
 }

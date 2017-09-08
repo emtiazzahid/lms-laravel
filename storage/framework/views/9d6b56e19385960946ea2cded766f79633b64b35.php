@@ -1,47 +1,45 @@
-@extends('admin.layouts.master')
-
-@section('title', 'Exam List')
+<?php $__env->startSection('title', 'Exam List'); ?>
 
         <!-- page content -->
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="right_col" role="main">
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                @if(isset($errors))
-                    @if ( count($errors) > 0)
+                <?php if(isset($errors)): ?>
+                    <?php if( count($errors) > 0): ?>
                         <div class="alert alert-danger">
                             <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
+                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </div>
-                    @endif
-                @endif
-                @if(\Session::has('msg'))
+                    <?php endif; ?>
+                <?php endif; ?>
+                <?php if(\Session::has('msg')): ?>
 
-                @endif
+                <?php endif; ?>
 
                 <div class="x_panel">
 
                     <div class="x_title">
                         <h2>Exam List</h2>
-                        <a href="{{ route('getExamCreatePage') }}" class="pull-right btn btn-info btn-sm">
+                        <a href="<?php echo e(route('getExamCreatePage')); ?>" class="pull-right btn btn-info btn-sm">
                             <i class="fa fa-plus"></i> Create new exam
                         </a>
                         <div class="clearfix"></div>
                     </div>
 
                     <div class="x_content">
-                        @if(count($exams)<1)
+                        <?php if(count($exams)<1): ?>
                             <div class="alert alert-dismissible fade in alert-info" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                                 </button>
                                 <strong>Sorry !</strong> No Exam Data Found.
                             </div>
-                        @else
+                        <?php else: ?>
                             <?php $index = 0; ?>
                             <table class="table table-striped table-bordered dataTable no-footer" id="data">
                                 <thead>
@@ -57,38 +55,38 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($exams as $exam)
+                                <?php $__currentLoopData = $exams; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $exam): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td><strong>{{ ++$index }}</strong></td>
-                                        <td>{{ $exam->exam_title }}</td>
-                                        <td>{{ $exam->course->title }}</td>
-                                        <td>{{ $exam->question_file->question_title }}</td>
-                                        <td>{{ $exam->passing_score }} %</td>
-                                        <td>{{ $exam->duration }}</td>
+                                        <td><strong><?php echo e(++$index); ?></strong></td>
+                                        <td><?php echo e($exam->exam_title); ?></td>
+                                        <td><?php echo e($exam->course->title); ?></td>
+                                        <td><?php echo e($exam->question_file->question_title); ?></td>
+                                        <td><?php echo e($exam->passing_score); ?> %</td>
+                                        <td><?php echo e($exam->duration); ?></td>
                                         <td>
-                                            @if($exam->status == \App\Libraries\Enumerations\ExamStatus::$RUNNING)
+                                            <?php if($exam->status == \App\Libraries\Enumerations\ExamStatus::$RUNNING): ?>
                                                 Running
-                                            @elseif($exam->status == \App\Libraries\Enumerations\ExamStatus::$PENDING)
+                                            <?php elseif($exam->status == \App\Libraries\Enumerations\ExamStatus::$PENDING): ?>
                                                 Pending
-                                            @else
+                                            <?php else: ?>
                                                 Done
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td class="text-center">
                                             <button type="button"
-                                                    data-id="{{ $exam->id }}"
-                                                    data-status="{{ $exam->status }}"
+                                                    data-id="<?php echo e($exam->id); ?>"
+                                                    data-status="<?php echo e($exam->status); ?>"
                                                     data class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </button>
 
-                                            <a href="{{route('exam-delete', ['id'=>$exam->id])}}" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                            <a href="<?php echo e(route('exam-delete', ['id'=>$exam->id])); ?>" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
-                        @endif
+                        <?php endif; ?>
                     </div>
 
                 </div>
@@ -107,19 +105,19 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Update Info</h4>
                 </div>
-                <form action="{{ route('exam-update') }}" method="post">
+                <form action="<?php echo e(route('exam-update')); ?>" method="post">
                     <div class="modal-body">
                         <div class="col-md-8">
-                            <input type="hidden" name="_token" value="{{ Session::token() }}">
+                            <input type="hidden" name="_token" value="<?php echo e(Session::token()); ?>">
                             <table class="table">
                                 <input type="hidden" name="modal_id" id="modal_id">
                                 <tr>
                                     <td colspan="2"><label>Status</label></td>
                                     <td colspan="2">
                                         <select class="form-control" name="status" id="modal_status">
-                                            <option value="{{ \App\Libraries\Enumerations\ExamStatus::$PENDING }}">Pending</option>
-                                            <option value="{{ \App\Libraries\Enumerations\ExamStatus::$RUNNING }}">Running</option>
-                                            <option value="{{ \App\Libraries\Enumerations\ExamStatus::$DONE }}">Done</option>
+                                            <option value="<?php echo e(\App\Libraries\Enumerations\ExamStatus::$PENDING); ?>">Pending</option>
+                                            <option value="<?php echo e(\App\Libraries\Enumerations\ExamStatus::$RUNNING); ?>">Running</option>
+                                            <option value="<?php echo e(\App\Libraries\Enumerations\ExamStatus::$DONE); ?>">Done</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -138,11 +136,11 @@
 
         </div>
     </div>
-    {{--Update Modal End--}}
-@stop
+    
+<?php $__env->stopSection(); ?>
             <!-- /page content -->
 
-@section('page_js')
+<?php $__env->startSection('page_js'); ?>
     <script>
         $('#updateModal').on('show.bs.modal', function (e) {
             $('#modal_id').val($(e.relatedTarget).data('id'));
@@ -179,4 +177,5 @@
             });
         });
     </script>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -17,7 +17,8 @@ class ExamController extends Controller
     public function getExamListPage()
     {
         $teacher_id = Auth::user()->id;
-        $exams = Exam::where('teacher_id',$teacher_id)->get();
+        $exams = Exam::with('course','teacher','question_file')->where('teacher_id',$teacher_id)->get();
+        // dd($exams->toArray());
         $data = [
             'exams' => $exams
         ];

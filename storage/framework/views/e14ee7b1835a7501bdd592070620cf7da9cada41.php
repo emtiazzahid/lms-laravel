@@ -1,28 +1,27 @@
-@extends('admin.layouts.master')
-@section('title', 'E-Learning')
-@section('page_css')
+<?php $__env->startSection('title', 'E-Learning'); ?>
+<?php $__env->startSection('page_css'); ?>
         <!-- Select2 -->
-<link href="{{ url('admin/vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
-@stop
-@section('content')
+<link href="<?php echo e(url('admin/vendors/select2/dist/css/select2.min.css')); ?>" rel="stylesheet">
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
         <!-- page content -->
 <div class="right_col" role="main">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            @if(isset($errors))
-                @if ( count($errors) > 0)
+            <?php if(isset($errors)): ?>
+                <?php if( count($errors) > 0): ?>
                     <div class="alert alert-danger">
                         <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
+                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><?php echo e($error); ?></li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </div>
-                @endif
-            @endif
-            @if(\Session::has('msg'))
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php if(\Session::has('msg')): ?>
 
-            @endif
+            <?php endif; ?>
 
             <div class="x_panel">
                 <div class="x_title">
@@ -32,15 +31,16 @@
 
                 <div class="x_content">
                     <div class="col-md-8 col-md-offset-2">
-                        <form method="post" action="{{ route('post-question-make') }}">
-                            {{ csrf_field() }}
+                        <form method="post" action="<?php echo e(route('post-question-make')); ?>">
+                            <?php echo e(csrf_field()); ?>
+
                             <div class="form-group">
                                 <label>Course :</label>
                                 <select name="course" id="course_id" class="select2_single form-control">
                                     <option value="">Select Course</option>
-                                    @foreach($courses as $course)
-                                        <option value="{{ $course->id }}">{{ $course->title }}</option>
-                                    @endforeach
+                                    <?php $__currentLoopData = $courses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $course): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($course->id); ?>"><?php echo e($course->title); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -64,15 +64,16 @@
 
             </div>
 
-            @if(isset($questions))
+            <?php if(isset($questions)): ?>
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Written Questions</h2>
-                    <form action="{{ route('saveQuestionInQuestionBank') }}" method="post" class="form-inline pull-right">
-                        {{ csrf_field() }}
-                        <input type="hidden" value="{{ \App\Libraries\Enumerations\QuestionTypes::$WRITTEN }}" name="question_type">
-                        <input type="hidden" value="{{ $course_id }}" name="course_id">
-                        <input type="hidden" value="{{ $questionString }}" name="question_string">
+                    <form action="<?php echo e(route('saveQuestionInQuestionBank')); ?>" method="post" class="form-inline pull-right">
+                        <?php echo e(csrf_field()); ?>
+
+                        <input type="hidden" value="<?php echo e(\App\Libraries\Enumerations\QuestionTypes::$WRITTEN); ?>" name="question_type">
+                        <input type="hidden" value="<?php echo e($course_id); ?>" name="course_id">
+                        <input type="hidden" value="<?php echo e($questionString); ?>" name="question_string">
                         <div class="form-group">
                             <label for="" >Question File Title</label>
                             <input type="text" name="question_title" class="form-control" required>
@@ -88,9 +89,9 @@
 
                 <div class="x_content">
                     <div class="col-md-8 col-md-offset-2">
-                        @if(count($questions)<1)
+                        <?php if(count($questions)<1): ?>
                         No Written Question Found
-                        @else
+                        <?php else: ?>
                         <table class="table">
                             <thead>
                                 <th>SL.</th>
@@ -98,33 +99,34 @@
                                 <th>Mark</th>
                             </thead>
                             <tbody>
-                            @php $i = 1 @endphp
-                            @foreach($questions as $question)
+                            <?php  $i = 1  ?>
+                            <?php $__currentLoopData = $questions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $question): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $question->question }}</td>
-                                    <td>{{ $question->default_mark }}</td>
+                                    <td><?php echo e($i); ?></td>
+                                    <td><?php echo e($question->question); ?></td>
+                                    <td><?php echo e($question->default_mark); ?></td>
                                 </tr>
-                            @php $i++ @endphp
-                            @endforeach
+                            <?php  $i++  ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
 
             </div>
-            @endif
-            @if(isset($mcqs))
+            <?php endif; ?>
+            <?php if(isset($mcqs)): ?>
 
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Mcq Questions</h2>
-                    <form action="{{ route('saveQuestionInQuestionBank') }}" method="post" class="form-inline pull-right">
-                        {{ csrf_field() }}
-                        <input type="hidden" value="{{ \App\Libraries\Enumerations\QuestionTypes::$MCQ }}" name="question_type">
-                        <input type="hidden" value="{{ $course_id }}" name="course_id">
-                        <input type="hidden" value="{{ $mcqString }}" name="question_string">
+                    <form action="<?php echo e(route('saveQuestionInQuestionBank')); ?>" method="post" class="form-inline pull-right">
+                        <?php echo e(csrf_field()); ?>
+
+                        <input type="hidden" value="<?php echo e(\App\Libraries\Enumerations\QuestionTypes::$MCQ); ?>" name="question_type">
+                        <input type="hidden" value="<?php echo e($course_id); ?>" name="course_id">
+                        <input type="hidden" value="<?php echo e($mcqString); ?>" name="question_string">
                         <div class="form-group">
                             <label for="" >Question File Title</label>
                             <input type="text" name="question_title" class="form-control" required>
@@ -138,9 +140,9 @@
 
                 <div class="x_content">
                     <div class="col-md-8 col-md-offset-2">
-                        @if(count($mcqs)<1)
+                        <?php if(count($mcqs)<1): ?>
                             No Mcq Question Found
-                        @else
+                        <?php else: ?>
                             <table class="table">
                                 <thead>
                                 <th>SL.</th>
@@ -149,38 +151,39 @@
                                 <th>Mark</th>
                                 </thead>
                                 <tbody>
-                                @php $i = 1 @endphp
-                                @foreach($mcqs as $mcq)
+                                <?php  $i = 1  ?>
+                                <?php $__currentLoopData = $mcqs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mcq): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td>{{ $i }}</td>
-                                        <td>{{ $mcq->question }}</td>
+                                        <td><?php echo e($i); ?></td>
+                                        <td><?php echo e($mcq->question); ?></td>
                                         <td>
-                                            <strong>I)</strong> {{ $mcq->option_1 }}<br>
-                                            <strong>II)</strong> {{ $mcq->option_2 }}<br>
-                                            <strong>III)</strong> {{ $mcq->option_3 }}<br>
-                                            <strong>IV)</strong> {{ $mcq->option_4 }}
+                                            <strong>I)</strong> <?php echo e($mcq->option_1); ?><br>
+                                            <strong>II)</strong> <?php echo e($mcq->option_2); ?><br>
+                                            <strong>III)</strong> <?php echo e($mcq->option_3); ?><br>
+                                            <strong>IV)</strong> <?php echo e($mcq->option_4); ?>
+
                                         </td>
-                                        <td>{{ $mcq->default_mark }}</td>
+                                        <td><?php echo e($mcq->default_mark); ?></td>
                                     </tr>
-                                    @php $i++ @endphp
-                                @endforeach
+                                    <?php  $i++  ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
-            @endif
+            <?php endif; ?>
 
         </div>
     </div>
 </div>
 <!-- /page content -->
 
-@stop
-@section('page_js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('page_js'); ?>
         <!-- Select2 -->
-<script src="{{ url('admin/vendors/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="<?php echo e(url('admin/vendors/select2/dist/js/select2.full.min.js')); ?>"></script>
 <!-- Select2 -->
 <script>
     $(document).ready(function() {
@@ -196,15 +199,15 @@
     });
 </script>
 <!-- /Select2 -->
-{{--getting lessons--}}
+
 <script>
     $(function () {
         $("#course_id").on('change', function () {
             $('#lesson_id').empty();
             $('#part').empty();
             var course_id = $('#course_id').val();
-            var url = '{{ route('getLessonsByCourseId') }}';
-            var token = '{{ Session::token() }}';
+            var url = '<?php echo e(route('getLessonsByCourseId')); ?>';
+            var token = '<?php echo e(Session::token()); ?>';
             $.ajax({
                 method: 'POST',
                 url: url,
@@ -228,8 +231,8 @@
             }).get();
             $('#part').empty();
             if(checkedValues.length > 0){
-                var url = '{{ route('getPartsByLessonIds') }}';
-                var token = '{{ Session::token() }}';
+                var url = '<?php echo e(route('getPartsByLessonIds')); ?>';
+                var token = '<?php echo e(Session::token()); ?>';
                 $.ajax({
                     method: 'POST',
                     url: url,
@@ -250,6 +253,7 @@
     }
 
 </script>
-{{--getting parts--}}
 
-@stop
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
