@@ -81,4 +81,9 @@ class TeacherCourseController extends Controller
         Session::flash('Success Message', 'Course removed from your list.');
         return redirect()->route('my-courses-list');
     }
+
+    public function getTeacherCourseListPage($teacherId)
+    {
+
+    }
 }

@@ -1,28 +1,26 @@
-@extends('admin.layouts.master')
-
-@section('title', 'Teacher List')
+<?php $__env->startSection('title', 'Teacher List'); ?>
 
 <!-- page content -->
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="right_col" role="main">
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                @if(isset($errors))
-                @if ( count($errors) > 0)
+                <?php if(isset($errors)): ?>
+                <?php if( count($errors) > 0): ?>
                     <div class="alert alert-danger">
                         <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
+                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><?php echo e($error); ?></li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </div>
-                @endif
-                @endif
-                @if(\Session::has('msg'))
+                <?php endif; ?>
+                <?php endif; ?>
+                <?php if(\Session::has('msg')): ?>
 
-                @endif
+                <?php endif; ?>
 
                 <div class="x_panel">
 
@@ -35,13 +33,13 @@
                     </div>
 
                     <div class="x_content">
-                        @if(count($teachers)<1)
+                        <?php if(count($teachers)<1): ?>
                             <div class="alert alert-dismissible fade in alert-info" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                                 </button>
                                 <strong>Sorry !</strong> No Data Found.
                             </div>
-                        @else
+                        <?php else: ?>
                         <?php $index = 0; ?>
                         <table class="table table-striped table-bordered dataTable no-footer" id="data">
                             <thead>
@@ -55,29 +53,29 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($teachers as $teacher)
+                            <?php $__currentLoopData = $teachers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $teacher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><strong>{{ ++$index }}</strong></td>
-                                    <td><img src="{{ $teacher->picture }}" class="img-circle" alt="user image" height="40" width="40"></td>
-                                    <td>{{ $teacher->name }}</td>
-                                    <td>{{ $teacher->email }}</td>
-                                    <td>{{ $teacher->iso.$teacher->phone }}</td>
+                                    <td><strong><?php echo e(++$index); ?></strong></td>
+                                    <td><img src="<?php echo e($teacher->picture); ?>" class="img-circle" alt="user image" height="40" width="40"></td>
+                                    <td><?php echo e($teacher->name); ?></td>
+                                    <td><?php echo e($teacher->email); ?></td>
+                                    <td><?php echo e($teacher->iso.$teacher->phone); ?></td>
                                     <td class="text-center">
                                         <button type="button"
-                                                data-id="{{ $teacher->user_id }}"
-                                                data-name="{{ $teacher->name }}"
-                                                data-email="{{ $teacher->email }}"
+                                                data-id="<?php echo e($teacher->user_id); ?>"
+                                                data-name="<?php echo e($teacher->name); ?>"
+                                                data-email="<?php echo e($teacher->email); ?>"
                                                 data class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
-                                      <a href="{{route('teachers-delete', ['id'=>$teacher->user_id])}}" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
-                                      <a href="{{route('teachers-courses', ['id'=>$teacher->id])}}"><button type="button" class="btn btn-info btn-sm"><i class="fa fa-list" aria-hidden="true"></i></button></a>
+                                      <a href="<?php echo e(route('teachers-delete', ['id'=>$teacher->user_id])); ?>" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                      <a href="<?php echo e(route('teachers-courses', ['id'=>$teacher->id])); ?>"><button type="button" class="btn btn-info btn-sm"><i class="fa fa-list" aria-hidden="true"></i></button></a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
-                        @endif
+                        <?php endif; ?>
                     </div>
 
                 </div>
@@ -96,10 +94,10 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Update Info</h4>
                     </div>
-                    <form action="{{ route('teachers-update') }}" method="post">
+                    <form action="<?php echo e(route('teachers-update')); ?>" method="post">
                     <div class="modal-body">
                             <div class="col-md-8">
-                                <input type="hidden" name="_token" value="{{ Session::token() }}">
+                                <input type="hidden" name="_token" value="<?php echo e(Session::token()); ?>">
                                 <table class="table">
                                     <input type="hidden" name="modal_id" id="modal_id">
                                     <tr>
@@ -129,7 +127,7 @@
 
             </div>
         </div>
-    {{--Update Modal End--}}
+    
 
     <!--Add Modal -->
         <div class="modal fade" id="addModal" role="dialog">
@@ -141,10 +139,10 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Add Info</h4>
                     </div>
-                    <form action="{{ route('teachers-add') }}" method="post">
+                    <form action="<?php echo e(route('teachers-add')); ?>" method="post">
                     <div class="modal-body">
                             <div class="col-md-8">
-                                <input type="hidden" name="_token" value="{{ Session::token() }}">
+                                <input type="hidden" name="_token" value="<?php echo e(Session::token()); ?>">
                                 <table class="table">
                                     <tr>
                                         <td colspan="2"><label>Name</label></td>
@@ -178,11 +176,11 @@
 
             </div>
         </div>
-    {{--add modal end--}}
-@stop
+    
+<?php $__env->stopSection(); ?>
 <!-- /page content -->
 
-@section('page_js')
+<?php $__env->startSection('page_js'); ?>
     <script>
         $('#updateModal').on('show.bs.modal', function (e) {
             $('#modal_id').val($(e.relatedTarget).data('id'));
@@ -220,4 +218,5 @@
             });
         });
     </script>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
