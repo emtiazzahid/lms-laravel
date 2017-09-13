@@ -176,6 +176,7 @@ class ExamController extends Controller
         Session::flash('Success Message', 'Written Exam successfully submitted. please wait until teacher judgement complete');
         return redirect()->route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]);
     }
+    
     public function postMcqQuestionAnswers(Request $request)
     {
 //        dd($request->all());

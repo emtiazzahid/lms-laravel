@@ -17,4 +17,10 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::post('student/exam/start/written/submit', ['uses' => 'ExamController@postWrittenQuestionAnswers', 'as' => 'postWrittenQuestionAnswers']);
                 Route::post('student/exam/start/mcq/submit', ['uses' => 'ExamController@postMcqQuestionAnswers', 'as' => 'postMcqQuestionAnswers']);
         });
+
+        Route::group(['middleware' => ['TeacherAuth']], function () {
+                Route::get('student/course/exam/submissions/{course_id?}', ['uses' => 'ExamSubmissionController@getStudentExamSubmissionsByCourse', 'as' => 'getStudentExamSubmissionsByCourse']);
+                Route::get('student/course/exam/submissions/details/{exam_id?}', ['uses' => 'ExamSubmissionController@getStudentSubmissionsPageByExam', 'as' => 'getStudentSubmissionsPageByExam']);
+                Route::get('student/course/exam/submissions/details/judge/{exam_submission_id}', ['uses' => 'ExamSubmissionController@judgeStudentExamSubmission', 'as' => 'judgeStudentExamSubmission']);
+        });
 });

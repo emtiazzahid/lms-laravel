@@ -77,7 +77,7 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                         @if($user_type == $teacher)
                         <li class="{{Route::currentRouteName()=='getExamListPage' ? 'active' : ''}}"><a href="{{ route('getExamListPage') }}"><i class="fa fa-building-o"></i> Exam List </a></li>
                         <li class="{{Route::currentRouteName()=='getExamCreatePage' ? 'active' : ''}}"><a href="{{ route('getExamCreatePage') }}"><i class="fa fa-building-o"></i> Exam Create </a></li>
-                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Student Exams </a></li>
+                        <li class="{{Route::currentRouteName()=='getStudentExamSubmissionsByCourse' ? 'active' : ''}}"><a href="{{ route('getStudentExamSubmissionsByCourse') }}"><i class="fa fa-building-o"></i> Student Exams </a></li>
                         @endif
                         @if($user_type == $student)
                         <li class=""><a href="#"><i class="fa fa-building-o"></i> Result Records </a></li>

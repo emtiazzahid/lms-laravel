@@ -23,9 +23,9 @@ class Exam extends Model
     {
         return $this->belongsTo('App\Model\QuestionBank','question_file_id');
     }
-    public function submission()
+    public function submissions()
     {
-        return $this->belongsTo('App\Model\ExamSubmission','id','exam_id');
+        return $this->hasMany('App\Model\ExamSubmission');
     }
 
 }

@@ -11,10 +11,14 @@ class ExamSubmission extends Model
 
     public function exam()
     {
-        return $this->belongsTo('App\Model\Exam','exam_id','id');
+        return $this->belongsTo('App\Model\Exam');
     }
     public function student()
     {
-        return $this->belongsTo('App\Model\Student');
+        return $this->belongsTo('App\Model\Student','student_id','user_id');
+    }
+    public function answer_file()
+    {
+        return $this->belongsTo('App\Model\AnswerBank');
     }
 }
