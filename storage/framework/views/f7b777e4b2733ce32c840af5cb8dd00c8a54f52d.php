@@ -64,7 +64,7 @@
                                     <td><?php echo e(\App\Libraries\TimeStampToAgoHelper::time_elapsed_string($examSubmission->created_at)); ?></td>
                                     <td>
                                         <?php if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$FAILED): ?>
-                                            Failled
+                                            Failed
                                         <?php elseif($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$PASSED): ?>
                                             Passed
                                         <?php elseif($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$JUDGING): ?>
@@ -75,6 +75,8 @@
                                     <td>
                                         <?php if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$JUDGING): ?>
                                         <a href="<?php echo e(route('judgeStudentExamSubmission',['exam_submission_id'=>$examSubmission->id])); ?>" class="btn btn-info btn-sm">Judge</a>
+                                        <?php else: ?>
+                                        <a href="<?php echo e(route('viewStudentExamSubmissionFile',['exam_submission_id'=>$examSubmission->id])); ?>" class="btn btn-info btn-sm">Show Submission</a>
                                         <?php endif; ?>
                                     </td>
 

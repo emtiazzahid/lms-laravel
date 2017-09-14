@@ -94,7 +94,7 @@
                                     <td>{{ $exam->question_file->question_title }}</td>
                                     <td>{{ $exam->passing_score }}</td>
                                     <td>
-                                        <a href="{{ route('getStudentSubmissionsPageByExam',['exam_id'=>$exam->id]) }}" class="btn btn-info btn-sm">Show Submissions <span class="badge">{{ count($exam->submissions) }}</span></a>
+                                        <a href="{{ route('getStudentSubmissionsPageByExam',['exam_id'=>$exam->id]) }}" class="btn btn-info btn-sm" @if(count($exam->submissions)<1) disabled @endif>Show Submissions <span class="badge">{{ count($exam->submissions) }}</span></a>
                                     </td>
 
                                 </tr>

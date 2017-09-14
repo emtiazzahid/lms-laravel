@@ -66,7 +66,7 @@
                                     <td>{{ \App\Libraries\TimeStampToAgoHelper::time_elapsed_string($examSubmission->created_at) }}</td>
                                     <td>
                                         @if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$FAILED)
-                                            Failled
+                                            Failed
                                         @elseif($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$PASSED)
                                             Passed
                                         @elseif($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$JUDGING)
@@ -77,6 +77,8 @@
                                     <td>
                                         @if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$JUDGING)
                                         <a href="{{ route('judgeStudentExamSubmission',['exam_submission_id'=>$examSubmission->id]) }}" class="btn btn-info btn-sm">Judge</a>
+                                        @else
+                                        <a href="{{ route('viewStudentExamSubmissionFile',['exam_submission_id'=>$examSubmission->id]) }}" class="btn btn-info btn-sm">Show Submission</a>
                                         @endif
                                     </td>
 

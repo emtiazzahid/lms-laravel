@@ -5,21 +5,6 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                @if(isset($errors))
-                    @if ( count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                @endif
-                @if(\Session::has('msg'))
-
-                @endif
-
                 <div class="x_panel">
 
                     <div class="x_title">
@@ -43,13 +28,6 @@
                                 <strong>Sorry !</strong>Something Wrong! No Written Question Data Found.
                             </div>
                         @else
-                            <form method="post" action="{{ route('postWrittenQuestionAnswers') }}">
-                                {{--<input type="hidden" name="exam_id" value="{{ $exam->id }}">--}}
-                                {{--<input type="hidden" name="question_type" value="{{ $exam->question_file->question_type }}">--}}
-                                {{--<input type="hidden" name="course_id" value="{{ $exam->course_id }}">--}}
-                                {{--<input type="hidden" name="teacher_id" value="{{ $exam->teacher_id }}">--}}
-                                {{--<input type="hidden" name="passing_score" value="{{ $exam->passing_score }}">--}}
-                                {{ csrf_field() }}
                                 <table class="table table-bordered">
                                     <thead>
                                         <th>Sl.</th>
@@ -63,20 +41,15 @@
                                             <tr>
                                                 <td>{{ ++$sl }}</td>
                                                 <td>
-                                                    <input type="hidden" name="id[]" value="{{ $answerFile->id[$key] }}">
-                                                    <input type="hidden" name="question[]" value="{{ $answerFile->question[$key] }}">
-                                                    <input type="hidden" name="default_mark[]" value="{{ $answerFile->default_mark[$key] }}">
                                                     <strong>Question:</strong> {{ $answerFile->question[$key] }}<br>
                                                     <strong>Answer:</strong> <p>{{ $answerFile->answer[$key] }}</p>
                                                 </td>
                                                 <td>{{ $answerFile->default_mark[$key] }}</td>
-                                                <td><input type="number" max="{{ $answerFile->default_mark[$key] }}" min="0" name="given_mark[]" class="form-control"></td>
+                                                <td><input type="number" max="{{ $answerFile->default_mark[$key] }}" min="0" name="given_mark[]" class="form-control" readonly></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <button class="btn btn-block btn-info btn-lg">Confirm and Submit Answers Judgement</button>
-                            </form>
                         @endif
                     </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\Enumerations\QuestionTypes;
 use App\Model\Exam;
 use App\Model\ExamSubmission;
 use App\Model\TeacherCourse;
@@ -47,14 +48,62 @@ class ExamSubmissionController extends Controller
     {
         $examSubmission = ExamSubmission::with(['student'=>function($q){
             $q->with('user');
-        },'answer_file'])->where('id',$examSubmissionId)->first();
+        },'answer_file','exam'=>function($q){
+            $q->with(['course','teacher'=>function($q){
+                $q->with('user');
+            }]);
+        }])->where('id',$examSubmissionId)->first();
+
+        if ($examSubmission->answer_file->question_type == QuestionTypes::$WRITTEN){
+            $answerFile = json_decode($examSubmission->answer_file->question_answer_body);
+            $data = [
+                'examSubmission' => $examSubmission,
+                'answerFile' => $answerFile,
+            ];
+//            dd($answerFile->id[0]);
+//            dd($examSubmission->toArray());
+            return view('teacher.exam.written_exam_judge',$data);
+
+        }elseif ($examSubmission->answer_file->question_type == QuestionTypes::$MCQ){
+            dd('sorry! in current system, mcq exam submissions will judge by computer');
+        }
 
 
-        $data = [
-            'examSubmissions' => $examSubmission,
-        ];
+    }
+    
+    public function viewStudentExamSubmissionFile($examSubmissionId)
+    {
+        $examSubmission = ExamSubmission::with(['student'=>function($q){
+            $q->with('user');
+        },'answer_file','exam'=>function($q){
+            $q->with(['course','teacher'=>function($q){
+                $q->with('user');
+            }]);
+        }])->where('id',$examSubmissionId)->first();
         dd($examSubmission->toArray());
-        return view('teacher.exam.exam_submission_list',$data);
+
+        if ($examSubmission->answer_file->question_type == QuestionTypes::$WRITTEN){
+            $answerFile = json_decode($examSubmission->answer_file->question_answer_body);
+            $data = [
+                'examSubmission' => $examSubmission,
+                'answerFile' => $answerFile,
+            ];
+            return view('teacher.exam.written_exam_show',$data);
+
+        }elseif ($examSubmission->answer_file->question_type == QuestionTypes::$MCQ){
+            $mcqAnswerFile = json_decode($examSubmission->answer_file->question_answer_body);
+            $data = [
+                'examSubmission' => $examSubmission,
+                'answerFile' => $mcqAnswerFile,
+            ];
+
+            dd($mcqAnswerFile);
+
+
+
+
+            return view('teacher.exam.mcq_exam_show',$data);
+        }
     }
     
     

@@ -93,7 +93,7 @@
                                     <td><?php echo e($exam->question_file->question_title); ?></td>
                                     <td><?php echo e($exam->passing_score); ?></td>
                                     <td>
-                                        <a href="<?php echo e(route('getStudentSubmissionsPageByExam',['exam_id'=>$exam->id])); ?>" class="btn btn-info btn-sm">Show Submissions <span class="badge"><?php echo e(count($exam->submissions)); ?></span></a>
+                                        <a href="<?php echo e(route('getStudentSubmissionsPageByExam',['exam_id'=>$exam->id])); ?>" class="btn btn-info btn-sm" <?php if(count($exam->submissions)<1): ?> disabled <?php endif; ?>>Show Submissions <span class="badge"><?php echo e(count($exam->submissions)); ?></span></a>
                                     </td>
 
                                 </tr>
