@@ -177,6 +177,42 @@ class ExamController extends Controller
         return redirect()->route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]);
     }
     
+    public function postWrittenQuestionAnswersWithJudgement(Request $request)
+    {
+//        dd($request->all());
+        $answeredFile = AnswerBank::find($request->answer_file_id);
+        $givenTotalMark = 0.00;
+        $defaultTotalMark = 0.00;
+        foreach ($request->id as $key => $value){
+            $givenTotalMark += $request->given_mark[$key];
+            $defaultTotalMark += $request->default_mark[$key];
+        }
+
+        $answerFileString = json_encode($request->except(['question_type','exam_id','course_id','teacher_id','_token']));
+
+
+        $answeredFile->question_answer_body = $answerFileString;
+        $answeredFile->save();
+
+
+        $achievedScore = floatval(($givenTotalMark*100)/$defaultTotalMark);
+        if ($achievedScore >= floatval($request->passing_score))
+            $result_status = ResultStatus::$PASSED;
+        else
+            $result_status = ResultStatus::$FAILED;
+
+
+
+        $examSubmission = ExamSubmission::find($request->exam_submission_id);
+        $examSubmission->passed_score = $achievedScore;
+        $examSubmission->achieve_mark = $givenTotalMark;
+        $examSubmission->result_status = $result_status;
+        $examSubmission->save();
+
+        Session::flash('Success Message', 'Written Exam successfully judgement complete');
+        return redirect()->route('getStudentSubmissionsPageByExam',['exam_id'=>$request->exam_id]);
+    }
+    
     public function postMcqQuestionAnswers(Request $request)
     {
 //        dd($request->all());

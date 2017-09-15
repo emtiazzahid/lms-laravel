@@ -70,7 +70,7 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                     </ul>
                 </li>
                     <?php endif; ?>
-                    <?php if($user_type == $teacher || $user_type == $student): ?>
+                    <?php if($user_type == $teacher): ?>
                 <li>
                     <a><i class="fa fa-hospital-o"></i> Exam <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -78,11 +78,6 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                         <li class="<?php echo e(Route::currentRouteName()=='getExamListPage' ? 'active' : ''); ?>"><a href="<?php echo e(route('getExamListPage')); ?>"><i class="fa fa-building-o"></i> Exam List </a></li>
                         <li class="<?php echo e(Route::currentRouteName()=='getExamCreatePage' ? 'active' : ''); ?>"><a href="<?php echo e(route('getExamCreatePage')); ?>"><i class="fa fa-building-o"></i> Exam Create </a></li>
                         <li class="<?php echo e(Route::currentRouteName()=='getStudentExamSubmissionsByCourse' ? 'active' : ''); ?>"><a href="<?php echo e(route('getStudentExamSubmissionsByCourse')); ?>"><i class="fa fa-building-o"></i> Student Exams </a></li>
-                        <?php endif; ?>
-                        <?php if($user_type == $student): ?>
-                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Result Records </a></li>
-                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Incomplete Exams </a></li>
-                        <li class=""><a href="#"><i class="fa fa-building-o"></i> Exam Records </a></li>
                         <?php endif; ?>
                     </ul>
                 </li>

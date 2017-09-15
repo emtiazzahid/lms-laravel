@@ -1,4 +1,5 @@
 <?php $__env->startSection('title', 'E-Learning'); ?>
+
 <?php $__env->startSection('content'); ?>
     <div class="right_col" role="main">
 
@@ -20,8 +21,9 @@
                 <?php endif; ?>
 
                 <div class="x_panel">
-
+                    <div class="text-center" id="remaining_type"></div>
                     <div class="x_title">
+
                         <div class="row">
                             <h2>Written Exam</h2>
                             <h2 class="pull-right"><strong>Course:</strong> <?php echo e($exam->course->title); ?> | <strong>Teacher:</strong> <?php echo e($exam->teacher->user->name); ?></h2>
@@ -41,7 +43,7 @@
                                 <strong>Sorry !</strong>Something Wrong! No Written Question Data Found.
                             </div>
                         <?php else: ?>
-                            <form method="post" action="<?php echo e(route('postWrittenQuestionAnswers')); ?>">
+                            <form method="post" action="<?php echo e(route('postWrittenQuestionAnswers')); ?>" id="examFile">
                                 <input type="hidden" name="exam_id" value="<?php echo e($exam->id); ?>">
                                 <input type="hidden" name="question_type" value="<?php echo e($exam->question_file->question_type); ?>">
                                 <input type="hidden" name="course_id" value="<?php echo e($exam->course_id); ?>">
@@ -87,5 +89,24 @@
 
     </div>
 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('page_js'); ?>
+    <script src="<?php echo e(url('js/jquery.countdown.js')); ?>"></script>
+    <script>
+        var time = '00:00:05';
+        var timeParts = time.split(":");
+        var totalMilliseconds = (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000) + (+timeParts[2] * 1000);
+
+        var fiveSeconds = new Date().getTime() +totalMilliseconds;
+        $('#remaining_type').countdown(fiveSeconds, function(event) {
+            var $this = $(this).html(event.strftime(''
+                            + '<h3>%H hr '
+                            + '%M min '
+                            + '%S sec </h3>'))
+                    .on('finish.countdown', function (event) {
+                        $('#examFile').submit();
+                    });
+        });
+    </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

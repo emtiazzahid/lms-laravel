@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/teacher/courses/remove/{id}', ['uses' => 'TeacherCourseController@delete', 'as' => 'my-courses-delete']);
     
         //    Routes for Course Lessons Crud
-        Route::get('/teacher/courses/lessons/{course_id?}', ['uses' => 'TeacherCourseLessonController@getIndex', 'as' => 'course-lessons-list']);
+        Route::get('/teacher/course/lessons/{course_id?}', ['uses' => 'TeacherCourseLessonController@getIndex', 'as' => 'course-lessons-list']);
         Route::post('/teacher/courses/lessons/add', ['uses' => 'TeacherCourseLessonController@add', 'as' => 'lesson-add']);
         Route::post('/teacher/courses/lessons/update', ['uses' => 'TeacherCourseLessonController@update', 'as' => 'lesson-update']);
         Route::get('/teacher/courses/lessons/remove/{course_id}/{id}', ['uses' => 'TeacherCourseLessonController@delete', 'as' => 'lesson-delete']);

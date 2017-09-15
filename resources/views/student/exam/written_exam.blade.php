@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @section('title', 'E-Learning')
+
 @section('content')
     <div class="right_col" role="main">
 
@@ -21,8 +22,9 @@
                 @endif
 
                 <div class="x_panel">
-
+                    <div class="text-center" id="remaining_type"></div>
                     <div class="x_title">
+
                         <div class="row">
                             <h2>Written Exam</h2>
                             <h2 class="pull-right"><strong>Course:</strong> {{ $exam->course->title }} | <strong>Teacher:</strong> {{ $exam->teacher->user->name }}</h2>
@@ -42,7 +44,7 @@
                                 <strong>Sorry !</strong>Something Wrong! No Written Question Data Found.
                             </div>
                         @else
-                            <form method="post" action="{{ route('postWrittenQuestionAnswers') }}">
+                            <form method="post" action="{{ route('postWrittenQuestionAnswers') }}" id="examFile">
                                 <input type="hidden" name="exam_id" value="{{ $exam->id }}">
                                 <input type="hidden" name="question_type" value="{{ $exam->question_file->question_type }}">
                                 <input type="hidden" name="course_id" value="{{ $exam->course_id }}">
@@ -87,4 +89,23 @@
 
     </div>
 
+@stop
+@section('page_js')
+    <script src="{{ url('js/jquery.countdown.js') }}"></script>
+    <script>
+        var time = '{{ $exam->duration }}';
+        var timeParts = time.split(":");
+        var totalMilliseconds = (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000) + (+timeParts[2] * 1000);
+
+        var fiveSeconds = new Date().getTime() +totalMilliseconds;
+        $('#remaining_type').countdown(fiveSeconds, function(event) {
+            var $this = $(this).html(event.strftime(''
+                            + '<h3>%H hr '
+                            + '%M min '
+                            + '%S sec </h3>'))
+                    .on('finish.countdown', function (event) {
+                        $('#examFile').submit();
+                    });
+        });
+    </script>
 @stop

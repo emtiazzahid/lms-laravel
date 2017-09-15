@@ -106,6 +106,7 @@
                                         </button>
 
                                       <a href="{{route('lesson-delete', ['course_id' => $course_id,'id'=>$lesson->id])}}" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                      <a href="{{route('getLessonDetails', ['id'=>$lesson->id])}}" title="Details"><button type="button" class="btn btn-primary btn-sm"> Details</button></a>
                                     </td>
                                 </tr>
                             @endforeach

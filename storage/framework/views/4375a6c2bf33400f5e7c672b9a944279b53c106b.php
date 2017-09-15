@@ -106,6 +106,7 @@
                                         </button>
 
                                       <a href="<?php echo e(route('lesson-delete', ['course_id' => $course_id,'id'=>$lesson->id])); ?>" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                      <a href="<?php echo e(route('getLessonDetails', ['id'=>$lesson->id])); ?>" title="Details"><button type="button" class="btn btn-primary btn-sm"> Details</button></a>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -127,7 +127,11 @@ class StudentCourseController extends Controller
                 dd('sorry! this course is not belongs to any teacher right now');
             }
             $loggedStudentId = Auth::user()->id;
-            $exams = Exam::with(['submission'=>function($q) use ($loggedStudentId){$q->where('student_id','=',$loggedStudentId);},'course','question_file','teacher'=>function($q){$q->with(['user']);}])
+            $exams = Exam::with(['submissions'=>function($q) use ($loggedStudentId){
+                $q->where('student_id','=',$loggedStudentId);
+            },'course','question_file','teacher'=>function($q){
+                $q->with(['user']);
+            }])
                 ->where('course_id',$teacher_course->course_id)
                 ->where('teacher_id',$teacher_course->teacher_id)
                 ->get();

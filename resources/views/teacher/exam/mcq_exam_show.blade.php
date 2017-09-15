@@ -7,76 +7,80 @@
          <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
 
-               <div class="x_title">
+               <div class="x_title text-center">
                   <div class="row">
                      <h2>Mcq Exam</h2>
                      <h2 class="pull-right"><strong>Course:</strong> {{ $examSubmission->exam->course->title }} | <strong>Teacher:</strong> {{ $examSubmission->exam->teacher->user->name }}
                         | <strong>Student:</strong> {{ $examSubmission->student->user->name }} </h2>
                   </div>
                   <div class="row pull-right">
-                     <h2>Duration: {{ $examSubmission->exam->duration }} | Passing Score: {{ $examSubmission->exam->passing_score }} %</h2>
+                     <h2><strong>Duration:</strong> {{ $examSubmission->exam->duration }} | <strong>Passing Score:</strong> {{ $examSubmission->exam->passing_score }} % | </h2>
+                     <h2>
+                        <strong>Total Mark :</strong>{{ $examSubmission->total_mark }} |
+                        <strong>Achieve Mark :</strong>{{ $examSubmission->achieve_mark }} |
+                        <strong>Result Status :</strong>@if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$PASSED)
+                           <span class="label label-success" style="color:white">Passed</span>
+                        @elseif($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$FAILED)
+                           <span class="label label-danger" style="color:white">Failed</span>
+                        @endif
+                     </h2>
                   </div>
+
 
                   <div class="clearfix"></div>
                </div>
 
                <div class="x_content">
-                  @if(count($mcqQuestions)<1)
+                  @if(count($answerFile->id)<1)
                      <div class="alert alert-dismissible fade in alert-info" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                         </button>
                         <strong>Sorry !</strong>Something Wrong! No Mcq Question Data Found.
                      </div>
                   @else
-                     <form method="post" action="{{ route('postMcqQuestionAnswers') }}">
-                        <input type="hidden" name="exam_id" value="{{ $exam->id }}">
-                        <input type="hidden" name="question_type" value="{{ $exam->question_file->question_type }}">
-                        <input type="hidden" name="course_id" value="{{ $exam->course_id }}">
-                        <input type="hidden" name="teacher_id" value="{{ $exam->teacher_id }}">
-                        <input type="hidden" name="passing_score" value="{{ $exam->passing_score }}">
-                        {{ csrf_field() }}
+                     {{--<form method="post" action="{{ route('postMcqQuestionAnswers') }}">--}}
+                        {{--<input type="hidden" name="exam_id" value="{{ $exam->id }}">--}}
+                        {{--<input type="hidden" name="question_type" value="{{ $exam->question_file->question_type }}">--}}
+                        {{--<input type="hidden" name="course_id" value="{{ $exam->course_id }}">--}}
+                        {{--<input type="hidden" name="teacher_id" value="{{ $exam->teacher_id }}">--}}
+                        {{--<input type="hidden" name="passing_score" value="{{ $exam->passing_score }}">--}}
+                        {{--{{ csrf_field() }}--}}
                         <table class="table table-bordered">
                            <thead>
                            <th>Sl.</th>
                            <th>Mcq and Answer</th>
                            <th>Mark</th>
+                           <th>Achieved Mark</th>
                            </thead>
                            <tbody>
                            @php $sl = 0 @endphp
-                           @foreach($mcqQuestions as $key =>  $question)
+                           @foreach($answerFile->id as $key =>  $answer)
                               <tr>
                                  <td>{{ ++$sl }}</td>
                                  <td>
-                                    <input type="hidden" name="id[]" value="{{ $question->id }}">
-                                    <input type="hidden" name="lesson_id[]" value="{{ $question->lesson_id }}">
-                                    <input type="hidden" name="part_number[]" value="{{ $question->part_number }}">
-                                    <input type="hidden" name="question[]" value="{{ $question->question }}">
-                                    <input type="hidden" name="option_1[]" value="{{ $question->option_1 }}">
-                                    <input type="hidden" name="option_2[]" value="{{ $question->option_2 }}">
-                                    <input type="hidden" name="option_3[]" value="{{ $question->option_3 }}">
-                                    <input type="hidden" name="option_4[]" value="{{ $question->option_4 }}">
-                                    <input type="hidden" name="right_answer[]" value="{{ $question->right_answer }}">
-                                    <input type="hidden" name="description[]" value="{{ $question->description }}">
-                                    <input type="hidden" name="default_mark[]" value="{{ $question->default_mark }}">
-                                    Question : {{ $question->question }}<br>
-                                    Option A : {{ $question->option_1 }}<br>
-                                    Option B : {{ $question->option_2 }}<br>
-                                    Option C : {{ $question->option_3 }}<br>
-                                    Option D : {{ $question->option_4 }}<br>
-                                    Answer:
-                                    <input type="radio" name="answer_for_question_{{ $key }}" value="" checked> No Answer
-                                    <input type="radio" name="answer_for_question_{{ $key }}" value="1"> A
-                                    <input type="radio" name="answer_for_question_{{ $key }}" value="2"> B
-                                    <input type="radio" name="answer_for_question_{{ $key }}" value="3"> C
-                                    <input type="radio" name="answer_for_question_{{ $key }}" value="4"> D
+                                    Question : {{ $answerFile->question[$key] }}<br>
+                                    Option A : {{ $answerFile->option_1[$key] }}<br>
+                                    Option B : {{ $answerFile->option_2[$key] }}<br>
+                                    Option C : {{ $answerFile->option_3[$key] }}<br>
+                                    Option D : {{ $answerFile->option_4[$key] }}<br>
+                                    <strong>Right Answer:</strong>
+                                    {{ $answerFile->right_answer[$key] }}<br>
+                                    <strong>Given Answer:</strong>
+                                    @php $answer_for_question = 'answer_for_question_'.$key @endphp
+                                    {{  $answerFile->$answer_for_question  or 'no answer'}}
                                  </td>
-                                 <td>{{ $question->default_mark }}</td>
+                                 <td>{{ $answerFile->default_mark[$key] }}</td>
+                                 <td>
+                                    @if( (int) $answerFile->right_answer[$key] == (int) $answerFile->$answer_for_question)
+                                       {{ $answerFile->default_mark[$key] }}
+                                    @else
+                                       0
+                                    @endif
+                                 </td>
                               </tr>
                            @endforeach
                            </tbody>
                         </table>
-                        <button class="btn btn-block btn-info btn-lg">Confirm and Submit Answers</button>
-                     </form>
                   @endif
                </div>
 

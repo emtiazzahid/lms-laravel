@@ -43,12 +43,14 @@
                                 <strong>Sorry !</strong>Something Wrong! No Written Question Data Found.
                             </div>
                         <?php else: ?>
-                            <form method="post" action="<?php echo e(route('postWrittenQuestionAnswers')); ?>">
-                                
-                                
-                                
-                                
-                                
+                            <form method="post" action="<?php echo e(route('postWrittenQuestionAnswersWithJudgement')); ?>">
+                                <input type="hidden" name="exam_id" value="<?php echo e($examSubmission->exam->id); ?>">
+                                <input type="hidden" name="question_type" value="<?php echo e($examSubmission->exam->question_file->question_type); ?>">
+                                <input type="hidden" name="course_id" value="<?php echo e($examSubmission->exam->course_id); ?>">
+                                <input type="hidden" name="teacher_id" value="<?php echo e($examSubmission->exam->teacher_id); ?>">
+                                <input type="hidden" name="passing_score" value="<?php echo e($examSubmission->exam->passing_score); ?>">
+                                <input type="hidden" name="answer_file_id" value="<?php echo e($examSubmission->answer_file_id); ?>">
+                                <input type="hidden" name="exam_submission_id" value="<?php echo e($examSubmission->id); ?>">
                                 <?php echo e(csrf_field()); ?>
 
                                 <table class="table table-bordered">
@@ -65,10 +67,14 @@
                                                 <td><?php echo e(++$sl); ?></td>
                                                 <td>
                                                     <input type="hidden" name="id[]" value="<?php echo e($answerFile->id[$key]); ?>">
+                                                    <input type="hidden" name="lesson_id[]" value="<?php echo e($answerFile->lesson_id[$key]); ?>">
+                                                    <input type="hidden" name="part_number[]" value="<?php echo e($answerFile->part_number[$key]); ?>">
                                                     <input type="hidden" name="question[]" value="<?php echo e($answerFile->question[$key]); ?>">
+                                                    <input type="hidden" name="description[]" value="<?php echo e($answerFile->description[$key]); ?>">
                                                     <input type="hidden" name="default_mark[]" value="<?php echo e($answerFile->default_mark[$key]); ?>">
+
                                                     <strong>Question:</strong> <?php echo e($answerFile->question[$key]); ?><br>
-                                                    <strong>Answer:</strong> <p><?php echo e($answerFile->answer[$key]); ?></p>
+                                                    <strong>Answer:</strong> <textarea readonly class="form-control" name="answer[]"><?php echo e($answerFile->answer[$key]); ?></textarea>
                                                 </td>
                                                 <td><?php echo e($answerFile->default_mark[$key]); ?></td>
                                                 <td><input type="number" max="<?php echo e($answerFile->default_mark[$key]); ?>" min="0" name="given_mark[]" class="form-control"></td>

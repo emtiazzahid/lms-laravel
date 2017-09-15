@@ -23,5 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::get('student/course/exam/submissions/details/{exam_id?}', ['uses' => 'ExamSubmissionController@getStudentSubmissionsPageByExam', 'as' => 'getStudentSubmissionsPageByExam']);
                 Route::get('student/course/exam/submissions/details/judge/{exam_submission_id}', ['uses' => 'ExamSubmissionController@judgeStudentExamSubmission', 'as' => 'judgeStudentExamSubmission']);
                 Route::get('student/course/exam/submissions/details/view/{exam_submission_id}', ['uses' => 'ExamSubmissionController@viewStudentExamSubmissionFile', 'as' => 'viewStudentExamSubmissionFile']);
+                Route::post('student/exam/written/judge/submit', ['uses' => 'ExamController@postWrittenQuestionAnswersWithJudgement', 'as' => 'postWrittenQuestionAnswersWithJudgement']);
         });
+        
 });

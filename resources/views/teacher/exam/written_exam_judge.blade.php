@@ -43,12 +43,14 @@
                                 <strong>Sorry !</strong>Something Wrong! No Written Question Data Found.
                             </div>
                         @else
-                            <form method="post" action="{{ route('postWrittenQuestionAnswers') }}">
-                                {{--<input type="hidden" name="exam_id" value="{{ $exam->id }}">--}}
-                                {{--<input type="hidden" name="question_type" value="{{ $exam->question_file->question_type }}">--}}
-                                {{--<input type="hidden" name="course_id" value="{{ $exam->course_id }}">--}}
-                                {{--<input type="hidden" name="teacher_id" value="{{ $exam->teacher_id }}">--}}
-                                {{--<input type="hidden" name="passing_score" value="{{ $exam->passing_score }}">--}}
+                            <form method="post" action="{{ route('postWrittenQuestionAnswersWithJudgement') }}">
+                                <input type="hidden" name="exam_id" value="{{ $examSubmission->exam->id }}">
+                                <input type="hidden" name="question_type" value="{{ $examSubmission->exam->question_file->question_type }}">
+                                <input type="hidden" name="course_id" value="{{ $examSubmission->exam->course_id }}">
+                                <input type="hidden" name="teacher_id" value="{{ $examSubmission->exam->teacher_id }}">
+                                <input type="hidden" name="passing_score" value="{{ $examSubmission->exam->passing_score }}">
+                                <input type="hidden" name="answer_file_id" value="{{ $examSubmission->answer_file_id }}">
+                                <input type="hidden" name="exam_submission_id" value="{{ $examSubmission->id }}">
                                 {{ csrf_field() }}
                                 <table class="table table-bordered">
                                     <thead>
@@ -64,10 +66,14 @@
                                                 <td>{{ ++$sl }}</td>
                                                 <td>
                                                     <input type="hidden" name="id[]" value="{{ $answerFile->id[$key] }}">
+                                                    <input type="hidden" name="lesson_id[]" value="{{ $answerFile->lesson_id[$key] }}">
+                                                    <input type="hidden" name="part_number[]" value="{{ $answerFile->part_number[$key] }}">
                                                     <input type="hidden" name="question[]" value="{{ $answerFile->question[$key] }}">
+                                                    <input type="hidden" name="description[]" value="{{ $answerFile->description[$key] }}">
                                                     <input type="hidden" name="default_mark[]" value="{{ $answerFile->default_mark[$key] }}">
+
                                                     <strong>Question:</strong> {{ $answerFile->question[$key] }}<br>
-                                                    <strong>Answer:</strong> <p>{{ $answerFile->answer[$key] }}</p>
+                                                    <strong>Answer:</strong> <textarea readonly class="form-control" name="answer[]">{{ $answerFile->answer[$key] }}</textarea>
                                                 </td>
                                                 <td>{{ $answerFile->default_mark[$key] }}</td>
                                                 <td><input type="number" max="{{ $answerFile->default_mark[$key] }}" min="0" name="given_mark[]" class="form-control"></td>

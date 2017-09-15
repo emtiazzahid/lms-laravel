@@ -60,7 +60,7 @@ class ExamSubmissionController extends Controller
                 'examSubmission' => $examSubmission,
                 'answerFile' => $answerFile,
             ];
-//            dd($answerFile->id[0]);
+//            dd($answerFile);
 //            dd($examSubmission->toArray());
             return view('teacher.exam.written_exam_judge',$data);
 
@@ -80,7 +80,7 @@ class ExamSubmissionController extends Controller
                 $q->with('user');
             }]);
         }])->where('id',$examSubmissionId)->first();
-        dd($examSubmission->toArray());
+//        dd($examSubmission->toArray());
 
         if ($examSubmission->answer_file->question_type == QuestionTypes::$WRITTEN){
             $answerFile = json_decode($examSubmission->answer_file->question_answer_body);
@@ -88,6 +88,7 @@ class ExamSubmissionController extends Controller
                 'examSubmission' => $examSubmission,
                 'answerFile' => $answerFile,
             ];
+//            dd($examSubmission->toArray());
             return view('teacher.exam.written_exam_show',$data);
 
         }elseif ($examSubmission->answer_file->question_type == QuestionTypes::$MCQ){
@@ -96,12 +97,7 @@ class ExamSubmissionController extends Controller
                 'examSubmission' => $examSubmission,
                 'answerFile' => $mcqAnswerFile,
             ];
-
-            dd($mcqAnswerFile);
-
-
-
-
+//            dd($examSubmission->toArray());
             return view('teacher.exam.mcq_exam_show',$data);
         }
     }

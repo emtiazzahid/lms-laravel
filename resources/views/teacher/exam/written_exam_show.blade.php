@@ -14,7 +14,16 @@
                                 | <strong>Student:</strong> {{ $examSubmission->student->user->name }} </h2>
                         </div>
                        <div class="row pull-right">
-                            <h2>Duration: {{ $examSubmission->exam->duration }} | Passing Score: {{ $examSubmission->exam->passing_score }} %</h2>
+                            <h2><strong>Duration: </strong>{{ $examSubmission->exam->duration }} | <strong>Passing Score: </strong>{{ $examSubmission->exam->passing_score }} % |</h2>
+                           <h2>
+                               <strong>Total Mark :</strong>{{ $examSubmission->total_mark }} |
+                               <strong>Achieve Mark :</strong>{{ $examSubmission->achieve_mark }} |
+                               <strong>Result Status :</strong>@if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$PASSED)
+                                   <span class="label label-success" style="color:white">Passed</span>
+                               @elseif($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$FAILED)
+                                   <span class="label label-danger" style="color:white">Failed</span>
+                               @endif
+                           </h2>
                         </div>
 
                         <div class="clearfix"></div>
@@ -42,10 +51,10 @@
                                                 <td>{{ ++$sl }}</td>
                                                 <td>
                                                     <strong>Question:</strong> {{ $answerFile->question[$key] }}<br>
-                                                    <strong>Answer:</strong> <p>{{ $answerFile->answer[$key] }}</p>
+                                                    <strong>Answer:</strong> <p>{{ $answerFile->answer[$key] or 'Answer not found' }}</p>
                                                 </td>
                                                 <td>{{ $answerFile->default_mark[$key] }}</td>
-                                                <td><input type="number" max="{{ $answerFile->default_mark[$key] }}" min="0" name="given_mark[]" class="form-control" readonly></td>
+                                                <td><input type="number" max="{{ $answerFile->default_mark[$key] }}" min="0" name="given_mark[]" class="form-control" readonly value="{{ $answerFile->given_mark[$key] }}"></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
