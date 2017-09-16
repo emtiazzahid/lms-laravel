@@ -9,7 +9,7 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-{{--                {!! Breadcrumbs::render('lessons') !!}--}}
+                {!! Breadcrumbs::render('getCourseLessonsForStudent',$teacher_course_id) !!}
                 @if(isset($errors))
                 @if ( count($errors) > 0)
                     <div class="alert alert-danger">
@@ -47,7 +47,6 @@
                                 <th>SL</th>
                                 <th>Lesson No </th>
                                 <th>Title</th>
-                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -61,15 +60,6 @@
                                         </a>
                                     </td>
                                     <td>{{ $lesson->title }}</td>
-                                    <td class="text-center">
-                                        <button type="button"
-                                                data-id="{{ $lesson->id }}"
-                                                data-number="{{ $lesson->number }}"
-                                                data-title="{{ $lesson->title }}"
-                                                data class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </button>
-                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

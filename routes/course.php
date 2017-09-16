@@ -33,7 +33,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['StudentAuth']], function () {
         //    Routes for Student Course
-        Route::get('/student/courses/list', ['uses' => 'StudentCourseController@getAllCoursesForStudent', 'as' => 'student-courses-list']);
+        Route::get('/student/course/list', ['uses' => 'StudentCourseController@getAllCoursesForStudent', 'as' => 'student-courses-list']);
         Route::get('/student/courses/own/list', ['uses' => 'StudentController@getLoggedStudentCourses', 'as' => 'logged-student-courses-list']);
         Route::get('/student/courses/own/details/{teacher_course_id}', ['uses' => 'StudentCourseController@getCourseDetailsPage', 'as' => 'student-course-details']);
         Route::get('/student/courses/own/details/{teacher_course_id}/enroll', ['uses' => 'StudentCourseController@attachStudentCourse', 'as' => 'student-course-enroll']);

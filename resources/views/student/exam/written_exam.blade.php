@@ -1,6 +1,16 @@
 @extends('admin.layouts.master')
 @section('title', 'E-Learning')
-
+@section('page_css')
+    <style>
+    #examFile
+    {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    </style>
+@stop
 @section('content')
     <div class="right_col" role="main">
 
@@ -70,7 +80,7 @@
                                                     <input type="hidden" name="description[]" value="{{ $question->description }}">
                                                     <input type="hidden" name="default_mark[]" value="{{ $question->default_mark }}">
                                                     Question : {{ $question->question }}<br>
-                                                    Answer: <textarea class="form-control" name="answer[]"></textarea>
+                                                    Answer: <textarea class="form-control answerField" name="answer[]"></textarea>
                                                 </td>
                                                 <td>{{ $question->default_mark }}</td>
                                             </tr>
@@ -93,6 +103,19 @@
 @section('page_js')
     <script src="{{ url('js/jquery.countdown.js') }}"></script>
     <script>
+        (function($){
+            $.fn.disableSelection = function() {
+                return this
+                        .attr('unselectable', 'on')
+                        .css('user-select', 'none')
+                        .on('selectstart', false);
+            };
+        })(jQuery);
+
+        $('.answerField').bind("cut copy paste",function(e) {
+            e.preventDefault();
+        });
+
         var time = '{{ $exam->duration }}';
         var timeParts = time.split(":");
         var totalMilliseconds = (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000) + (+timeParts[2] * 1000);

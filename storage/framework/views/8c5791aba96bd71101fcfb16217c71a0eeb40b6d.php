@@ -13,6 +13,9 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
+                <?php echo Breadcrumbs::render('student-course-details',$teacherCourseId); ?>
+
+
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Course - <?php echo e($teacherCourse->course->title); ?> Details</h2>

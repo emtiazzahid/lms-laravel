@@ -161,7 +161,33 @@ Breadcrumbs::register('coursesForStudents', function($breadcrumbs)
     $breadcrumbs->parent('dashboard');
     $breadcrumbs->push('Courses', route('student-courses-list'));
 });
-// Dashboard > Courses > My (Teacher)
+// Dashboard > Courses > Details
+Breadcrumbs::register('student-course-details', function($breadcrumbs , $teacherCourseId)
+{
+    $breadcrumbs->parent('coursesForStudents');
+    $breadcrumbs->push('Details', route('student-course-details', $teacherCourseId));
+});
+// Dashboard > Courses > Details > Lessons
+Breadcrumbs::register('getCourseLessonsForStudent', function($breadcrumbs , $teacher_course_id)
+{
+    $breadcrumbs->parent('student-course-details',$teacher_course_id);
+    $breadcrumbs->push('Lessons', route('getCourseLessonsForStudent', $teacher_course_id));
+});
+// Dashboard > Courses > Details > Lessons > Details
+Breadcrumbs::register('getStudentCourseLessonDetails', function($breadcrumbs , $teacher_course_id , $lessonId)
+{
+    $breadcrumbs->parent('getCourseLessonsForStudent',$teacher_course_id);
+    $breadcrumbs->push('Details', route('getStudentCourseLessonDetails', $teacher_course_id));
+});
+
+// Dashboard > Courses > Exams
+Breadcrumbs::register('getCourseExamsForStudent', function($breadcrumbs , $teacherCourseId)
+{
+    $breadcrumbs->parent('coursesForStudents');
+    $breadcrumbs->push('Exams', route('getCourseExamsForStudent', $teacherCourseId));
+});
+
+// Dashboard > Courses > My (Student)
 Breadcrumbs::register('student_own_courses', function($breadcrumbs)
 {
     $breadcrumbs->parent('courses');

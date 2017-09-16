@@ -1,5 +1,15 @@
 <?php $__env->startSection('title', 'E-Learning'); ?>
-
+<?php $__env->startSection('page_css'); ?>
+    <style>
+    #examFile
+    {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    </style>
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
     <div class="right_col" role="main">
 
@@ -70,7 +80,7 @@
                                                     <input type="hidden" name="description[]" value="<?php echo e($question->description); ?>">
                                                     <input type="hidden" name="default_mark[]" value="<?php echo e($question->default_mark); ?>">
                                                     Question : <?php echo e($question->question); ?><br>
-                                                    Answer: <textarea class="form-control" name="answer[]"></textarea>
+                                                    Answer: <textarea class="form-control answerField" name="answer[]"></textarea>
                                                 </td>
                                                 <td><?php echo e($question->default_mark); ?></td>
                                             </tr>
@@ -93,7 +103,27 @@
 <?php $__env->startSection('page_js'); ?>
     <script src="<?php echo e(url('js/jquery.countdown.js')); ?>"></script>
     <script>
-        var time = '00:00:05';
+        (function($){
+            $.fn.disableSelection = function() {
+                return this
+                        .attr('unselectable', 'on')
+                        .css('user-select', 'none')
+                        .on('selectstart', false);
+            };
+        })(jQuery);
+
+        $('#examFile').data('serialize',$('#examFile').serialize()); // On load save form current state
+
+        $(window).bind('beforeunload', function(e){
+            if($('#examFile').serialize()!=$('#examFile').data('serialize'))return true;
+            else e=null; // i.e; if form state change show box not.
+        });
+
+        $('.answerField').bind("cut copy paste",function(e) {
+            e.preventDefault();
+        });
+
+        var time = '<?php echo e($exam->duration); ?>';
         var timeParts = time.split(":");
         var totalMilliseconds = (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000) + (+timeParts[2] * 1000);
 

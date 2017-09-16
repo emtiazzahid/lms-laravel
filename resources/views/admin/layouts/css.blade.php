@@ -29,6 +29,18 @@
 
 <!-- custom css -->
 <link href="{{ url('css/perasale_hms.css') }}" rel="stylesheet">
+<style>
+    .loader {
+        opacity: 0.7;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url({{ url('img/double_ring.svg') }}) 50% 50% no-repeat rgba(185, 243, 255, 0.19);
+    }
+</style>
 
 
 

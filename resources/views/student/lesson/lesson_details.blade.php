@@ -16,7 +16,7 @@
     <div class="row">
 
         <div class="col-md-12 col-sm-12 col-xs-12">
-{{--            {!! Breadcrumbs::render('lesson_details',$teacher_lesson->number) !!}--}}
+            {!! Breadcrumbs::render('getStudentCourseLessonDetails',$teacherCourseId , $lesson_id) !!}
             @if(isset($errors))
                 @if ( count($errors) > 0)
                     <div class="alert alert-danger">

@@ -63,6 +63,7 @@ class StudentCourseController extends Controller
             'teacherCourse' => $teacherCourse,
             'teacherCourseLessons' => $teacherCourseLessons,
             'courseTaken' => $courseTaken,
+            'teacherCourseId' => $teacherCourseId,
         ];
         return view('student.course.course_details',$data);
     }
@@ -94,6 +95,7 @@ class StudentCourseController extends Controller
                 ->get();
             $data = [
                 'lessons'=>$lessons,
+                'teacher_course_id'=>$teacher_course_id,
             ];
 
         return view('student.lesson.lessons_list',$data);
@@ -102,10 +104,13 @@ class StudentCourseController extends Controller
     public function getStudentCourseLessonDetails($id)
     {
         $teacher_lesson = TeacherCourseLesson::where('id',$id)->first();
+
         if (!$teacher_lesson){
             Session::flash('Error Message', 'Lesson Data Not Found.');
             return redirect()->back();
         }
+        $teacherCourse = TeacherCourse::where('teacher_id',$teacher_lesson->teacher_id)
+            ->where('course_id',$teacher_lesson->course_id)->first();
         $teacher_info = User::where('id',$teacher_lesson->teacher_id)->first();
         $lesson_videos = VideoLesson::where('lesson_id',$id)->where('teacher_id',$teacher_lesson->teacher_id)->get();
         $lesson_files = FileLesson::where('lesson_id',$id)->where('teacher_id',$teacher_lesson->teacher_id)->get();
@@ -114,7 +119,8 @@ class StudentCourseController extends Controller
             'lesson_id' => $id,
             'lesson_videos' => $lesson_videos,
             'lesson_files' => $lesson_files,
-            'teacher_info' => $teacher_info
+            'teacher_info' => $teacher_info,
+            'teacherCourseId' => $teacherCourse->id,
         ];
 
         return view('student.lesson.lesson_details',$data);
@@ -138,6 +144,7 @@ class StudentCourseController extends Controller
 //            dd($exams->toArray());
             $data = [
                 'exams'=>$exams,
+                'teacher_course_id'=>$teacher_course_id,
             ];
 
         return view('student.exam.exam_list',$data);

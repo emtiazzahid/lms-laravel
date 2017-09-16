@@ -7,6 +7,7 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
+                <?php echo Breadcrumbs::render('getCourseLessonsForStudent',$teacher_course_id); ?>
 
                 <?php if(isset($errors)): ?>
                 <?php if( count($errors) > 0): ?>
@@ -45,7 +46,6 @@
                                 <th>SL</th>
                                 <th>Lesson No </th>
                                 <th>Title</th>
-                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -60,15 +60,6 @@
                                         </a>
                                     </td>
                                     <td><?php echo e($lesson->title); ?></td>
-                                    <td class="text-center">
-                                        <button type="button"
-                                                data-id="<?php echo e($lesson->id); ?>"
-                                                data-number="<?php echo e($lesson->number); ?>"
-                                                data-title="<?php echo e($lesson->title); ?>"
-                                                data class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateModal">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </button>
-                                    </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>

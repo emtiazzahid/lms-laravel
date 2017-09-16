@@ -115,4 +115,9 @@
       });
       return confirm;
     });
+
+    $(window).load(function() {
+        $(".loader").fadeOut("slow");
+    })
+
 </script>
