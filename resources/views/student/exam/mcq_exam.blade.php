@@ -21,7 +21,7 @@
             @endif
 
             <div class="x_panel">
-
+               <div class="text-center" id="remaining_type"></div>
                <div class="x_title">
                   <div class="row">
                      <h2>Mcq Exam</h2>
@@ -101,4 +101,23 @@
 
    </div>
 
+@stop
+@section('page_js')
+   <script src="{{ url('js/jquery.countdown.js') }}"></script>
+   <script>
+      var time = '{{ $exam->duration }}';
+      var timeParts = time.split(":");
+      var totalMilliseconds = (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000) + (+timeParts[2] * 1000);
+
+      var fiveSeconds = new Date().getTime() +totalMilliseconds;
+      $('#remaining_type').countdown(fiveSeconds, function(event) {
+         var $this = $(this).html(event.strftime(''
+                         + '<h3>%H hr '
+                         + '%M min '
+                         + '%S sec </h3>'))
+                 .on('finish.countdown', function (event) {
+                    $('#examFile').submit();
+                 });
+      });
+   </script>
 @stop

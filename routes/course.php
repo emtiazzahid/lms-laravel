@@ -9,12 +9,14 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/courses/update', ['uses' => 'CourseController@update', 'as' => 'courses-update']);
         Route::get('/courses/remove/{id}', ['uses' => 'CourseController@delete', 'as' => 'courses-delete']);
     });
+    
     Route::group(['middleware' => ['AdminAuth']], function () {
         //    Routes for Course Listing Settings 
         Route::get('/courses/listing', ['uses' => 'CourseController@getCourseListingPage', 'as' => 'courses-listing-settings']);
         Route::post('/courses/trending/add', ['uses' => 'CourseController@postTrendingCourse', 'as' => 'trending-courses-add']);
         Route::get('/courses/trending/remove{id}', ['uses' => 'CourseController@trendingCourseDelete', 'as' => 'trending-courses-delete']);
     });
+    
     Route::group(['middleware' => ['TeacherAuth']], function () {
         //    Routes for Teacher Course Crud
         Route::get('/teacher/courses', ['uses' => 'TeacherCourseController@getIndex', 'as' => 'my-courses-list']);
@@ -31,8 +33,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['StudentAuth']], function () {
         //    Routes for Student Course
-        Route::get('/student/courses', ['uses' => 'StudentCourseController@getAllCoursesForStudent', 'as' => 'student-courses-list']);
-        Route::get('/student/courses/own', ['uses' => 'StudentController@getLoggedStudentCourses', 'as' => 'logged-student-courses-list']);
+        Route::get('/student/courses/list', ['uses' => 'StudentCourseController@getAllCoursesForStudent', 'as' => 'student-courses-list']);
+        Route::get('/student/courses/own/list', ['uses' => 'StudentController@getLoggedStudentCourses', 'as' => 'logged-student-courses-list']);
         Route::get('/student/courses/own/details/{teacher_course_id}', ['uses' => 'StudentCourseController@getCourseDetailsPage', 'as' => 'student-course-details']);
         Route::get('/student/courses/own/details/{teacher_course_id}/enroll', ['uses' => 'StudentCourseController@attachStudentCourse', 'as' => 'student-course-enroll']);
 

@@ -8,6 +8,8 @@
         <div class="row">
 
             <div class="col-md-12 col-sm-12 col-xs-12">
+                <?php echo Breadcrumbs::render('listing_settings'); ?>
+
                 <?php if(isset($errors)): ?>
                 <?php if( count($errors) > 0): ?>
                     <div class="alert alert-danger">

@@ -7,6 +7,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/students/add', ['uses' => 'StudentController@add', 'as' => 'students-add']);
         Route::post('/students/update', ['uses' => 'StudentController@update', 'as' => 'students-update']);
         Route::get('/students/remove/{id}', ['uses' => 'StudentController@delete', 'as' => 'students-delete']);
+
+        
+        Route::get('/student/courses/{id}', ['uses' => 'StudentController@getStudentCourseListPage', 'as' => 'student-courses']);
+   
     });
 
 });

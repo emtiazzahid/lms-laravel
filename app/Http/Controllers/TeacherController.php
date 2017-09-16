@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\Enumerations\CourseStatus;
 use App\Libraries\Enumerations\UserTypes;
 use Illuminate\Http\Request;
 use App\Model\Teacher;
@@ -72,5 +73,21 @@ class TeacherController extends Controller
 
         Session::flash('Success Message', 'Teacher deleted successfully.');
         return redirect()->route('teachers-list');
+    }
+
+    public function getTeacherCourseListPage($teacherId)
+    {
+        $teacher_id = $teacherId;
+        $teacher_courses = DB::table('teacher_courses')
+            ->join('courses','courses.id','teacher_courses.course_id')
+            ->where('teacher_courses.teacher_id',$teacher_id)
+            ->select(['teacher_courses.*','courses.title as course_title', 'courses.short_code as course_short_code'])
+            ->get();
+        $data = [
+            'teacher_id'=>$teacher_id,
+            'teacher_courses'=>$teacher_courses
+        ];
+//        dd($data);
+        return view('admin.teachers.teacher_course_list',$data);
     }
 }

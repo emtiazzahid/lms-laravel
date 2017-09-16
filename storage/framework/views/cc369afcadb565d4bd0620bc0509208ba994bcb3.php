@@ -37,11 +37,11 @@ $admin = \App\Libraries\Enumerations\UserTypes::$ADMIN;
                  <li>
                       <a><i class="fa fa-hospital-o"></i> Course <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                      <?php if($user_type == $admin): ?>
-                      <li class="<?php echo e(Route::currentRouteName()=='courses-listing-settings' ? 'active' : ''); ?>"><a href="<?php echo e(route('courses-listing-settings')); ?>"><i class="fa fa-building-o"></i> Courses List Setting </a></li>
-                      <?php endif; ?>
                       <?php if($user_type == $teacher || $user_type == $admin): ?>
                       <li class="<?php echo e(Route::currentRouteName()=='courses-list' ? 'active' : ''); ?>"><a href="<?php echo e(Route('courses-list')); ?>"><i class="fa fa-building-o"></i> Courses </a></li>
+                      <?php endif; ?>
+                      <?php if($user_type == $admin): ?>
+                          <li class="<?php echo e(Route::currentRouteName()=='courses-listing-settings' ? 'active' : ''); ?>"><a href="<?php echo e(route('courses-listing-settings')); ?>"><i class="fa fa-building-o"></i> Courses List Setting </a></li>
                       <?php endif; ?>
                       <?php if($user_type == $teacher): ?>
                       <li class="<?php echo e(Route::currentRouteName()=='my-courses-list' ? 'active' : ''); ?>"><a href="<?php echo e(Route('my-courses-list')); ?>"><i class="fa fa-building-o"></i> My Courses </a></li>

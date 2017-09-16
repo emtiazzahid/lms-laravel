@@ -10,6 +10,7 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
 {{--                {!! Breadcrumbs::render('lessons') !!}--}}
+                {!! Breadcrumbs::render('getStudentExamSubmissionsByCourse') !!}
                 @if(isset($errors))
                 @if ( count($errors) > 0)
                     <div class="alert alert-danger">
@@ -51,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-success btn-md">Show Exam Submissions</button>
+                                <button type="submit" class="btn btn-success btn-md">Show Exam Attempts</button>
                             </div>
                         </form>
                     </div>
@@ -61,7 +62,7 @@
                 <div class="x_panel">
 
                     <div class="x_title">
-                        <h2>Exam Submission List</h2>
+                        <h2>Exam Attempts List</h2>
                         <div class="clearfix"></div>
                     </div>
 

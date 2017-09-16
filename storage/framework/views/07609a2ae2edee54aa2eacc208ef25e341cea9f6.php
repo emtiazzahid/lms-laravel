@@ -7,6 +7,8 @@
 
         <div class="row">
             <div class="col-md-12">
+                <?php echo Breadcrumbs::render('student_own_courses'); ?>
+
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Currently In Progress </h2>

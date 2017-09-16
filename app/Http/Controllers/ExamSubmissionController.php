@@ -38,6 +38,7 @@ class ExamSubmissionController extends Controller
 
 
         $data = [
+            'examId' => $examId,
             'examSubmissions' => $examSubmissions,
         ];
 //        dd($examSubmissions->toArray());
@@ -85,6 +86,7 @@ class ExamSubmissionController extends Controller
         if ($examSubmission->answer_file->question_type == QuestionTypes::$WRITTEN){
             $answerFile = json_decode($examSubmission->answer_file->question_answer_body);
             $data = [
+                'examSubmissionId' => $examSubmissionId,
                 'examSubmission' => $examSubmission,
                 'answerFile' => $answerFile,
             ];
@@ -94,6 +96,7 @@ class ExamSubmissionController extends Controller
         }elseif ($examSubmission->answer_file->question_type == QuestionTypes::$MCQ){
             $mcqAnswerFile = json_decode($examSubmission->answer_file->question_answer_body);
             $data = [
+                'examSubmissionId' => $examSubmissionId,
                 'examSubmission' => $examSubmission,
                 'answerFile' => $mcqAnswerFile,
             ];

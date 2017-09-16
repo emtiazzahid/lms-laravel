@@ -9,6 +9,8 @@
 <div class="right_col" role="main">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
+            {!! Breadcrumbs::render('question_files_create') !!}
+
             @if(isset($errors))
                 @if ( count($errors) > 0)
                     <div class="alert alert-danger">

@@ -9,6 +9,9 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
+                {!! Breadcrumbs::render('students') !!}
+
+
                 @if(isset($errors))
                 @if ( count($errors) > 0)
                     <div class="alert alert-danger">
@@ -71,6 +74,7 @@
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
                                       <a href="{{route('students-delete', ['id'=>$student->user_id])}}" class="delete" title="Delete"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                                      <a href="{{route('student-courses', ['id'=>$student->user_id])}}"><button type="button" class="btn btn-info btn-sm"><i class="fa fa-list" aria-hidden="true"></i> Show Courses</button></a>
                                     </td>
                                 </tr>
                             @endforeach

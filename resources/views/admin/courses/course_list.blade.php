@@ -25,6 +25,9 @@
 
                 @endif
                     {!! Breadcrumbs::render('courses') !!}
+
+
+
                 <div class="x_panel">
 
                     <div class="x_title">

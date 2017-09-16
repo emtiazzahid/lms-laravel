@@ -1,14 +1,13 @@
 @extends('admin.layouts.master')
-@section('title', 'E-Learning | My Courses')
+@section('title', 'E-Learning | Student Courses')
 @section('content')
         <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
         <div class="clearfix"></div>
-
+        {!! Breadcrumbs::render('student_courses', $studentId) !!}
         <div class="row">
             <div class="col-md-12">
-                {!! Breadcrumbs::render('student_own_courses') !!}
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Currently In Progress </h2>
@@ -32,10 +31,9 @@
                                                 <p>{{ $iCourse->teacher_course->course->short_code }}</p>
                                             </div>
                                         </div>
-                                        <a href="{{ route('student-course-details',['teacher_course_id' => $iCourse->teacher_course->id]) }}">
-                                            <div class="caption">
-                                                <p>{{ $iCourse->teacher_course->course->title }}</p>
-                                            </div></a>
+                                        <div class="caption">
+                                            <p>{{ $iCourse->teacher_course->course->title }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -72,10 +70,9 @@
                                                 <p>{{ $cCourse->teacher_course->course->short_code }}</p>
                                             </div>
                                         </div>
-                                        <a href="{{ route('student-course-details',['teacher_course_id' => $cCourse->teacher_course->id]) }}">
                                         <div class="caption">
                                             <p>{{ $cCourse->teacher_course->course->title }}</p>
-                                        </div></a>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach

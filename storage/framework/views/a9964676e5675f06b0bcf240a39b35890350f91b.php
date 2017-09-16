@@ -1,4 +1,4 @@
-<?php $__env->startSection('title','Exam Submissions List'); ?>
+<?php $__env->startSection('title', 'Teacher Courses List'); ?>
 
 <!-- page content -->
 <?php $__env->startSection('content'); ?>
@@ -7,7 +7,9 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <?php echo Breadcrumbs::render('getStudentSubmissionsPageByExam', $examId); ?>
+
+                <?php echo Breadcrumbs::render('teacher_courses', $teacher_id); ?>
+
 
                 <?php if(isset($errors)): ?>
                 <?php if( count($errors) > 0): ?>
@@ -23,19 +25,20 @@
                 <?php if(\Session::has('msg')): ?>
 
                 <?php endif; ?>
+
                 <div class="x_panel">
 
                     <div class="x_title">
-                        <h2>Exam Submission List</h2>
+                        <h2>Teacher Courses List</h2>
                         <div class="clearfix"></div>
                     </div>
 
                     <div class="x_content">
-                        <?php if(count($examSubmissions)<1): ?>
+                        <?php if(count($teacher_courses)<1): ?>
                             <div class="alert alert-dismissible fade in alert-info" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                                 </button>
-                                <strong>Sorry !</strong> No Submissions Found.
+                                <strong>Sorry !</strong> No Data Found.
                             </div>
                         <?php else: ?>
                         <?php $index = 0; ?>
@@ -43,44 +46,18 @@
                             <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Student </th>
-                                <th>Answer File</th>
-                                <th>Total Mark</th>
-                                <th>Achieve Mark</th>
-                                <th>Passed Score</th>
-                                <th>Submitted at</th>
-                                <th>Result Status</th>
-                                <th>Action</th>
+                                <th>Course Title</th>
+                                <th>Short Code</th>
+                                <th>Attached Date</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $__currentLoopData = $examSubmissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $examSubmission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $teacher_courses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $t_course): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td><strong><?php echo e(++$index); ?></strong></td>
-                                    <td><?php echo e($examSubmission->student->user->name); ?></td>
-                                    <td>Answer - <?php echo e($examSubmission->answer_file_id); ?></td>
-                                    <td><?php echo e($examSubmission->total_mark); ?></td>
-                                    <td><?php echo e($examSubmission->achieve_mark); ?></td>
-                                    <td><?php echo e($examSubmission->passed_score); ?></td>
-                                    <td><?php echo e(\App\Libraries\TimeStampToAgoHelper::time_elapsed_string($examSubmission->created_at)); ?></td>
-                                    <td>
-                                        <?php if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$FAILED): ?>
-                                            Failed
-                                        <?php elseif($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$PASSED): ?>
-                                            Passed
-                                        <?php elseif($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$JUDGING): ?>
-                                            Judging
-                                        <?php endif; ?>
-                                    </td>
-
-                                    <td>
-                                        <?php if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$JUDGING): ?>
-                                        <a href="<?php echo e(route('judgeStudentExamSubmission',['exam_submission_id'=>$examSubmission->id])); ?>" class="btn btn-info btn-sm">Judge</a>
-                                        <?php else: ?>
-                                        <a href="<?php echo e(route('viewStudentExamSubmissionFile',['exam_submission_id'=>$examSubmission->id])); ?>" class="btn btn-info btn-sm">Show Submission</a>
-                                        <?php endif; ?>
-                                    </td>
-
+                                    <td><?php echo e($t_course->course_title); ?></td>
+                                    <td><?php echo e($t_course->course_short_code); ?></td>
+                                    <td><?php echo e($t_course->created_at); ?></td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
@@ -89,6 +66,7 @@
                     </div>
 
                 </div>
+
             </div>
         </div>
 

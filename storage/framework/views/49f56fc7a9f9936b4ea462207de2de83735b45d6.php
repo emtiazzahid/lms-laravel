@@ -6,6 +6,8 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
+                <?php echo Breadcrumbs::render('question_list'); ?>
+
                 <?php if(isset($errors)): ?>
                 <?php if( count($errors) > 0): ?>
                     <div class="alert alert-danger">
@@ -28,7 +30,8 @@
                         </div>
 
                         <div class="x_content">
-                            <form class="form-inline" method="get" action="<?php echo e(route('question-list')); ?>">
+                            <div class="col-md-6 col-md-offset-3">
+                            <form class="form" method="get" action="<?php echo e(route('question-list')); ?>">
                                 <div class="form-group">
                                     <label>Course :</label>
                                     <select name="course" id="course_id" class="form-control">
@@ -54,6 +57,7 @@
                                 <button type="submit" class="btn btn-default">Show</button>
                                 </div>
                             </form>
+                            </div>
                         </div>
 
                     </div>

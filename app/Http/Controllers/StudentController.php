@@ -96,4 +96,24 @@ class StudentController extends Controller
 
         return view('student.course.my_courses',$data);
     }
+
+    public function getStudentCourseListPage($studentId)
+    {
+        $incompleteCourses = StudentCourse::with(['teacher_course'=>function($q){$q->with(['course','teacher'=>function($q){$q->with(['user']);}]);}])
+            ->where('student_id',$studentId)
+            ->where('status',CourseStudentStatus::$INCOMPLETE)
+            ->paginate(10,['*'], 'incompleteCourses');
+
+        $completedCourses = StudentCourse::with(['teacher_course'=>function($q){$q->with(['course','teacher'=>function($q){$q->with(['user']);}]);}])
+            ->where('student_id',$studentId)
+            ->where('status',CourseStudentStatus::$COMPLETED)
+            ->paginate(10,['*'], 'completedCourses');
+        $data  = [
+            'studentId' => $studentId,
+            'incompleteCourses' => $incompleteCourses,
+            'completedCourses' => $completedCourses,
+        ];
+
+        return view('admin.students.student_courses',$data);
+    }
 }

@@ -1,14 +1,13 @@
-@extends('admin.layouts.master')
-@section('title', 'E-Learning | My Courses')
-@section('content')
+<?php $__env->startSection('title', 'E-Learning | Student Courses'); ?>
+<?php $__env->startSection('content'); ?>
         <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
         <div class="clearfix"></div>
+        <?php echo Breadcrumbs::render('student_courses', $studentId); ?>
 
         <div class="row">
             <div class="col-md-12">
-                {!! Breadcrumbs::render('student_own_courses') !!}
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Currently In Progress </h2>
@@ -23,24 +22,24 @@
                     <div class="x_content">
 
                         <div class="row">
-                            @foreach($incompleteCourses as $iCourse)
+                            <?php $__currentLoopData = $incompleteCourses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $iCourse): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="col-md-55">
                                     <div class="thumbnail">
                                         <div class="image view view-first">
-                                            <img style="width: 100%; display: block;" src="{{ url($iCourse->teacher_course->course->featured_image) }}" alt="image" />
+                                            <img style="width: 100%; display: block;" src="<?php echo e(url($iCourse->teacher_course->course->featured_image)); ?>" alt="image" />
                                             <div class="mask">
-                                                <p>{{ $iCourse->teacher_course->course->short_code }}</p>
+                                                <p><?php echo e($iCourse->teacher_course->course->short_code); ?></p>
                                             </div>
                                         </div>
-                                        <a href="{{ route('student-course-details',['teacher_course_id' => $iCourse->teacher_course->id]) }}">
-                                            <div class="caption">
-                                                <p>{{ $iCourse->teacher_course->course->title }}</p>
-                                            </div></a>
+                                        <div class="caption">
+                                            <p><?php echo e($iCourse->teacher_course->course->title); ?></p>
+                                        </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
-                        {!! $incompleteCourses->render() !!}
+                        <?php echo $incompleteCourses->render(); ?>
+
                         </div>
                     </div>
                 </div>
@@ -63,24 +62,24 @@
                     </div>
                     <div class="x_content">
                         <div class="row">
-                            @foreach($completedCourses as $cCourse)
+                            <?php $__currentLoopData = $completedCourses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cCourse): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="col-md-55">
                                     <div class="thumbnail">
                                         <div class="image view view-first">
-                                            <img style="width: 100%; display: block;" src="{{ url($cCourse->teacher_course->course->featured_image) }}" alt="image" />
+                                            <img style="width: 100%; display: block;" src="<?php echo e(url($cCourse->teacher_course->course->featured_image)); ?>" alt="image" />
                                             <div class="mask">
-                                                <p>{{ $cCourse->teacher_course->course->short_code }}</p>
+                                                <p><?php echo e($cCourse->teacher_course->course->short_code); ?></p>
                                             </div>
                                         </div>
-                                        <a href="{{ route('student-course-details',['teacher_course_id' => $cCourse->teacher_course->id]) }}">
                                         <div class="caption">
-                                            <p>{{ $cCourse->teacher_course->course->title }}</p>
-                                        </div></a>
+                                            <p><?php echo e($cCourse->teacher_course->course->title); ?></p>
+                                        </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
-                        {!! $completedCourses->render() !!}
+                        <?php echo $completedCourses->render(); ?>
+
                     </div>
                 </div>
             </div>
@@ -89,4 +88,5 @@
 </div>
 <!-- /page content -->
 
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin.layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
