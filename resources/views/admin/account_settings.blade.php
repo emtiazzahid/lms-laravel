@@ -96,8 +96,8 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Mobile Phone <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="hidden" id="countryCode" name="countryCode" value="{{ $user_detail->country_code or '' }}">
                                     <input type="hidden" id="iso2" name="iso2" value="{{ $user_detail->iso or '' }}">
+                                    <input type="hidden" id="countryCode" name="countryCode" value="{{ $user_detail->country_code or '' }}">
                                     <input type="tel" id="phone_number" name="phone_number" value="{{ $user_detail->phone or '' }}" class="form-control" placeholder="" >
                                     <span id="valid-msg" class="hide"><i class="fa fa-check" aria-hidden="true"></i> Valid</span>
                                     <span id="error-msg" class="hide"><i class="fa fa-times" aria-hidden="true"></i> Invalid</span>

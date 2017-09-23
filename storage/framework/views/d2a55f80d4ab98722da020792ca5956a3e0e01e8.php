@@ -1,8 +1,5 @@
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="App Settings" href="<?php echo e(route('app_settings')); ?>">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo e(route('logout')); ?>">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
@@ -27,13 +24,6 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="<?php echo e(route('account-settings')); ?>"> Profile</a></li>
-                    <?php if(Auth::user()->category == \App\Libraries\Enumerations\UserTypes::$ADMIN): ?>
-                    <li>
-                      <a href="<?php echo e(route('app_settings')); ?>">
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <?php endif; ?>
                     <li><a href="<?php echo e(route('logout')); ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>

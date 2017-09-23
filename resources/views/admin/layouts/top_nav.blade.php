@@ -1,8 +1,5 @@
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="App Settings" href="{{ route('app_settings') }}">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route('logout') }}">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
@@ -26,13 +23,6 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <li><a href="{{ route('account-settings') }}"> Profile</a></li>
-                    @if(Auth::user()->category == \App\Libraries\Enumerations\UserTypes::$ADMIN)
-                    <li>
-                      <a href="{{ route('app_settings') }}">
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    @endif
                     <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>

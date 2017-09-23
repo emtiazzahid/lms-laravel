@@ -64,6 +64,7 @@
                 <div class="left">
                    <input type="checkbox" name="remember" />  <label for="" > Remember me</label>
                 </div>
+                <input id="" type="hidden" name="urlPath" value="{{$urlPath}}">
                <div>
                 <button type="submit" class="btn btn-default submit">Login</button>
               </div>

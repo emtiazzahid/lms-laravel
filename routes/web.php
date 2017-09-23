@@ -24,7 +24,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function () {return view('admin.blank_page');});
     Route::get('/dashboard',['uses'=>'DashboardController@getDashboardPage', 'as'=>'dashboard']);
     Route::get('/teachers',['uses'=>'TeacherController@getTeachersPage', 'as'=>'teacher_list']);
-    Route::get('/settings/app',['uses'=>'SettingController@getSettingsPage', 'as'=>'app_settings']);
     Route::post('/profile-update',['uses'=>'AccountController@UserProfileUpdate', 'as'=>'user-profile-update']);
     Route::post('/user_image_upload',['uses'=>'AccountController@postUserImageUpload', 'as'=>'user_image_upload']);
     Route::post('/password-change',['uses'=>'ResetPasswordController@postPasswordChange','as'=>'password-change']);

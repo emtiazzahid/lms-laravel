@@ -30,7 +30,7 @@ class ResetPasswordController extends Controller
             Session::flash('Success Message', 'Password Successfully Changed. Login to Continue');
             return redirect()->back();
         }
-        Alert::error('Error', 'Old Password is Incorrect! Please Try Again');
+        Session::flash('Error Message', 'Old Password is Incorrect! Please Try Again');
         return redirect()->back();
     }
 }

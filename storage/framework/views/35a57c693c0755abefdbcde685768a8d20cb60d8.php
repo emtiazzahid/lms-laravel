@@ -26,12 +26,12 @@
 
         <!-- page content -->
 <div class="right_col" role="main">
-    <?php echo Breadcrumbs::render('account_settings'); ?>
-
     <div class="">
-
-
-
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Account Settings</h3>
+            </div>
+        </div>
         <?php if(isset($errors)): ?>
         <?php if(count($errors) > 0): ?>
             <div class="alert alert-danger">
@@ -51,7 +51,6 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                            <h3>Account Settings</h3>
                     <div class="x_title">
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -96,8 +95,8 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Mobile Phone <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="hidden" id="countryCode" name="countryCode" value="<?php echo e(isset($user_detail->country_code) ? $user_detail->country_code : ''); ?>">
                                     <input type="hidden" id="iso2" name="iso2" value="<?php echo e(isset($user_detail->iso) ? $user_detail->iso : ''); ?>">
+                                    <input type="hidden" id="countryCode" name="countryCode" value="<?php echo e(isset($user_detail->country_code) ? $user_detail->country_code : ''); ?>">
                                     <input type="tel" id="phone_number" name="phone_number" value="<?php echo e(isset($user_detail->phone) ? $user_detail->phone : ''); ?>" class="form-control" placeholder="" >
                                     <span id="valid-msg" class="hide"><i class="fa fa-check" aria-hidden="true"></i> Valid</span>
                                     <span id="error-msg" class="hide"><i class="fa fa-times" aria-hidden="true"></i> Invalid</span>

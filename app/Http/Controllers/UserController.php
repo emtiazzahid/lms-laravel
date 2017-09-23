@@ -13,9 +13,10 @@ use App\Libraries\Enumerations\UserTypes;
 
 class UserController extends Controller
 {
-    public function getLoginPage()
+    public function getLoginPage(Request $request)
     {
-        return view('login');
+        $data['urlPath'] = $request->urlPath;
+        return view('login', $data);
     }
     
     public function postLogin(Request $request)
@@ -53,7 +54,15 @@ class UserController extends Controller
                     $currentDateData->save();
                 }
             }
-            return redirect()->route('dashboard');
+            $asset = asset('/');
+//            dd($request->urlPath);
+            if ($request->urlPath) {
+                return redirect($asset.$request->urlPath);
+            } else {
+                return redirect()->route('dashboard');
+            }
+            
+           
         } else {
             $validator->errors()->add('error', 'Wrong Email or Password Given!');
                 return redirect()->route('login')

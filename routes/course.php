@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['auth']], function () {
+//Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['AdminOrTeacher']], function () {
         //    Routes for Course Crud
@@ -50,4 +50,4 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-});
+//});
