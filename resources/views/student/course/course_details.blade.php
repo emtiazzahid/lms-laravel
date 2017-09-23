@@ -1,5 +1,11 @@
 @extends('admin.layouts.master')
 @section('title', 'E-Learning | Course Details')
+@section('page_css')
+    <link href="{{ url('admin/vendors/star-rating/css/star-rating.min.css') }}" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="{{ url('admin/vendors/pnotify/dist/pnotify.css') }}" rel="stylesheet">
+    <link href="{{ url('admin/vendors/pnotify/dist/pnotify.buttons.css') }}" rel="stylesheet">
+@stop
 @section('content')
         <!-- page content -->
 <div class="right_col" role="main">
@@ -55,12 +61,19 @@
                             <div class="">
                                 <div class="product_price">
                                     <h1 class="price">Teacher/Author : {{ $teacherCourse->teacher->user->name }}</h1>
+                                    <input type="hidden" id="teacher_id"  value="{{ $teacherCourse->teacher->user->id }}">
                                     <span class="price-tax">user since {!! \App\Libraries\TimeStampToAgoHelper::time_elapsed_string($teacherCourse->teacher->user->created_at) !!}</span>
                                     <br>
+                                    <input id="input-id" type="text" class="rating" data-size="lg" >
+                                    {{--<button type="button" class="btn btn-primary btn-xs">--}}
+                                    {{--<i class="fa fa-user"> </i> View Profile--}}
+                                    {{--</button>--}}
                                 </div>
+                                <br>
                             </div>
 
-                            <div class="">
+
+                            <div class="col-md-12">
                                 @if($courseTaken)
                                 <a href="{{ route('getCourseLessonsForStudent',['teacher_course_id'=>$teacherCourse->id]) }}" class="btn btn-default btn-lg">Continue Study</a>
                                 <a href="{{ route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]) }}" class="btn btn-default btn-lg">Exams</a>
@@ -78,4 +91,52 @@
 </div>
 <!-- /page content -->
 
+@stop
+@section('page_js')
+    <script src="{{ url('admin/vendors/star-rating/js/star-rating.min.js') }} "></script>
+    <script src="{{ url('admin/vendors/pnotify/dist/pnotify.js') }} "></script>
+    <script src="{{ url('admin/vendors/pnotify/dist/pnotify.buttons.js') }} "></script>
+    <script>
+        // initialize with defaults
+        $("#input-id").rating(
+                {min:1, max:100, step:1, size:'lg'}
+        );
+        $('.filled-stars').css("width", "{{ (int) $avgPoint }}%");
+        $('#input-id').on('change',function(){
+            @if(\Illuminate\Support\Facades\Auth::user()->user_type != \App\Libraries\Enumerations\UserTypes::$STUDENT)
+                alert('sorry! rating can be update by an student');
+                return false;
+            @endif
+            var point =  parseInt($('.filled-stars')[0].style.width, 10);
+            point += 1;
+            if (point > 100){
+                point = 100;
+            }
+            var ratingUpdateUrl = '{{ route('updateTeacherRating') }}';
+            var teacherId = $('#teacher_id').val();
+            var token = '{{ csrf_token() }}';
+            $.ajax({
+                url: ratingUpdateUrl,
+                type: 'POST',
+                data: {_token:token,teacherId:teacherId,point:point},
+                success: function (result) {
+                    if (result == 'success'){
+                        new PNotify({
+                            title: 'Rating Updated Success',
+                            text: 'This Rating Calculated From Average Rating Submissions From Students !',
+                            type: 'success',
+                            styling: 'bootstrap3'
+                        });
+                    }else{
+                        new PNotify({
+                            title: 'Sorry! Something Wrong. Please Try Again',
+                            text: 'We Are Working on it.',
+                            type: 'error',
+                            styling: 'bootstrap3'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 @stop

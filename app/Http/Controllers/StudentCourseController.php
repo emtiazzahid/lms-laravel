@@ -9,6 +9,7 @@ use App\Model\StudentCourse;
 use App\Model\Exam;
 use App\Model\TeacherCourse;
 use App\Model\TeacherCourseLesson;
+use App\Model\TeacherReview;
 use App\Model\TrendingCourse;
 use App\Model\VideoLesson;
 use App\User;
@@ -49,6 +50,7 @@ class StudentCourseController extends Controller
     public function getCourseDetailsPage($teacherCourseId)
     {
         $loggedStudentId = Auth::user()->id;
+        
         $courseTaken = false;
         $studentCourseTaken = StudentCourse::where('teacher_course_id',$teacherCourseId)->where('student_id',$loggedStudentId)->first();
         if (count($studentCourseTaken)>0){
@@ -58,12 +60,25 @@ class StudentCourseController extends Controller
         $teacherCourse = TeacherCourse::with(['course','teacher'=>function($q){$q->with(['user']);}])->find($teacherCourseId);
         $teacherCourseLessons = TeacherCourseLesson::where('teacher_id',$teacherCourse->teacher_id)
             ->where('course_id',$teacherCourse->course_id)->get();
+
+        $previousPoints = TeacherReview::where('teacher_id',$teacherCourse->teacher_id)->get();
+        $length = count($previousPoints);
+        if ($length>0) {
+            $totalPoints = 0;
+            foreach ($previousPoints as $point) {
+                $totalPoints += (int)$point->point;
+            }
+            $avgPoint = $totalPoints / $length;
+        }else
+            $avgPoint = 0;
+        
 //        dd($teacherCourseLessons->toArray());
         $data = [
             'teacherCourse' => $teacherCourse,
             'teacherCourseLessons' => $teacherCourseLessons,
             'courseTaken' => $courseTaken,
             'teacherCourseId' => $teacherCourseId,
+            'avgPoint' => $avgPoint,
         ];
         return view('student.course.course_details',$data);
     }

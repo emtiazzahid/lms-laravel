@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\UserActivity;
 use Illuminate\Http\Request;
 use Validator;
 use Auth;
@@ -27,7 +28,31 @@ class UserController extends Controller
         $allInput = $request->all();
         $validator = Validator::make($allInput, $rules);
         if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']],$remember)) {
-            
+            $currentDateData =  UserActivity::whereRaw('Date(created_at) = CURDATE()')->first();
+            if (Auth::user()->user_type == UserTypes::$STUDENT)
+            {
+                if (count($currentDateData)<1) {
+                    $userActivity = new UserActivity();
+                    $userActivity->total_student_login = 1;
+                    $userActivity->save();
+                }
+                else {
+                    $currentDateData->total_student_login = (int) $currentDateData->total_student_login +1;
+                    $currentDateData->save();
+                }
+
+            }elseif (Auth::user()->user_type == UserTypes::$TEACHER)
+            {
+                if (count($currentDateData)<1) {
+                    $userActivity = new UserActivity();
+                    $userActivity->total_teacher_login = 1;
+                    $userActivity->save();
+                }
+                else {
+                    $currentDateData->total_teacher_login = (int) $currentDateData->total_teacher_login +1;
+                    $currentDateData->save();
+                }
+            }
             return redirect()->route('dashboard');
         } else {
             $validator->errors()->add('error', 'Wrong Email or Password Given!');
@@ -51,19 +76,24 @@ class UserController extends Controller
             'password_confirmation' => 'required|same:password'
         ]);
 
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->user_type = $request->user_type;
+        $user->save();
 
-        $teacher = new User();
-        $teacher->name = $request->name;
-        $teacher->email = $request->email;
-        $teacher->password = bcrypt($request->password);
-        $teacher->user_type = UserTypes::$TEACHER;
-        $teacher->save();
+        if ($request->user_type == UserTypes::$TEACHER) {
+            $meta = new \App\Model\Teacher();
+            $meta->user_id = $user->id;
+            $meta->save();
+        }elseif ($request->user_type == UserTypes::$STUDENT){
+            $meta = new \App\Model\Student();
+            $meta->user_id = $user->id;
+            $meta->save();
+        }
 
-        $meta = new \App\Model\Teacher();
-        $meta->user_id = $teacher->id;
-        $meta->save();
-
-        Auth::login($teacher);
+        Auth::login($user);
         Session::flash('Success Message', 'Account Registered Successfully.');
         return redirect()->route('dashboard');
     }

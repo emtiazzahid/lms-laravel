@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\CourseStatus;
 use App\Libraries\Enumerations\UserTypes;
+use App\Model\TeacherReview;
 use Illuminate\Http\Request;
 use App\Model\Teacher;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Support\Facades\Session;
@@ -89,5 +91,34 @@ class TeacherController extends Controller
         ];
 //        dd($data);
         return view('admin.teachers.teacher_course_list',$data);
+    }
+
+    public function updateTeacherRating(Request $request)
+    {
+        $loggedStudentId = Auth::user()->id;
+//        $previousPoints = TeacherReview::where('teacher_id',$request->teacherId)->get();
+//        $length = count($previousPoints);
+//        $totalPoints = 0;
+//        foreach ($previousPoints as $point)
+//        {
+//            $totalPoints += (int) $point->point;
+//        }
+//        $avgPoint = $totalPoints / $length;
+        $studentPreviousRating = TeacherReview::where('teacher_id',$request->teacherId)
+            ->where('student_id',$loggedStudentId)->first();
+        if (count($studentPreviousRating)>0){
+            $studentPreviousRating->point = $request->point;
+            $studentPreviousRating->save();
+            return 'success';
+        }
+        $dataForRating = [
+            'student_id' => $loggedStudentId,
+            'teacher_id' => $request->teacherId,
+            'point' => $request->point
+        ];
+        if (TeacherReview::insert($dataForRating)){
+            return 'success';
+        }
+        return 'error';
     }
 }

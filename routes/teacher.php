@@ -11,5 +11,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/teacher/courses/{id}', ['uses' => 'TeacherController@getTeacherCourseListPage', 'as' => 'teachers-courses']);
     });
+    Route::group(['middleware' => 'StudentAuth'], function() {
+        Route::post('/teachers/rating/update', ['uses' => 'TeacherController@updateTeacherRating', 'as' => 'updateTeacherRating']);
+    });
 
 });
