@@ -75,8 +75,16 @@
 
                             <div class="col-md-12">
                                 @if($courseTaken)
+                                    @if($studentCourseTaken->status == \App\Libraries\Enumerations\CourseStudentStatus::$INCOMPLETE)
                                 <a href="{{ route('getCourseLessonsForStudent',['teacher_course_id'=>$teacherCourse->id]) }}" class="btn btn-default btn-lg">Continue Study</a>
                                 <a href="{{ route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id]) }}" class="btn btn-default btn-lg">Exams</a>
+                                    @elseif($studentCourseTaken->status == \App\Libraries\Enumerations\CourseStudentStatus::$COMPLETED)
+                                        @if($certificate)
+                                            <a target="_blank" class="btn btn-primary btn-flat btn-sm" href="{{ asset($certificate->file_path) }}">Download Certificate</a>
+                                        @else
+                                            Sorry Certificate File Not Found. Please Contact With Course Author.
+                                        @endif
+                                    @endif
                                 @else
                                 <a href="{{ route('student-course-enroll',['teacher_course_id'=>$teacherCourse->id]) }}" class="btn btn-default btn-lg">Enroll Now</a>
                                 @endif

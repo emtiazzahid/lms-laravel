@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\CourseStatus;
+use App\Libraries\Enumerations\CourseStudentStatus;
 use App\Libraries\Enumerations\UserTypes;
 use App\Model\Exam;
+use App\Model\StudentCertificate;
+use App\Model\StudentCourse;
 use App\Model\TeacherCourse;
 use App\Model\TeacherReview;
 use PDF;
@@ -197,13 +200,6 @@ class TeacherController extends Controller
             'student_id'      => 'required',
             'teacher_id'     => 'required',
         ]);
-        $dataForStudentCertificate = [
-            'student_id' => $request->student_id,
-            'teacher_id'=> $request->teacher_id,
-            'course_id'=> $request->course_id,
-            'file_path'
-        ];
-        
 
         $dataForCertificateBlade = [
             'student_name' => $request->student_name,
@@ -219,13 +215,32 @@ class TeacherController extends Controller
         if (!file_exists(asset('certificates'))) {
             mkdir(asset('certificates'), 0777, true);
         }
-        if (file_exists(asset('certificates/user_'.$request->student_id.'.pdf'))) {
-            $fp = fopen('certificates/user_'.$request->student_id.'.pdf', 'r+');
-            file_put_contents('certificates/user_'.$request->student_id.'.pdf', $output);
+        $fileFullPath = 'certificates/user_'.$request->student_id.'.pdf';
+        if (file_exists(asset($fileFullPath))) {
+            $fp = fopen($fileFullPath, 'r+');
+            file_put_contents($fileFullPath, $output);
             fclose($fp);
         }else
-            file_put_contents('certificates/user_'.$request->student_id.'.pdf', $output);
+            file_put_contents($fileFullPath, $output);
 
+
+        $dataForStudentCertificate = [
+            'student_id' => $request->student_id,
+            'teacher_course_id'=> $request->teacher_course_id,
+            'file_path' => $fileFullPath,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+
+        StudentCertificate::insert($dataForStudentCertificate);
+
+        $studentCourse = StudentCourse::where('teacher_course_id', $request->teacher_course_id)
+            ->where('student_id', $request->student_id)->first();
+        $studentCourse->status = CourseStudentStatus::$COMPLETED;
+        $studentCourse->save();
+
+
+        Session::flash('Success', 'Course Closed and Certificate attached for this student.');
         return redirect()->back();
     }
 }

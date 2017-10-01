@@ -16,8 +16,7 @@ class CreateStudentCertificatesTable extends Migration
         Schema::create('student_certificates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('student_id');
-            $table->integer('teacher_id');
-            $table->integer('course_id');
+            $table->integer('teacher_course_id');
             $table->string('file_path');
             $table->timestamps();
         });

@@ -61,7 +61,7 @@
                                         <td>
                                         <?php if($student['status'] == \App\Libraries\Enumerations\CourseStudentStatus::$COMPLETED): ?>
                                             Completed
-                                        <?php else: ?>
+                                        <?php elseif($student['status'] == \App\Libraries\Enumerations\CourseStudentStatus::$INCOMPLETE): ?>
                                             Incomplete
                                         <?php endif; ?>
                                         </td>
@@ -75,7 +75,9 @@
                                             </button>
                                          </td>
                                         <td>
+
                                             <button type="button"
+                                                    data-teacher_course_id="<?php echo e($student['teacher_course_id']); ?>"
                                                     data-course_id="<?php echo e($student['teacher_course']['course_id']); ?>"
                                                     data-teacher_id="<?php echo e($student['teacher_course']['teacher_id']); ?>"
                                                     data-student_id="<?php echo e($student['student']['user_id']); ?>"
@@ -84,7 +86,14 @@
                                                     data-teacher_name="<?php echo e($teacherInfo->user->name); ?>"
                                                     data-teacher_signature="<?php echo e(asset($teacherInfo->signature->file_path)); ?>"
                                                     data-f_teacher_signature="<?php echo e($teacherInfo->signature->file_path); ?>"
-                                                    data-toggle="modal" data-target="#certificateModal" class="btn btn-flat btn-sm btn-info">Give Certificate</button>
+                                                    data-toggle="modal" data-target="#certificateModal" class="btn btn-flat btn-sm btn-info">
+                                                <?php if($student['status'] == \App\Libraries\Enumerations\CourseStudentStatus::$COMPLETED): ?>
+                                                    Give Certificate Again
+                                                <?php else: ?>
+                                                    Give Certificate
+                                                <?php endif; ?>
+                                            </button>
+
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -142,6 +151,7 @@
                 <form action="<?php echo e(route('certifyStudent')); ?>" method="post">
                     <?php echo e(csrf_field()); ?>
 
+                    <input type="hidden" name="teacher_course_id" id="f_teacher_course_id">
                     <input type="hidden" name="student_id" id="f_student_id">
                     <input type="hidden" name="teacher_id" id="f_teacher_id">
                     <input type="hidden" name="course_id" id="f_course_id">
@@ -172,7 +182,7 @@
                             </div>
                         </div>
                    </div>
-                    <button type="submit" class="btn btn-default pull-right">Confirm and Send</button>
+                    <button type="submit" class="btn btn-info pull-right">Confirm and Send</button>
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -243,6 +253,7 @@
 
             $('#certificateDate').text(getCertificateDate());
 
+            $('#f_teacher_course_id').val($(e.relatedTarget).data('teacher_course_id'));
             $('#f_course_id').val($(e.relatedTarget).data('course_id'));
             $('#f_teacher_id').val($(e.relatedTarget).data('teacher_id'));
             $('#f_student_id').val($(e.relatedTarget).data('student_id'));

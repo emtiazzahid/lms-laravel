@@ -75,8 +75,16 @@
 
                             <div class="col-md-12">
                                 <?php if($courseTaken): ?>
+                                    <?php if($studentCourseTaken->status == \App\Libraries\Enumerations\CourseStudentStatus::$INCOMPLETE): ?>
                                 <a href="<?php echo e(route('getCourseLessonsForStudent',['teacher_course_id'=>$teacherCourse->id])); ?>" class="btn btn-default btn-lg">Continue Study</a>
                                 <a href="<?php echo e(route('getCourseExamsForStudent',['teacher_course_id'=>$teacherCourse->id])); ?>" class="btn btn-default btn-lg">Exams</a>
+                                    <?php elseif($studentCourseTaken->status == \App\Libraries\Enumerations\CourseStudentStatus::$COMPLETED): ?>
+                                        <?php if($certificate): ?>
+                                            <a target="_blank" class="btn btn-primary btn-flat btn-sm" href="<?php echo e(asset($certificate->file_path)); ?>">Download Certificate</a>
+                                        <?php else: ?>
+                                            Sorry Certificate File Not Found. Please Contact With Course Author.
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 <?php else: ?>
                                 <a href="<?php echo e(route('student-course-enroll',['teacher_course_id'=>$teacherCourse->id])); ?>" class="btn btn-default btn-lg">Enroll Now</a>
                                 <?php endif; ?>

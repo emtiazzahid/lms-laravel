@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Libraries\Enumerations\CourseStudentStatus;
 use App\Model\Course;
 use App\Model\FileLesson;
+use App\Model\StudentCertificate;
 use App\Model\StudentCourse;
 use App\Model\Exam;
 use App\Model\TeacherCourse;
@@ -52,8 +53,14 @@ class StudentCourseController extends Controller
         $loggedStudentId = Auth::user()->id;
         
         $courseTaken = false;
+        $certificate = false;
+        
         $studentCourseTaken = StudentCourse::where('teacher_course_id',$teacherCourseId)->where('student_id',$loggedStudentId)->first();
         if (count($studentCourseTaken)>0){
+            if ($studentCourseTaken->status == CourseStudentStatus::$COMPLETED){
+                $certificate = StudentCertificate::where('student_id',$loggedStudentId)
+                    ->where('teacher_course_id',$teacherCourseId)->first();
+            }
             $courseTaken = true;
         }
         // dd($studentCourseTaken->toArray());
@@ -79,6 +86,8 @@ class StudentCourseController extends Controller
             'courseTaken' => $courseTaken,
             'teacherCourseId' => $teacherCourseId,
             'avgPoint' => $avgPoint,
+            'studentCourseTaken' => $studentCourseTaken,
+            'certificate' => $certificate,
         ];
         return view('student.course.course_details',$data);
     }
