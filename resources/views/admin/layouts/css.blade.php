@@ -29,6 +29,7 @@
 
 <!-- custom css -->
 <link href="{{ url('css/perasale_hms.css') }}" rel="stylesheet">
+<link href="{{ url('css/style.css') }}" rel="stylesheet">
 <style>
     .loader {
         opacity: 0.7;

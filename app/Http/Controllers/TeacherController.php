@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\CourseStatus;
 use App\Libraries\Enumerations\UserTypes;
+use App\Model\Exam;
+use App\Model\TeacherCourse;
 use App\Model\TeacherReview;
 use Illuminate\Http\Request;
 use App\Model\Teacher;
@@ -120,5 +122,64 @@ class TeacherController extends Controller
             return 'success';
         }
         return 'error';
+    }
+
+    public function getTeacherStudentsListPage(Request $request)
+    {
+        $loggedTeacherId = Auth::user()->id;
+        $studentsWithTeacher = TeacherCourse::with(['teacherCourseStudent'=>function($r){
+            $r->with(['teacher_course'=>function($as){
+                $as->with('course');
+            },'student'=>function($hg){
+                $hg->with('user');
+            }]);
+        }])
+            ->whereHas('teacherCourseStudent',function($q){
+            $q->with(['student'=>function($n){
+                $n->with('user');
+            }]);
+        })->where('teacher_id',$loggedTeacherId)->get();
+//        dd($studentsWithTeacher->toArray());
+
+        $studentArray = [];
+        if (!$studentsWithTeacher)
+        {
+            return view('teacher.student.students_list',['students' => false]);
+        }
+        foreach ($studentsWithTeacher as $student)
+        {
+            if (!$student->teacherCourseStudent)
+            {
+                return view('teacher.student.students_list',['students' => false]);
+            }
+            foreach ($student->teacherCourseStudent as $tcStudent)
+            {
+                $studentArray[] = $tcStudent->toArray();
+            }
+        }
+//        dd($studentArray);
+        $data = [
+            'students' => $studentArray,
+            'studentsWithTeacher' => $studentsWithTeacher
+        ];
+        return view('teacher.student.students_list',$data);
+
+
+    }
+
+    public function getExamsWithSubmissions(Request $request)
+    {
+        if ($request->course_id != null && $request->teacher_id != null && $request->student_id != null)
+        {
+            $student_id = $request->student_id;
+            $data = Exam::with(['submissions'=>function($q) use ($student_id){
+                $q->where('student_id',$student_id);
+            }])
+                ->where('course_id', $request->course_id)
+                ->where('teacher_id', $request->teacher_id)
+                ->get()->toArray();
+        }else
+            $data = 'false';
+        return $data;
     }
 }

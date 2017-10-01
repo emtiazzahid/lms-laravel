@@ -22,6 +22,15 @@
     <link href="<?php echo e(asset('admin/build/css/custom.min.css')); ?>" rel="stylesheet">
   </head>
 
+  <style>
+      .login{
+          background: url("<?php echo e(asset('images/login_background.jpg')); ?>") no-repeat center center fixed;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+      }
+  </style>
   <body class="login">
   
     <div>

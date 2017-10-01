@@ -10,6 +10,11 @@ Route::group(['middleware' => ['AdminAuth']], function () {
 
     Route::get('/teacher/courses/{id}', ['uses' => 'TeacherController@getTeacherCourseListPage', 'as' => 'teachers-courses']);
 });
+
 Route::group(['middleware' => 'StudentAuth'], function() {
     Route::post('/teachers/rating/update', ['uses' => 'TeacherController@updateTeacherRating', 'as' => 'updateTeacherRating']);
+});
+
+Route::group(['middleware' => 'TeacherAuth'], function() {
+    Route::get('/teachers/students', ['uses' => 'TeacherController@getTeacherStudentsListPage', 'as' => 'getTeacherStudentsListPage']);
 });

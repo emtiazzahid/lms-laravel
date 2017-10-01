@@ -15,7 +15,7 @@ class StudentCourse extends Model
     }
     public function student()
     {
-        return $this->belongsTo('App\Model\Student');
+        return $this->belongsTo('App\Model\Student' , 'student_id','user_id');
     }
 
 }

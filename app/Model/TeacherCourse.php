@@ -19,5 +19,9 @@ class TeacherCourse extends Model
         return $this->belongsTo('App\Model\Teacher','teacher_id','user_id');
     }
 
+    public function teacherCourseStudent()
+    {
+        return $this->hasMany('App\Model\StudentCourse','teacher_course_id');
+    }
     
 }

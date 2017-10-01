@@ -7,3 +7,72 @@
     z-index: 9999;
     background: url('img/loading.gif') 50% 50% no-repeat rgb(249,249,249);
 }
+ .sigPad {
+     padding: 0px;
+     width: 100%;
+     border: 0px;
+     border-radius: 0px;
+     overflow: auto;
+ }
+.sigNav {
+    display: none;
+    height: 2.25em;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    list-style-type: none;
+    background: #343951;
+    color: #fff;
+}
+.sigNav li {
+    display: inline;
+    float: left;
+    margin: 0;
+    padding: 6px;
+    border-radius: 0px;
+}
+.sigNav a, .sigNav a:link, .sigNav a:visited {
+    display: block;
+    margin: 0;
+    padding: 0 0.6em;
+    border: 0;
+    color: #fff;
+    font-weight: bold;
+    line-height: 1.25em;
+    text-decoration: none;
+}
+p.error {
+    display: block;
+    margin: 0;
+    padding: 0.3em;
+    background-color: #f33;
+    color: #fff;
+    font-weight: bold;
+}
+.sigWrapper {
+    clear: both;
+    height: 100px;
+    border: 1px solid #343951;
+}
+  img {
+      max-width: 100%;
+  }
+#signature-pad {
+    border: 1px solid #ddd;
+    margin-top:10px;
+    margin-left: 3px;
+}
+
+  .password-progress {
+      margin-top: 10px;
+      margin-bottom: 0;
+  }
+#valid-msg{
+    color: green;
+}
+#error-msg{
+    color: red;
+}
+.intl-tel-input{
+    width: 100%;
+}

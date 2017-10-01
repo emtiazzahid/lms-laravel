@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Libraries\DigitalSignature;
+use App\Libraries\Enumerations\SignatureStatus;
 use App\Model\Admin;
 use App\Model\Student;
 use App\Model\Teacher;
+use App\Model\UserSignature;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -20,11 +23,13 @@ class AccountController extends Controller
     public function getIndex()
     {
         $user_credentials = Auth::user();
+        $user_signature = false;
 
         if (Auth::user()->user_type == UserTypes::$STUDENT){
             $user_detail = Student::where('user_id',Auth::user()->id)->first();
         }
         if (Auth::user()->user_type == UserTypes::$TEACHER){
+            $user_signature = UserSignature::where('user_id', $user_credentials->id)->first();
             $user_detail = Teacher::where('user_id',Auth::user()->id)->first();
         }
         if (Auth::user()->user_type == UserTypes::$ADMIN){
@@ -34,6 +39,7 @@ class AccountController extends Controller
         $data = [
             'user_credentials' => $user_credentials,
             'user_detail' => $user_detail,
+            'user_signature' => $user_signature,
         ];
         return view('admin.account_settings', $data);
     }
@@ -127,5 +133,45 @@ class AccountController extends Controller
         }
         Session::flash('Success', 'Account info updated successfully.');
         return redirect()->back();
+    }
+
+    public function signatureImageChange(Request $request)
+    {
+        $this->validate($request, [
+            'signature' => 'required'
+        ]);
+        $user_id = Auth::user()->id;
+        $user_old_signature = DB::table('user_signatures')->where('user_id', $user_id)->first();
+        if ($user_old_signature){
+            $signature = $request->get('signature');
+            $file_name = 'user_'.$user_id.'.png';
+            $srcFile = public_path('admin/images/signatures/'.$file_name);
+
+            $digitalSig = new DigitalSignature();
+            $digitalSig->saveSignatureToDiskAsImage($signature, $srcFile);
+
+            Session::flash('Success', 'Signature updated successfully.');
+            return redirect()->back();
+        }else {
+            if ($signature = $request->get('signature')) {
+                $file_name = 'user_' . $user_id . '.png';
+                $srcFile = public_path('admin/images/signatures/' . $file_name);
+
+                $digitalSig = new DigitalSignature();
+                $digitalSig->saveSignatureToDiskAsImage($signature, $srcFile);
+
+                $signatureData = [
+                    'file_path' => 'admin/images/signatures/' . $file_name,
+                    'user_id' => $user_id,
+                    'status' => SignatureStatus::$ACTIVE,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ];
+                DB::table('user_signatures')->insert($signatureData);
+
+            }
+            Session::flash('Success', 'Signature added successfully.');
+            return redirect()->back();
+        }
     }
 }
