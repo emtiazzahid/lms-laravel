@@ -48,6 +48,7 @@
                                     <th>Course</th>
                                     <th>Status</th>
                                     <th>Results</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -73,6 +74,18 @@
                                                 <i class="fa fa-circle-o" aria-hidden="true"></i> View Results
                                             </button>
                                          </td>
+                                        <td>
+                                            <button type="button"
+                                                    data-course_id="<?php echo e($student['teacher_course']['course_id']); ?>"
+                                                    data-teacher_id="<?php echo e($student['teacher_course']['teacher_id']); ?>"
+                                                    data-student_id="<?php echo e($student['student']['user_id']); ?>"
+                                                    data-student_name="<?php echo e($student['student']['user']['name']); ?>"
+                                                    data-course_name="<?php echo e($student['teacher_course']['course']['title']); ?>"
+                                                    data-teacher_name="<?php echo e($teacherInfo->user->name); ?>"
+                                                    data-teacher_signature="<?php echo e(asset($teacherInfo->signature->file_path)); ?>"
+                                                    data-f_teacher_signature="<?php echo e($teacherInfo->signature->file_path); ?>"
+                                                    data-toggle="modal" data-target="#certificateModal" class="btn btn-flat btn-sm btn-info">Give Certificate</button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
@@ -115,6 +128,63 @@
         </div>
     </div>
     
+
+    <!--Certificate Modal -->
+    <div class="modal fade" id="certificateModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Certificate Preview</h4>
+                </div>
+                <form action="<?php echo e(route('certifyStudent')); ?>" method="post">
+                    <?php echo e(csrf_field()); ?>
+
+                    <input type="hidden" name="student_id" id="f_student_id">
+                    <input type="hidden" name="teacher_id" id="f_teacher_id">
+                    <input type="hidden" name="course_id" id="f_course_id">
+                    <input type="hidden" name="teacher_name" id="f_teacher_name">
+                    <input type="hidden" name="student_name" id="f_student_name">
+                    <input type="hidden" name="course_name" id="f_course_name">
+                    <input type="hidden" name="signature_image" id="f_signature_image">
+                    <div class="modal-body">
+                        <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
+                            <div style="width:750px; height:550px; padding:20px;  border: 5px solid #787878">
+                                <div style="text-align:center;">
+                                    <span style="font-size:50px; font-weight:bold">Certificate of Completion</span>
+                                    <br><br>
+                                    <span style="font-size:25px"><i>This is to certify that</i></span>
+                                    <br><br>
+                                    <span style="font-size:30px"><b id="studentName"></b></span><br/><br/>
+                                    <span style="font-size:25px"><i>has completed the course</i></span> <br/><br/>
+                                    <span style="font-size:30px" id="courseName"></span> <br/><br/>
+                                    <span style="font-size:25px"><i>dated</i></span><br>
+                                    <span style="font-size:30px" id="certificateDate"></span><br/><br/>
+                                </div>
+                                <div style="text-align: right; padding-right: 20px;">
+                                    <img src="" alt="Signature" id="teacherSignature" style="text-align: right;height: 50px;width: 100px;">
+                                    <p style="font-size:30px;
+                                      text-decoration: overline;
+                                    " id="teacherName"></p>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                    <button type="submit" class="btn btn-default pull-right">Confirm and Send</button>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    
+
+
 
 <?php $__env->stopSection(); ?>
 
@@ -165,6 +235,38 @@
                 }
             });
         });
+
+        $('#certificateModal').on('show.bs.modal', function (e) {
+            $('#studentName').text($(e.relatedTarget).data('student_name'));
+            $('#courseName').text($(e.relatedTarget).data('course_name'));
+            $('#teacherName').text($(e.relatedTarget).data('teacher_name'));
+
+            $('#certificateDate').text(getCertificateDate());
+
+            $('#f_course_id').val($(e.relatedTarget).data('course_id'));
+            $('#f_teacher_id').val($(e.relatedTarget).data('teacher_id'));
+            $('#f_student_id').val($(e.relatedTarget).data('student_id'));
+
+            $('#f_student_name').val($(e.relatedTarget).data('student_name'));
+            $('#f_teacher_name').val($(e.relatedTarget).data('teacher_name'));
+            $('#f_course_name').val($(e.relatedTarget).data('course_name'));
+            $('#f_signature_image').val($(e.relatedTarget).data('f_teacher_signature'));
+
+            $("#teacherSignature").attr("src",$(e.relatedTarget).data('teacher_signature'));
+        });
+
+        function getCertificateDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+                    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                    "Oct", "Nov", "Dec");
+
+            var d = new Date();
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return  curr_date + "-" + m_names[curr_month]
+                    + "-" + curr_year;
+        }
     </script>
     <script>
         $(document).ready(function(){

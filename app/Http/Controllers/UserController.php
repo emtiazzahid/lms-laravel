@@ -15,6 +15,9 @@ class UserController extends Controller
 {
     public function getLoginPage(Request $request)
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         $data['urlPath'] = $request->urlPath;
         return view('login', $data);
     }

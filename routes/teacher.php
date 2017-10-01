@@ -17,4 +17,5 @@ Route::group(['middleware' => 'StudentAuth'], function() {
 
 Route::group(['middleware' => 'TeacherAuth'], function() {
     Route::get('/teachers/students', ['uses' => 'TeacherController@getTeacherStudentsListPage', 'as' => 'getTeacherStudentsListPage']);
+    Route::post('/teachers/students/certify', ['uses' => 'TeacherController@certifyStudent', 'as' => 'certifyStudent']);
 });

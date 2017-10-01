@@ -7,12 +7,15 @@ use App\Libraries\Enumerations\UserTypes;
 use App\Model\Exam;
 use App\Model\TeacherCourse;
 use App\Model\TeacherReview;
+use PDF;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Model\Teacher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 
 class TeacherController extends Controller
@@ -127,6 +130,9 @@ class TeacherController extends Controller
     public function getTeacherStudentsListPage(Request $request)
     {
         $loggedTeacherId = Auth::user()->id;
+
+        $teacherInfo = Teacher::with(['user','signature'])->where('user_id',$loggedTeacherId)->first();
+//        dd($teacherInfo->toArray());
         $studentsWithTeacher = TeacherCourse::with(['teacherCourseStudent'=>function($r){
             $r->with(['teacher_course'=>function($as){
                 $as->with('course');
@@ -160,7 +166,7 @@ class TeacherController extends Controller
 //        dd($studentArray);
         $data = [
             'students' => $studentArray,
-            'studentsWithTeacher' => $studentsWithTeacher
+            'teacherInfo' => $teacherInfo,
         ];
         return view('teacher.student.students_list',$data);
 
@@ -181,5 +187,45 @@ class TeacherController extends Controller
         }else
             $data = 'false';
         return $data;
+    }
+
+    public function certifyStudent(Request $request)
+    {
+
+        $this->validate($request,[
+            'course_id'      => 'required',
+            'student_id'      => 'required',
+            'teacher_id'     => 'required',
+        ]);
+        $dataForStudentCertificate = [
+            'student_id' => $request->student_id,
+            'teacher_id'=> $request->teacher_id,
+            'course_id'=> $request->course_id,
+            'file_path'
+        ];
+        
+
+        $dataForCertificateBlade = [
+            'student_name' => $request->student_name,
+            'course_name' => $request->course_name,
+            'teacher_name' => $request->teacher_name,
+            'signature_image' => $request->signature_image,
+            'date' => date('d M Y'),
+        ];
+        $html = View::make('teacher.student.certificate', $dataForCertificateBlade);
+        $pdfUPN = PDF::loadHTML($html)->setPaper('A4', 'landscape');
+        $output = $pdfUPN->output();
+
+        if (!file_exists(asset('certificates'))) {
+            mkdir(asset('certificates'), 0777, true);
+        }
+        if (file_exists(asset('certificates/user_'.$request->student_id.'.pdf'))) {
+            $fp = fopen('certificates/user_'.$request->student_id.'.pdf', 'r+');
+            file_put_contents('certificates/user_'.$request->student_id.'.pdf', $output);
+            fclose($fp);
+        }else
+            file_put_contents('certificates/user_'.$request->student_id.'.pdf', $output);
+
+        return redirect()->back();
     }
 }

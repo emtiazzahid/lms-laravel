@@ -13,4 +13,9 @@ class Teacher extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function signature()
+    {
+        return $this->belongsTo(UserSignature::class, 'user_id', 'user_id');
+    }
 }
