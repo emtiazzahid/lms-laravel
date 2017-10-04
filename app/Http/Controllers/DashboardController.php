@@ -6,6 +6,8 @@ use App\Libraries\Enumerations\CourseStatus;
 use App\Model\Course;
 use App\Model\Student;
 use App\Model\Teacher;
+use App\Model\StudentCourse;
+use App\Libraries\Enumerations\CourseStudentStatus;
 use App\Repository\DashboardGraphDataRepo;
 use Illuminate\Http\Request;
 
@@ -16,6 +18,7 @@ class DashboardController extends Controller
         $totalCourses = Course::where('status',CourseStatus::$APPROVED)->get()->count();
         $totalTeachers = Teacher::get()->count();
         $totalStudents = Student::get()->count();
+        $totalCertified = StudentCourse::where('status',CourseStudentStatus::$COMPLETED)->get()->count();
         
         $graphData = new DashboardGraphDataRepo();
         $studentGraphData = $graphData->getStudentActivityDataArray();
@@ -29,6 +32,7 @@ class DashboardController extends Controller
             'studentGraphData' => $studentGraphData,
             'teacherGraphData' => $teacherGraphData,
             'topTeachers' => $topTeachers,
+            'totalCertified' => $totalCertified,
         ];
         return view('admin.dashboard',$data);
     }

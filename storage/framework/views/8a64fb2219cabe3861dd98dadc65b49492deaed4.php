@@ -20,7 +20,7 @@
 
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
-                <div class="icon"><i class="fa fa-user-md"></i></div>
+                <div class="icon"><i class="fa fa-users" aria-hidden="true"></i></div>
                 <div class="count"><?php echo e(isset($totalTeachers) ? $totalTeachers : 0); ?></div>
                 <h3>Teachers</h3>
             </div>
@@ -28,7 +28,7 @@
 
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
-                <div class="icon"><i class="fa fa-user-md"></i></div>
+                <div class="icon"><i class="fa fa-users" aria-hidden="true"></i></div>
                 <div class="count"><?php echo e(isset($totalStudents) ? $totalStudents : 0); ?></div>
                 <h3>Students</h3>
             </div>
@@ -36,7 +36,7 @@
 
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
-                <div class="icon"><i class="fa fa-users"></i></div>
+                <div class="icon"><i class="fa fa-book" aria-hidden="true"></i></div>
                 <div class="count"><?php echo e(isset($totalCourses) ? $totalCourses : 0); ?></div>
                 <h3>Courses</h3>
             </div>
@@ -44,8 +44,8 @@
 
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
-                <div class="icon"><i class="fa fa-check-square-o"></i></div>
-                <div class="count">0</div>
+                <div class="icon"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
+                <div class="count"><?php echo e(isset($totalCertified) ? $totalCertified : 0); ?></div>
                 <h3>Certified Students</h3>
             </div>
         </div>
@@ -57,7 +57,7 @@
 
                     <div class="row x_title">
                         <div class="col-md-6">
-                            <h3>Teacher/Student Activities</h3>
+                            <h3><?php echo e(date('F Y')); ?> Teacher/Student Activities</h3>
                         </div>
                     </div>
 
