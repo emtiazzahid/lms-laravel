@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use App\Libraries\Enumerations\CourseStatus;
 use App\Libraries\Enumerations\CourseStudentStatus;
 use App\Libraries\Enumerations\UserTypes;
-use App\Model\Exam;
-use App\Model\StudentCertificate;
-use App\Model\StudentCourse;
-use App\Model\TeacherCourse;
-use App\Model\TeacherReview;
+use App\Models\Exam;
+use App\Models\StudentCertificate;
+use App\Models\StudentCourse;
+use App\Models\TeacherCourse;
+use App\Models\TeacherReview;
 use PDF;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
-use App\Model\Teacher;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
@@ -39,7 +39,7 @@ class TeacherController extends Controller
             'email'     => 'required|email|unique:users|max:100',
         ]);
 
-        DB::transaction(function ($request) use ($request) {
+        DB::transaction(function ($request) {
             $user = new User();
             $user->name = $request['name'];
             $user->email = $request['email'];
@@ -47,7 +47,7 @@ class TeacherController extends Controller
             $user->user_type = UserTypes::$TEACHER;
             $user->save();
 
-            $meta = new \App\Model\Teacher();
+            $meta = new \App\Models\Teacher();
             $meta->user_id = $user->id;
             $meta->save();
 

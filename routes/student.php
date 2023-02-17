@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => ['AdminAuth']], function () {
     //    Routes for Student Crud
     Route::get('/students', ['uses' => 'StudentController@getIndex', 'as' => 'students-list']);

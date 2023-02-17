@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\Libraries\Enumerations\CourseStatus;
 use App\Libraries\Enumerations\DepartmentStatus;
 use App\Libraries\Enumerations\UserTypes;
-use App\Model\TeacherCourse;
-use App\Model\TrendingCourse;
+use App\Models\TeacherCourse;
+use App\Models\TrendingCourse;
 use Illuminate\Http\Request;
-use App\Model\Course;
+use App\Models\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Input;
-use Image;
+use Intervention\Image\Facades\Image;
 
 class CourseController extends Controller
 {
@@ -51,10 +50,10 @@ class CourseController extends Controller
             $model->status = CourseStatus::$APPROVED;
         $model->save();
 
-        if(Input::file())
+        if($request->file())
         {
 
-            $file = Input::file('featured_image');
+            $file = $request->file('featured_image');
             $extention  = $file->getClientOriginalExtension();
             $fileName = 'course_'.$model->id.".".$extention;
 
@@ -87,9 +86,9 @@ class CourseController extends Controller
         $model->featured_text = $request['featured_text'];
         $model->save();
 
-        if(Input::file())
+        if($request->file())
         {
-            $file = Input::file('new_featured_image');
+            $file = $request->file('new_featured_image');
             $extention  = $file->getClientOriginalExtension();
             $fileName = 'course_'.$request->modal_id.".".$extention;
 

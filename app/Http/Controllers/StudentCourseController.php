@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\CourseStudentStatus;
-use App\Model\Course;
-use App\Model\FileLesson;
-use App\Model\StudentCertificate;
-use App\Model\StudentCourse;
-use App\Model\Exam;
-use App\Model\TeacherCourse;
-use App\Model\TeacherCourseLesson;
-use App\Model\TeacherReview;
-use App\Model\TrendingCourse;
-use App\Model\VideoLesson;
-use App\User;
+use App\Models\Course;
+use App\Models\FileLesson;
+use App\Models\StudentCertificate;
+use App\Models\StudentCourse;
+use App\Models\Exam;
+use App\Models\TeacherCourse;
+use App\Models\TeacherCourseLesson;
+use App\Models\TeacherReview;
+use App\Models\TrendingCourse;
+use App\Models\VideoLesson;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Model\Student;
+use App\Models\Student;
 use Illuminate\Support\Facades\Session;
 
 class StudentCourseController extends Controller

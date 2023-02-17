@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\CourseStatus;
 use App\Libraries\Enumerations\UserTypes;
-use App\Model\TeacherCourse;
+use App\Models\TeacherCourse;
 use Illuminate\Http\Request;
-use App\Model\Course;
+use App\Models\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;

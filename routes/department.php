@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 //Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['AdminOrTeacher']], function () {
         //    Routes for Department Crud

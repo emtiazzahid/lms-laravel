@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['TeacherOrStudent']], function () {
 //    Routes for Exams

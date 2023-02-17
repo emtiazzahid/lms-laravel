@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 
 use App\Libraries\DigitalSignature;
 use App\Libraries\Enumerations\SignatureStatus;
-use App\Model\Admin;
-use App\Model\Student;
-use App\Model\Teacher;
-use App\Model\UserSignature;
+use App\Models\Admin;
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\UserSignature;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Input;
-use App\User;
+use App\Models\User;
 use App\Libraries\Enumerations\UserTypes;
 use DB;
 use Illuminate\Support\Facades\Session;
@@ -46,7 +46,7 @@ class AccountController extends Controller
     
     public function postUserImageUpload(Request $request)
     {
-        if (!Input::hasFile('file'))
+        if (!$request->hasFile('file'))
         {
             return json_encode(['error' => true, 'message' =>'There is no picture found!' ]);
         }
@@ -56,7 +56,7 @@ class AccountController extends Controller
         elseif ($user->user_type == UserTypes::$TEACHER) {$category = 'teacher';}
         elseif ($user->user_type == UserTypes::$STUDENT) {$category = 'student';}
 
-        $file = Input::file('file');
+        $file = $request->file('file');
 
         $cropedImage = $request->cropedImageContent;
         $pos = strpos($cropedImage, ',');
@@ -79,10 +79,10 @@ class AccountController extends Controller
 
     public function UserProfileUpdate(Request $request)
     {
-        if(Input::file())
+        if($request->file())
         {
 
-            $file = Input::file('new_profile_picture');
+            $file = $request->file('new_profile_picture');
             $extention  = $file->getClientOriginalExtension();
 
             $user_id = Auth::user()->id;

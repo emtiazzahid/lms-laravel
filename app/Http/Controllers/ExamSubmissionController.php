@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\QuestionTypes;
-use App\Model\Exam;
-use App\Model\ExamSubmission;
-use App\Model\TeacherCourse;
+use App\Models\Exam;
+use App\Models\ExamSubmission;
+use App\Models\TeacherCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

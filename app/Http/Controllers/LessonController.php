@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Question;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use Auth;
 use DB;

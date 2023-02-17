@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => ['TeacherAuth']], function () {
     //    Routes for Lessons
     Route::get('/teacher/courses/lessons/{id}/details', ['uses' => 'LessonController@getLessonDetails', 'as' => 'getLessonDetails']);

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => ['AdminAuth']], function () {
     //    Routes for Teacher Crud
     Route::get('/teachers', ['uses' => 'TeacherController@getIndex', 'as' => 'teachers-list']);

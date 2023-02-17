@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\UserActivity;
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
-use Validator;
-use Auth;
-use App\User;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use App\Libraries\Enumerations\UserTypes;
 
@@ -24,7 +23,7 @@ class UserController extends Controller
     
     public function postLogin(Request $request)
     {
-        $remember = (Input::has('remember')) ? true : false;
+        $remember = ($request->has('remember')) ? true : false;
         $rules = [
             'email' => 'required',
             'password' => 'required'
@@ -96,11 +95,11 @@ class UserController extends Controller
         $user->save();
 
         if ($request->user_type == UserTypes::$TEACHER) {
-            $meta = new \App\Model\Teacher();
+            $meta = new \App\Models\Teacher();
             $meta->user_id = $user->id;
             $meta->save();
         }elseif ($request->user_type == UserTypes::$STUDENT){
-            $meta = new \App\Model\Student();
+            $meta = new \App\Models\Student();
             $meta->user_id = $user->id;
             $meta->save();
         }

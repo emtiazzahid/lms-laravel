@@ -6,11 +6,11 @@ namespace App\Http\Controllers;
 use App\Libraries\Enumerations\CourseStudentStatus;
 use App\Libraries\Enumerations\UserTypes;
 use Illuminate\Http\Request;
-use App\Model\Student;
+use App\Models\Student;
 use Illuminate\Support\Facades\DB;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
-use App\Model\StudentCourse;
+use App\Models\StudentCourse;
 use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
@@ -31,7 +31,7 @@ class StudentController extends Controller
             'email'     => 'required|email|unique:users|max:100',
         ]);
 
-        DB::transaction(function ($request) use ($request) {
+        DB::transaction(function ($request) {
             $user = new User();
             $user->name = $request['name'];
             $user->email = $request['email'];
@@ -39,7 +39,7 @@ class StudentController extends Controller
             $user->user_type = UserTypes::$STUDENT;
             $user->save();
 
-            $meta = new \App\Model\Student();
+            $meta = new \App\Models\Student();
             $meta->user_id = $user->id;
             $meta->save();
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\CourseStatus;
-use App\Model\TeacherCourseLesson;
+use App\Models\TeacherCourseLesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

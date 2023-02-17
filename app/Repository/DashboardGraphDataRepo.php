@@ -1,8 +1,8 @@
 <?php
 namespace App\Repository;
 
-use App\Model\UserActivity;
-use DB;
+use App\Models\UserActivity;
+use Illuminate\Support\Facades\DB;
 
 class DashboardGraphDataRepo
 {
@@ -44,12 +44,12 @@ class DashboardGraphDataRepo
 
     public function getTopFourTeacherList()
     {
-       $teachers =  DB::select(DB::raw('SELECT users.name, AVG(teacher_reviews.point) as point 
+       $teachers =  DB::raw('SELECT users.name, AVG(teacher_reviews.point) as point 
             FROM `teacher_reviews` 
             JOIN users on users.id = teacher_reviews.teacher_id
             GROUP BY teacher_id
             ORDER by point DESC
-            LIMIT 4'));
+            LIMIT 4');
 
         return $teachers;
     }

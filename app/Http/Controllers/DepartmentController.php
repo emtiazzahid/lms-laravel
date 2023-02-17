@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\Libraries\Enumerations\DepartmentStatus;
 use App\Libraries\Enumerations\UserTypes;
 use Illuminate\Http\Request;
-use App\Model\Department;
+use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;

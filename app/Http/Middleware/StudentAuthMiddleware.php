@@ -6,7 +6,7 @@ use App\Libraries\Enumerations\UserTypes;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Request;
-use App\Model\Student;
+use App\Models\Student;
 
 class StudentAuthMiddleware
 {
