@@ -34,7 +34,7 @@ class UserController extends Controller
             $currentDateData =  UserActivity::whereRaw('Date(created_at) = CURDATE()')->first();
             if (Auth::user()->user_type == UserTypes::$STUDENT)
             {
-                if (count($currentDateData)<1) {
+                if (!$currentDateData) {
                     $userActivity = new UserActivity();
                     $userActivity->total_student_login = 1;
                     $userActivity->save();
@@ -46,7 +46,7 @@ class UserController extends Controller
 
             }elseif (Auth::user()->user_type == UserTypes::$TEACHER)
             {
-                if (count($currentDateData)<1) {
+                if (!$currentDateData) {
                     $userActivity = new UserActivity();
                     $userActivity->total_teacher_login = 1;
                     $userActivity->save();

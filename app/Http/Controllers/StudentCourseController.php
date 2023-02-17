@@ -14,9 +14,7 @@ use App\Models\TeacherReview;
 use App\Models\TrendingCourse;
 use App\Models\VideoLesson;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Student;
 use Illuminate\Support\Facades\Session;
 
 class StudentCourseController extends Controller
@@ -56,7 +54,7 @@ class StudentCourseController extends Controller
         $certificate = false;
         
         $studentCourseTaken = StudentCourse::where('teacher_course_id',$teacherCourseId)->where('student_id',$loggedStudentId)->first();
-        if (count($studentCourseTaken)>0){
+        if ($studentCourseTaken){
             if ($studentCourseTaken->status == CourseStudentStatus::$COMPLETED){
                 $certificate = StudentCertificate::where('student_id',$loggedStudentId)
                     ->where('teacher_course_id',$teacherCourseId)->first();
@@ -69,7 +67,7 @@ class StudentCourseController extends Controller
             ->where('course_id',$teacherCourse->course_id)->get();
 
         $previousPoints = TeacherReview::where('teacher_id',$teacherCourse->teacher_id)->get();
-        $length = count($previousPoints);
+        $length = $previousPoints->count();
         if ($length>0) {
             $totalPoints = 0;
             foreach ($previousPoints as $point) {
