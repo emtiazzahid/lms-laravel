@@ -1,51 +1,44 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# E-Learning Platform Made with Laravel
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+_That project was created at 2016 while i was learning Laravel
+that project was in laravel 5.4
 
-## About Laravel
+For testing purpose i upgraded to it Laravel 10. I have added an [commit](https://github.com/emtiazzahid/e-learning/commit/ac97de4e58c4909a341816d9537056f5532efd93) to check which process i made to upgrade laravel 5.4 to 10. there might still few error/bugs becouse that project doesn't have any test cases writen _
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+# Installation
+1. Clone this repo
+```
+git clone https://github.com/emtiazzahid/e-learning.git
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+2. Install composer packages
+```
+cd e-learning
+```
+```
+composer install
+```
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+3. Create and setup .env file
+```
+cp .env.example .env
+```
+```
+php artisan key:generate
+```
 
-## Learning Laravel
+6. Migrate and insert records
+```
+php artisan migrate --seed
+```
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+Few screenshots
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+![image](https://user-images.githubusercontent.com/10188029/219660065-f7efb999-a7a6-4e2f-b126-2fe748f090b5.png)
+![image](https://user-images.githubusercontent.com/10188029/219660136-71c6d7c7-4ea7-4e33-a7ca-e69b512458c4.png)
+![image](https://user-images.githubusercontent.com/10188029/219660597-973db3e3-2c40-4c7e-97a4-0cd77d8e0eda.png)
+![image](https://user-images.githubusercontent.com/10188029/219660900-b7bfd80d-df19-4dfa-a76e-7073b2eecd7c.png)
+![image](https://user-images.githubusercontent.com/10188029/219663139-44452670-3c2a-4807-8429-595b9d779833.png)
+![image](https://user-images.githubusercontent.com/10188029/219663177-f2db0e01-f6f4-4ec0-8e4c-30f048293582.png)
+![image](https://user-images.githubusercontent.com/10188029/219663873-5c5eb658-629e-41b4-ae2a-3c462a9dd1fc.png)
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
-
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
