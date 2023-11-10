@@ -28,7 +28,7 @@ class UserTableSeeder extends Seeder
             $adminMeta->user_id = $admin->id;
             $adminMeta->country_code = 'bd';
             $adminMeta->iso = '880';
-            $adminMeta->phone = '01763777585';
+            $adminMeta->phone = '01686407947*';
             $adminMeta->save();
         }
         $teacher = User::where('email', 'teacher@mail.com')->first();
@@ -44,7 +44,7 @@ class UserTableSeeder extends Seeder
             $meta->user_id = $teacher->id;
             $meta->country_code = 'bd';
             $meta->iso = '880';
-            $meta->phone = '01763777585';
+            $meta->phone = '01686407947';
             $meta->save();
 
             $teacher = new User();
@@ -58,7 +58,7 @@ class UserTableSeeder extends Seeder
             $meta->user_id = $teacher->id;
             $meta->country_code = 'bd';
             $meta->iso = '880';
-            $meta->phone = '01763777585';
+            $meta->phone = '01686407947';
             $meta->save();
         }
         $student = User::where('email', 'student@mail.com')->first();
@@ -74,7 +74,7 @@ class UserTableSeeder extends Seeder
             $meta->user_id = $student->id;
             $meta->country_code = 'bd';
             $meta->iso = '880';
-            $meta->phone = '01763777585';
+            $meta->phone = '01686407947';
             $meta->save();
 
             $student = new User();
@@ -88,7 +88,7 @@ class UserTableSeeder extends Seeder
             $meta->user_id = $student->id;
             $meta->country_code = 'bd';
             $meta->iso = '880';
-            $meta->phone = '01763777585';
+            $meta->phone = '01686407947';
             $meta->save();
 
         }

@@ -86,8 +86,8 @@
                                                     data-student_name="{{ $student['student']['user']['name'] }}"
                                                     data-course_name="{{ $student['teacher_course']['course']['title'] }}"
                                                     data-teacher_name="{{ $teacherInfo->user->name }}"
-                                                    data-teacher_signature="{{ asset($teacherInfo->signature->file_path) }}"
-                                                    data-f_teacher_signature="{{ $teacherInfo->signature->file_path }}"
+                                                    data-teacher_signature="{{ $teacherInfo->signature ? asset($teacherInfo->signature->file_path) : '' }}"
+                                                    data-f_teacher_signature="{{ $teacherInfo->signature ? $teacherInfo->signature->file_path : '' }}"
                                                     data-toggle="modal" data-target="#certificateModal" class="btn btn-flat btn-sm btn-info">
                                                 @if($student['status'] == \App\Libraries\Enumerations\CourseStudentStatus::$COMPLETED)
                                                     Resend Certificate
