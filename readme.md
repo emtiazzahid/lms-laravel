@@ -1,4 +1,6 @@
 # E-Learning Platform Made with Laravel
+![image](https://github.com/emtiazzahid/e-learning/assets/10188029/4ea7fbef-2d48-4ae9-93ba-776578bb580a)
+
 
 _That project was created at 2016 while i was learning Laravel
 that project was in laravel 5.4
