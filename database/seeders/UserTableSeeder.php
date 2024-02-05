@@ -28,7 +28,6 @@ class UserTableSeeder extends Seeder
             $adminMeta->user_id = $admin->id;
             $adminMeta->country_code = 'bd';
             $adminMeta->iso = '880';
-            $adminMeta->phone = '01686407947*';
             $adminMeta->save();
         }
         $teacher = User::where('email', 'teacher@mail.com')->first();
