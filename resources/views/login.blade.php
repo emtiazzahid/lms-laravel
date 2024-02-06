@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>E- Learning</title>
 
     <!-- Bootstrap -->
@@ -24,9 +24,7 @@
 
   <style>
       .login{
-          background: url("{{
-          asset('images/login_background.jpg')
-          }}") no-repeat center center fixed;
+          background: url("{{ asset('images/login_background.jpg') }}") no-repeat center center fixed;
           -webkit-background-size: cover;
           -moz-background-size: cover;
           -o-background-size: cover;
