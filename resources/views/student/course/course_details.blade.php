@@ -62,7 +62,7 @@
                                 <div class="product_price">
                                     <h1 class="price">Teacher/Author : {{ $teacherCourse->teacher->user->name }}</h1>
                                     <input type="hidden" id="teacher_id"  value="{{ $teacherCourse->teacher->user->id }}">
-                                    <span class="price-tax">user since {!! \App\Libraries\TimeStampToAgoHelper::time_elapsed_string($teacherCourse->teacher->user->created_at) !!}</span>
+                                    <span class="price-tax">user since {!! $teacherCourse->teacher->user->created_at->diffForHumans() !!}</span>
                                     <br>
                                     <input id="input-id" type="text" class="rating" data-size="lg" >
                                     {{--<button type="button" class="btn btn-primary btn-xs">--}}

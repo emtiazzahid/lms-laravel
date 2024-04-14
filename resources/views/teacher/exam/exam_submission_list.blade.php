@@ -63,7 +63,7 @@
                                     <td>{{ $examSubmission->total_mark }}</td>
                                     <td>{{ $examSubmission->achieve_mark }}</td>
                                     <td>{{ $examSubmission->passed_score }}</td>
-                                    <td>{{ \App\Libraries\TimeStampToAgoHelper::time_elapsed_string($examSubmission->created_at) }}</td>
+                                    <td>{{ $examSubmission->created_at->diffForHumans() }}</td>
                                     <td>
                                         @if($examSubmission->result_status == \App\Libraries\Enumerations\ResultStatus::$FAILED)
                                             Failed
