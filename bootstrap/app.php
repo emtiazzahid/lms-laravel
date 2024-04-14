@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Middleware\AdminAuthMiddleware;
+use App\Http\Middleware\AdminTeacherMiddleware;
+use App\Http\Middleware\StudentAuthMiddleware;
+use App\Http\Middleware\TeacherAuthMiddleware;
+use App\Http\Middleware\TeacherStudentMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -25,7 +30,13 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'AdminAuth' => AdminAuthMiddleware::class,
+            'StudentAuth' => StudentAuthMiddleware::class,
+            'TeacherAuth' => TeacherAuthMiddleware::class,
+            'AdminOrTeacher' => AdminTeacherMiddleware::class,
+            'TeacherOrStudent' => TeacherStudentMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -1,15 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudentController;
 
 Route::group(['middleware' => ['AdminAuth']], function () {
-    //    Routes for Student Crud
-    Route::get('/students', ['uses' => 'StudentController@getIndex', 'as' => 'students-list']);
-    Route::post('/students/add', ['uses' => 'StudentController@add', 'as' => 'students-add']);
-    Route::post('/students/update', ['uses' => 'StudentController@update', 'as' => 'students-update']);
-    Route::get('/students/remove/{id}', ['uses' => 'StudentController@delete', 'as' => 'students-delete']);
+    // Routes for Student CRUD
+    Route::get('/students', [StudentController::class, 'getIndex'])->name('students-list');
+    Route::post('/students/add', [StudentController::class, 'add'])->name('students-add');
+    Route::post('/students/update', [StudentController::class, 'update'])->name('students-update');
+    Route::get('/students/remove/{id}', [StudentController::class, 'delete'])->name('students-delete');
 
-    
-    Route::get('/student/courses/{id}', ['uses' => 'StudentController@getStudentCourseListPage', 'as' => 'student-courses']);
-
+    Route::get('/student/courses/{id}', [StudentController::class, 'getStudentCourseListPage'])->name('student-courses');
 });

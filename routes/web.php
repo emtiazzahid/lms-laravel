@@ -1,25 +1,29 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {return redirect()->route('login');});
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
 require __DIR__.'/auth.php';
 
-
-//Registration for an user
-Route::post('/user/save', ['uses'=>'UserController@postUserInfo','as'=>'postUserInfo']);
+// Registration for a user
+Route::post('/user/save', [UserController::class, 'postUserInfo'])->name('postUserInfo');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [DashboardController::class, 'getDashboardPage'])->name('dashboard');
-    Route::get('/teachers',['uses'=>'TeacherController@getTeachersPage', 'as'=>'teacher_list']);
-    Route::post('/profile-update',['uses'=>'AccountController@UserProfileUpdate', 'as'=>'user-profile-update']);
-    Route::post('/user_image_upload',['uses'=>'AccountController@postUserImageUpload', 'as'=>'user_image_upload']);
-    Route::post('/password-change',['uses'=>'ResetPasswordController@postPasswordChange','as'=>'password-change']);
-    //    Routes for Account Settings
-    Route::get('settings/account',['uses'=>'AccountController@getIndex', 'as'=>'account-settings']);
-
-    //    Signature Image Section Start
-    Route::post('/profile/signature/change',['uses'=>'AccountController@signatureImageChange', 'as'=>'signature_change']);
+    Route::get('/teachers', [TeacherController::class, 'getTeachersPage'])->name('teacher_list');
+    Route::post('/profile-update', [AccountController::class, 'UserProfileUpdate'])->name('user-profile-update');
+    Route::post('/user_image_upload', [AccountController::class, 'postUserImageUpload'])->name('user_image_upload');
+    Route::post('/password-change', [ResetPasswordController::class, 'postPasswordChange'])->name('password-change');
+    // Routes for Account Settings
+    Route::get('settings/account', [AccountController::class, 'getIndex'])->name('account-settings');
+    // Signature Image Section Start
+    Route::post('/profile/signature/change', [AccountController::class, 'signatureImageChange'])->name('signature_change');
 });
