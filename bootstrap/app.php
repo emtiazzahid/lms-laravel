@@ -27,6 +27,15 @@ return Application::configure(basePath: dirname(__DIR__))
 
             Route::middleware('web')
                 ->group(base_path('routes/course.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/question.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/exam.php'));
+
+            Route::middleware('web')
+            ->group(base_path('routes/lesson.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
