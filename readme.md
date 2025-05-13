@@ -34,6 +34,19 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
+7. Run application
+```
+php artisan serve
+```
+
+8. Login
+```
+email: admin@mail.com
+```
+```
+password: password
+````
+
 Few screenshots
 
 ![image](https://user-images.githubusercontent.com/10188029/219660065-f7efb999-a7a6-4e2f-b126-2fe748f090b5.png)

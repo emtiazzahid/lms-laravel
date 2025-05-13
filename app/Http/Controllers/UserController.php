@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use App\Libraries\Enumerations\UserTypes;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -31,7 +32,9 @@ class UserController extends Controller
         $allInput = $request->all();
         $validator = Validator::make($allInput, $rules);
         if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']],$remember)) {
-            $currentDateData =  UserActivity::whereRaw('Date(created_at) = CURDATE()')->first();
+            $currentDate = Carbon::today();
+            $currentDateData = UserActivity::whereDate('created_at', $currentDate)->first();
+
             if (Auth::user()->user_type == UserTypes::$STUDENT)
             {
                 if (!$currentDateData) {

@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Libraries\Enumerations\CourseStatus;
 use Illuminate\Http\Request;
-use Auth;
-use DB;
 use App\Repository\QuestionRepo;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -130,17 +130,19 @@ class QuestionController extends Controller
                 }
             }
             
+            $randomFunction = DB::getDriverName() === 'sqlite' ? 'RANDOM()' : 'RAND()';
 
             $questions = DB::table('questions')
-                ->whereIn('lesson_id',$lessons)
-                ->whereIn('part_number',$parts)
-                ->orderBy(DB::raw('RAND()'))
+                ->whereIn('lesson_id', $lessons)
+                ->whereIn('part_number', $parts)
+                ->orderByRaw($randomFunction)
                 ->get();
+
             $questionString = json_encode($questions);
             $mcqs = DB::table('mcqs')
                 ->whereIn('lesson_id',$lessons)
                 ->whereIn('part_number',$parts)
-                ->orderBy(DB::raw('RAND()'))
+                ->orderBy($randomFunction)
                 ->get();
             $mcqString = json_encode($mcqs);
             
@@ -152,7 +154,7 @@ class QuestionController extends Controller
                 'course_id' => $request->course,
                 'courses' => $courses,
             ];
-//            dd($data);
+            
             return view('teacher.question.make_question', $data);
         }
     }

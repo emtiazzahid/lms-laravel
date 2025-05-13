@@ -3,15 +3,20 @@ namespace App\Repository;
 
 use App\Models\UserActivity;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardGraphDataRepo
 {
     public function getStudentActivityDataArray()
     {
-        $userActivityData = UserActivity::select('total_student_login','created_at')
-            ->whereRaw('Month(created_at) = MONTH(CURRENT_DATE())')
+        $now = Carbon::now();
+
+        $userActivityData = UserActivity::select('total_student_login', 'created_at')
+            ->whereMonth('created_at', $now->month)
+            ->whereYear('created_at', $now->year)
             ->orderBy('created_at')
             ->get();
+
         $arrayString = '';
         foreach ($userActivityData as $key =>  $data)
         {
@@ -26,10 +31,14 @@ class DashboardGraphDataRepo
 
     public function getTeacherActivityDataArray()
     {
-        $userActivityData = UserActivity::select('total_teacher_login','created_at')
-            ->whereRaw('Month(created_at) = MONTH(CURRENT_DATE())')
+        $now = Carbon::now();
+
+        $userActivityData = UserActivity::select('total_teacher_login', 'created_at')
+            ->whereMonth('created_at', $now->month)
+            ->whereYear('created_at', $now->year)
             ->orderBy('created_at')
             ->get();
+            
         $arrayString = '';
         foreach ($userActivityData as $key =>  $data)
         {

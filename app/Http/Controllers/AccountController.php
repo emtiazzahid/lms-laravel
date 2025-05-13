@@ -10,13 +10,13 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\UserSignature;
 use Illuminate\Http\Request;
-use Auth;
-use Illuminate\Support\Facades\Input;
 use App\Models\User;
 use App\Libraries\Enumerations\UserTypes;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 class AccountController extends Controller
 {

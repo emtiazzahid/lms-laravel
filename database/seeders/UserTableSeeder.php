@@ -20,7 +20,7 @@ class UserTableSeeder extends Seeder
             $admin = new User();
             $admin->name = 'Admin';
             $admin->email = 'admin@mail.com';
-            $admin->password = bcrypt('123');
+            $admin->password = bcrypt('password');
             $admin->user_type = UserTypes::$ADMIN;
             $admin->save();
 
@@ -35,7 +35,7 @@ class UserTableSeeder extends Seeder
             $teacher = new User();
             $teacher->name = 'Teacher';
             $teacher->email = 'teacher@mail.com';
-            $teacher->password = bcrypt('123');
+            $teacher->password = bcrypt('password');
             $teacher->user_type = UserTypes::$TEACHER;
             $teacher->save();
 
@@ -43,13 +43,13 @@ class UserTableSeeder extends Seeder
             $meta->user_id = $teacher->id;
             $meta->country_code = 'bd';
             $meta->iso = '880';
-            $meta->phone = '01686407947';
+            $meta->phone = '01686666466';
             $meta->save();
 
             $teacher = new User();
             $teacher->name = 'Teacher 2';
             $teacher->email = 'teacher2@mail.com';
-            $teacher->password = bcrypt('123');
+            $teacher->password = bcrypt('password');
             $teacher->user_type = UserTypes::$TEACHER;
             $teacher->save();
 
@@ -57,7 +57,7 @@ class UserTableSeeder extends Seeder
             $meta->user_id = $teacher->id;
             $meta->country_code = 'bd';
             $meta->iso = '880';
-            $meta->phone = '01686407947';
+            $meta->phone = '0168662666';
             $meta->save();
         }
         $student = User::where('email', 'student@mail.com')->first();
@@ -65,7 +65,7 @@ class UserTableSeeder extends Seeder
             $student = new User();
             $student->name = 'Student';
             $student->email = 'student@mail.com';
-            $student->password = bcrypt('123');
+            $student->password = bcrypt('password');
             $student->user_type = UserTypes::$STUDENT;
             $student->save();
             
@@ -73,13 +73,13 @@ class UserTableSeeder extends Seeder
             $meta->user_id = $student->id;
             $meta->country_code = 'bd';
             $meta->iso = '880';
-            $meta->phone = '01686407947';
+            $meta->phone = '01686777777';
             $meta->save();
 
             $student = new User();
             $student->name = 'Student 2';
             $student->email = 'student2@mail.com';
-            $student->password = bcrypt('123');
+            $student->password = bcrypt('password');
             $student->user_type = UserTypes::$STUDENT;
             $student->save();
 
@@ -87,7 +87,7 @@ class UserTableSeeder extends Seeder
             $meta->user_id = $student->id;
             $meta->country_code = 'bd';
             $meta->iso = '880';
-            $meta->phone = '01686407947';
+            $meta->phone = '01680505050';
             $meta->save();
 
         }
